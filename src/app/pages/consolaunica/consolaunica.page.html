@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Atrás" icon="arrow-back" [routerLink]="['/consolas']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Consola Unica</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="consolaU-container">
+    <img src="assets/img/consolas/2dsXL-consola.jpeg" alt="consolaimg" class="consola-image" />
+    <h4>Nintendo 2ds XL</h4>
+    <ion-label>Precio: $299.990</ion-label>
+    <ion-label>Stock: 35</ion-label>
+    
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" fill="solid" (click)="compra()">
+          <ion-icon slot="start" name="cart"></ion-icon>
+          Añadir al carrito
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="danger" (click)="listadeseos()">
+          <ion-icon slot="start" name="heart"></ion-icon>
+          Lista de deseos
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div class="section-separator"></div>
+
+  <h4>Descripción:</h4>
+  <div class="descripcion-container">
+    <p class="descripJuego">Una consola retro con gran variedad de juegos, portatil y en su version mas grande</p>
+  </div>
+
+  <div class="section-separator"></div>
+
+  <h4>Comentarios:</h4>
+  
+  <ion-card class="resecnas-container">
+    <div class="cajaresecnas">
+      <div class="textoresecnas">
+        <textarea class="reseña-input" placeholder="Escribe tu reseña aquí"></textarea>
+      </div>
+      <div class="btn-container">
+        <ion-button class="btns" fill="solid">
+          <ion-icon slot="start" name="camera"></ion-icon>
+        </ion-button>
+        <ion-button class="btns" fill="solid">
+          Subir
+        </ion-button>
+      </div>
+    </div>
+  </ion-card>
+
+  <div class="reseñas">
+    <div class="reseña">
+      <ion-avatar>
+        <img src="assets/img/Zero.png" alt="Usuario 1">
+      </ion-avatar>
+      <div class="reseña-texto">
+        <h5>Braze007</h5>
+        <p>Esta es una reseña de ejemplo. ¡Me encanta este producto!</p>
+      </div>
+    </div>
+    <div class="reseña">
+      <ion-avatar>
+        <img src="assets/img/Zero.png" alt="Usuario 2">
+      </ion-avatar>
+      <div class="reseña-texto">
+        <h5>ElmaMado46</h5>
+        <p>Otro comentario. Muy útil y de buena calidad.</p>
+      </div>
+    </div>
+    <div class="reseña">
+      <ion-avatar>
+        <img src="assets/img/Zero.png" alt="Usuario 3">
+      </ion-avatar>
+      <div class="reseña-texto">
+        <h5>Yugi</h5>
+        <p>Excelente. Recomiendo a todos.</p>
+      </div>
+    </div>
+  </div>
+</ion-content>
+

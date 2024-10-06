@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Atras" icon="arrow-back" [routerLink]="['/perfil']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Modificar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  
+  <ion-card >
+    <ion-card-header>
+      <!--foto de perfil-->
+      <ion-img src="assets/img/Zero.png" alt="Imagen de perfil" class="profile-image"></ion-img>
+    </ion-card-header>
+    <ion-card-content >
+      <ion-item>
+        <p class="username">Usuario: admin</p>
+      </ion-item>
+      <ion-item>
+        <p class="email">Correo: juanito&#64;example.com</p>
+      </ion-item>
+      <ion-item></ion-item>
+      <ion-item>
+        <ion-input placeholder="Nuevo Nombre Usuario" clear-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Nueva dirección de Correo" clear-input></ion-input>
+      </ion-item>
+      <ion-item></ion-item>
+      <ion-button class="btnCCP" expand="block" color="Primary" [routerLink] = "['/perfil']">
+        Confirmar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+  
+</ion-content>

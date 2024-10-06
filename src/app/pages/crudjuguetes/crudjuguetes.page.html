@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Atras" icon="arrow-back-outline" [routerLink]="['/paneladmin']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>CRUD Juguetes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Botón para agregar una nueva Consolas, ubicado antes de la lista -->
+  <div class="add-button-container">
+    <ion-button [routerLink]="['/agregarjuguete']">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Agregar Juguete
+    </ion-button>
+  </div>
+
+  <!-- Lista de Consolas -->
+  <ion-list>
+    <ion-item *ngFor="let juguete of juguetes">
+      <ion-thumbnail slot="start">
+        <img [src]="juguete.imagenUrl" alt="{{ juguete.nombre }}">
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ juguete.nombre }}</h3>
+        <p><strong>Precio:</strong> {{ juguete.precio| currency:'CLP':'symbol':'1.0-0' }}</p>
+        <p><strong>Stock:</strong> {{ juguete.stock }}</p>
+      </ion-label>
+      <!-- Botones de acción para editar y eliminar -->
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/editarjuguete']">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" [routerLink]="['/eliminarjuguete']">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

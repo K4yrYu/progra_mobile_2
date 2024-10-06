@@ -1,0 +1,66 @@
+.juguete-card {
+  background: #2c3e50; /* Fondo oscuro para mayor contraste */
+  border: 6px solid #3498db; /* Borde azul vibrante */
+  border-radius: 8px; /* Esquinas redondeadas */
+  padding: 10px; /* Espaciado interno */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Sombra del cuadro */
+  margin: 15px; /* Espaciado externo */
+}
+
+h2 {
+  color: #ecf0f1; /* Color blanco suculento */
+}
+
+.thumbnail-grande {
+  width: 40%; /* Tamaño más grande de la imagen */
+  height: 40%; 
+  object-fit: cover; /* Asegura que la imagen cubra completamente el espacio */
+  border-radius: 8px; /* Esquinas redondeadas de la imagen */
+}
+
+.juguete-item {
+  align-items: center; /* Alinea verticalmente los elementos */
+  padding-bottom: 10px; /* Espacio adicional debajo de los detalles del videojuego */
+}
+
+.juguete-card h2 {
+  font-size: 1.2rem; /* Tamaño del nombre del videojuego */
+  font-weight: bold; /* Texto en negrita */
+}
+
+.juguete-card p {
+  font-size: 1rem; /* Tamaño del texto del precio y consolas */
+  color: #bdc3c7; /* Color gris claro para el texto */
+}
+
+.add-cart-item ion-button {
+  font-size: 1rem; /* Tamaño del texto del botón */
+  --background: #3498db; /* Color de fondo del botón azul vibrante */
+  --color: white; /* Color del texto del botón */
+}
+
+.add-cart-item ion-icon {
+  font-size: 1.2rem; /* Tamaño del icono del carrito */
+}
+
+ion-item {
+  --background: #34495e; /* Fondo gris oscuro */
+  --color: #ecf0f1; /* Color del texto blanco */
+}
+
+ion-content {
+  --background: none;
+  background: linear-gradient(to bottom right, #121212, #007bff); /* Gris oscuro a azul brillante */
+}
+
+.custom-searchbar input {
+  --padding-start: 10px; /* Espaciado al inicio del input */
+  --padding-end: 10px; /* Espaciado al final del input */
+  --margin: 0px; /* Margen del input */
+}
+
+ion-searchbar {
+  --color: white;
+  --placeholder-color: rgba(255, 255, 255, 0.8); /* Color del placeholder más visible */
+  --cancel-button-color: #3498db; /* Color del botón de cancelar azul vibrante */
+}

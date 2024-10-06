@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Editar Juguete</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="editarjuguete-container">
+    <ion-list>
+      <h1>Editar Juguete</h1>
+      
+      <ion-item>
+        <ion-label>Nombre del juguete</ion-label>
+        <ion-input class="custom-input" type="text" [(ngModel)]="juguete.nombre"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Precio</ion-label>
+        <ion-input class="custom-input" type="number" [(ngModel)]="juguete.precio"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Descripción</ion-label>
+        <ion-textarea class="custom-input" [(ngModel)]="juguete.descripcion"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Stock</ion-label>
+        <ion-input class="custom-input" type="number" [(ngModel)]="juguete.stock"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Imagen</ion-label>
+        <ion-input class="custom-input" type="url" [(ngModel)]="juguete.imagenUrl"></ion-input>
+        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
+      </ion-item>
+    </ion-list>
+
+    <div style="height: 3pc;"></div> 
+
+    <ion-button class="boton" expand="full" (click)="guardarCambios()">Guardar Cambios</ion-button>
+    <ion-button class="boton" expand="full" [routerLink]="['/crudjuguetes']">Volver</ion-button>
+
+    <!-- Mensajes de error -->
+    <div *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</div>
+    <div *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</div>
+    <div *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</div>
+  </div>
+</ion-content>

@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Editar Consola</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="editarconsola-container">
+    <ion-list>
+      <!-- Campos del formulario -->
+      <ion-item>
+        <ion-label>Nombre de la consola</ion-label>
+        <ion-input class="custom-input" type="text" [(ngModel)]="consola.nombre" placeholder="Nombre"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Precio</ion-label>
+        <ion-input class="custom-input" type="number" [(ngModel)]="consola.precio" placeholder="Precio"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Descripción</ion-label>
+        <ion-textarea class="custom-input" [(ngModel)]="consola.descripcion" placeholder="Descripción"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Stock</ion-label>
+        <ion-input class="custom-input" type="number" [(ngModel)]="consola.stock" placeholder="Stock"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Imagen</ion-label>
+        <ion-input class="custom-input" type="url" [(ngModel)]="consola.imagenUrl" placeholder="URL de la imagen"></ion-input>
+        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
+      </ion-item>
+
+      <!-- Mensajes de error -->
+      <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
+      <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
+      <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
+
+      <div style="height: 3pc;"></div> 
+      
+    </ion-list>
+    <ion-button class="boton" expand="full" (click)="guardarCambios()">Guardar Cambios</ion-button>
+    <ion-button class="boton" expand="full" [routerLink]="['/crudconsolas']">Volver</ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,20 @@
+ion-content {
+    --background: none;
+    background: linear-gradient(to bottom right, #121212, #007bff); /* Gris oscuro a azul brillante */
+}
+
+.profile-image{
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 16px auto;
+}
+
+.btnCCP{
+    justify-content: center;
+    background-color: blue;
+    color: white;
+}

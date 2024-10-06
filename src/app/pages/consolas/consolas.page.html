@@ -1,0 +1,148 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/" text="Carrito" icon="cart-outline" [routerLink] = "['/carrito']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Catalogo de Consolas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar></ion-searchbar>
+
+  <!--producto1-->
+  <ion-card class="consola-card">
+    <ion-item lines="none" class="consola-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/consolas/2dsXL-consola.jpeg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>N2ds XL</h2>
+        <p>$:299.990</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" [routerLink]="['/consolaunica']">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <!--producto2-->
+  <ion-card class="consola-card">
+    <ion-item lines="none" class="consola-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/consolas/ps2-consola.jpeg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Ps2</h2>
+        <p>$:80.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <!--producto3-->
+  <ion-card class="consola-card">
+    <ion-item lines="none" class="consola-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/consolas/sega-genesis-consola.jpeg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Sega Genesis</h2>
+        <p>$:90.990</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <!--producto4-->
+  <ion-card class="consola-card">
+    <ion-item lines="none" class="consola-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/consolas/wii-1.jpeg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Wii</h2>
+        <p>$:210.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <!--producto5-->
+  <ion-card class="consola-card">
+    <ion-item lines="none" class="consola-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/consolas/nintendosw-1.jpeg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Nintendo Switch</h2>
+        <p>$:450.500</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <!--producto6-->
+  <ion-card class="consola-card">
+    <ion-item lines="none" class="consola-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/consolas/ps4-1.jpeg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Ps4</h2>
+        <p>$:380.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+  <!--------------------------------------------------------------------------->
+</ion-content>

@@ -1,0 +1,57 @@
+ion-content {
+    --background: none;
+    background: linear-gradient(to bottom right, #121212, #007bff); /* Gris oscuro a azul brillante */
+    padding: 16px; /* Añade un poco de espacio alrededor del contenido */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contenido-centrado {
+    flex: 1; /* Ocupa todo el espacio disponible */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente el contenido */
+    align-items: center; /* Centra horizontalmente el contenido */
+    text-align: center; /* Centra el texto en la pantalla */
+  }
+  
+  ion-item {
+    max-width: 350px; /* Controla el ancho máximo del item */
+    width: 100%;
+  }
+  
+  ion-thumbnail {
+    width: 150px; /* Tamaño más grande del contenedor de la imagen */
+    height: 150px; /* Tamaño más grande del contenedor de la imagen */
+  }
+  
+  ion-thumbnail img {
+    width: 100%; /* Asegura que la imagen llene el contenedor */
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción de la imagen, recortando si es necesario */
+    border-radius: 10px;
+  }
+  
+  .botones-centrados {
+    margin-top: auto; /* Empuja el contenedor de botones hacia el final del contenido */
+    width: 100%; /* Asegura que el contenedor de botones ocupe todo el ancho de la pantalla */
+    padding: 16px; /* Añade un poco de espacio alrededor del contenedor de botones */
+    box-sizing: border-box; /* Incluye padding en el ancho total del contenedor */;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los botones */
+  }
+  
+  ion-button {
+    width: 100%; /* Hace que cada botón ocupe todo el ancho disponible */
+    font-size: 1.2em; /* Tamaño más grande para el texto de los botones */
+  }
+  
+  ion-label h2 {
+    font-size: 1.5em; /* Tamaño más grande para el nombre del videojuego */
+    font-weight: bold;
+  }
+  
+  ion-label p {
+    font-size: 1.2em; /* Tamaño más grande para la descripción, consolas y precio */
+  }
+  

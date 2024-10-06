@@ -1,0 +1,149 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/" text="Carrito" icon="cart-outline" [routerLink]="['/carrito']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Catalogo de Videojuegos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar></ion-searchbar>
+
+  <ion-card class="videojuego-card">
+    <ion-item lines="none" class="videojuego-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juegos/caratula-hollow.jpeg" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Hollow Knight</h2>
+        <p>$:15.000</p>
+        <p>Consola disponible: Xbox, PlayStation, Nintendo Switch</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" [routerLink]="['/juegounico']">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="videojuego-card">
+    <ion-item lines="none" class="videojuego-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juegos/kurukuru.gif" alt="GIF">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>KuruKuru</h2>
+        <p>$:99.500</p>
+        <p>Consola disponible: Todas</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="videojuego-card">
+    <ion-item lines="none" class="videojuego-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juegos/gears of wars.jpeg" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Gears Of Wars</h2>
+        <p>$:17.500</p>
+        <p>Consola disponible: Xbox, PlayStation</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="videojuego-card">
+    <ion-item lines="none" class="videojuego-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juegos/caratula-megaman11.jpeg" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>MegaMan 11</h2>
+        <p>$:23.700</p>
+        <p>Consola disponible: Xbox, PlayStation, Nintendo Switch</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="videojuego-card">
+    <ion-item lines="none" class="videojuego-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juegos/dbz-kakaroto-portada.jpeg" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Dbz Kakarot</h2>
+        <p>$:45.000</p>
+        <p>Consola disponible: Nintendo Switch</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="videojuego-card">
+    <ion-item lines="none" class="videojuego-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juegos/Skyrim_Cover.jpeg" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Skyrim</h2>
+        <p>$:19.990</p>
+        <p>Consola disponible: Xbox, PlayStation, Nintendo Switch</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+

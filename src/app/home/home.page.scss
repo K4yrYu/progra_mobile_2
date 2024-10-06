@@ -1,0 +1,107 @@
+ion-content {
+  --background: none;
+  background: linear-gradient(to bottom right, #121212, #007bff); /* Gris oscuro a azul brillante */
+}
+
+//sliders (titulos)
+
+.videojuegos-oferta {
+  display: inline-block; /* Hace que el elemento se expanda horizontalmente */
+  width: 100%; /* Ocupa el 100% del ancho disponible */
+  text-align: left; /* Alinea el texto a la izquierda */
+  border-bottom: 2px solid white; /* Línea en la parte inferior para destacar el texto */
+  padding-bottom: 10px; /* Espacio debajo del texto */
+  margin: 0; /* Elimina el margen predeterminado */
+  color: white;
+}
+
+.Jcard{
+  height: auto;
+  width: auto;
+}
+
+.consolas-oferta {
+  display: inline-block; /* Hace que el elemento se expanda horizontalmente */
+  width: 100%; /* Ocupa el 100% del ancho disponible */
+  text-align: left; /* Alinea el texto a la izquierda */
+  border-bottom: 2px solid white; /* Línea en la parte inferior para destacar el texto */
+  padding-bottom: 10px; /* Espacio debajo del texto */
+  margin: 0; /* Elimina el margen predeterminado */
+  color: white;
+}
+
+.juguetes-oferta {
+  display: inline-block; /* Hace que el elemento se expanda horizontalmente */
+  width: 100%; /* Ocupa el 100% del ancho disponible */
+  text-align: left; /* Alinea el texto a la izquierda */
+  border-bottom: 2px solid white; /* Línea en la parte inferior para destacar el texto */
+  padding-bottom: 10px; /* Espacio debajo del texto */
+  margin: 0; /* Elimina el margen predeterminado */
+  color: white;
+}
+
+//sliders (titulos)
+
+
+
+.home-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.home-image {
+  width: 50%;
+  margin: 0 auto 20px;
+  border-radius: 20px;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 300px;
+  margin-top: 20px;
+}
+
+.swiper-wrapper {
+  display: flex;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-card {
+  width: 90%;
+  height: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ion-card {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+ion-card-header {
+  padding-bottom: 0;
+}
+
+ion-card-title,
+ion-card-subtitle {
+  text-align: center;
+  font-size: 12px;
+  color: black;
+}
+
+ion-card-content {
+  text-align: center;
+  width: 10pc;
+}
+
+.imgcardJ{
+  height: fit-content;
+  width: fit-content;
+}

@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Recuperar Clave</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="recuperar-container">
+    <h2>Recuperar Contraseña</h2>
+    <ion-list>
+      <ion-item>
+        <ion-label>Correo Electrónico</ion-label>
+        <ion-input type="email" [(ngModel)]="email" required></ion-input>
+      </ion-item>
+      <p *ngIf="errorMessage" style="color: red;" class="error-message">{{ errorMessage }}</p>
+      <ion-button expand="block" (click)="validarCorreo()">Enviar Correo Para Cambiar Contraseña De Ingreso</ion-button>
+    </ion-list>
+  </div>
+</ion-content>

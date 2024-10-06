@@ -1,0 +1,84 @@
+<ion-app>
+  <ion-menu-toggle>
+  <ion-menu contentId="main-content">
+    <!--cabecera-->
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu principal</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <!--contenido-->
+    <ion-content>
+
+      <!--lista de opciones del menu-->
+      <ion-list>
+
+        <!--item1-->
+        <!--router direction sirve para conocer las direcciones
+        y routerlink el destino-->
+
+        <!--RESPTERAR LA SINTAXIS-->
+        <ion-item [routerDirection]="'root'" [routerLink]="'/home'">
+          <ion-icon name="home" slot="start"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-item>
+
+        <!--item2-->
+        <ion-item [routerDirection]="'root'" [routerLink]="'/perfil'">
+          <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+          <ion-label>Perfil</ion-label>
+        </ion-item>
+
+        <!--item3-->
+        <ion-item [routerDirection]="'root'" [routerLink]="'/juegos'">
+          <ion-icon name="game-controller-outline" slot="start"></ion-icon>
+          <ion-label>Juegos</ion-label>
+        </ion-item>
+
+        <!--item4-->
+        <ion-item [routerDirection]="'root'" [routerLink]="'/consolas'">
+          <ion-icon name="desktop-outline" slot="start"></ion-icon>
+          <ion-label>Consolas</ion-label>
+        </ion-item>
+
+        <!--item5-->
+        <ion-item [routerDirection]="'root'" [routerLink]="'/juguetes'">
+          <ion-icon name="cube-outline" slot="start"></ion-icon>
+          <ion-label>Juguetes</ion-label>
+        </ion-item>
+
+        <!--RECORDAR EDITAR EL USERNAME JOJO EN EL TS DE APP-->
+        <!--item6
+        <ion-item *ngIf="username !== 'JOJO'" [routerDirection]="'root'" [routerLink]="'/paneladmin'">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          <ion-label>Edición</ion-label>
+        </ion-item>-->
+
+        <!--item6-->
+        <ion-item [routerDirection]="'root'" [routerLink]="'/paneladmin'">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          <ion-label>Edición</ion-label>
+        </ion-item>
+
+
+      </ion-list>
+    </ion-content>
+
+     <!-- Opción Acerca de Nosotros (siempre al final) -->
+     <ion-footer>
+      <ion-item [routerDirection]="'root'" [routerLink]="'/acercadenosotros'">
+        <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+        <ion-label>Acerca de Nosotros</ion-label>
+      </ion-item>
+    </ion-footer>
+
+  </ion-menu>
+</ion-menu-toggle>
+  <!--al anexarle la propiedad id se especifica cual de los menu 
+  es el que va en todas las paginas de manera automatica-->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>
+
+
+<!--no es obligatorio header y content pero da mas orden-->

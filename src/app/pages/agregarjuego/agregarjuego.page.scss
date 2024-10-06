@@ -1,0 +1,77 @@
+/* Fondo general del contenido con gradiente */
+ion-content {
+    --background: none;
+    background: linear-gradient(to bottom right, #121212, #007bff); /* Gris oscuro a azul brillante */
+}
+
+/* Contenedor del formulario */
+.agregarjuego-container {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0); /* Fondo semi-transparente */
+    border-radius: 8px;
+}
+
+/* Estilo para los elementos ion-item dentro de ion-list */
+ion-list ion-item {
+    --ion-item-background: transparent !important; /* Fondo transparente */
+    --color: #ffffff; /* Texto blanco */
+    margin-top: 40px; /* Margen superior para cada ion-item */
+}
+
+/* Estilo para los campos de entrada ion-input */
+ion-input {
+    --background: transparent !important; /* Fondo transparente para los campos de entrada */
+    --color: #ffffff; /* Texto blanco */
+    border: 2px solid rgba(0, 0, 0, 0.3); /* Borde sutil para los campos de entrada */
+}
+
+/* Estilo para las etiquetas ion-label */
+ion-label {
+    --color: #ffffff; /* Texto blanco */
+    margin-bottom: 5px; /* Espacio debajo de la etiqueta */
+}
+
+ion-list {
+    background: #ffffff00; /* Fondo transparente para ion-list */
+}
+
+/* Estilo para los campos de entrada personalizados */
+.custom-input {
+    --color: #ffffff; /* Texto blanco */
+    border: 2px solid #ffffff; /* Borde negro */
+    padding: 8px; /* Añade un poco de padding dentro del input */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Estilo para los botones */
+.boton {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    font-size: 1.2em; /* Tamaño más grande para el texto de los botones */
+    color: #ffffff; /* Texto negro en los botones */
+    --background: #007bff; /* Fondo azul brillante para los botones */
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-size: 3pc;
+}
+
+.camera-icon{
+    color: white;
+    size: 1pc;
+    padding-left: 1pc;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-left: 16px;
+  }
+  

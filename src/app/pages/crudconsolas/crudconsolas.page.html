@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Atras" icon="arrow-back-outline" [routerLink]="['/paneladmin']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>CRUD Consolas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Botón para agregar una nueva Consolas, ubicado antes de la lista -->
+  <div class="add-button-container">
+    <ion-button [routerLink]="['/agregarconsola']">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Agregar Consola
+    </ion-button>
+  </div>
+
+  <!-- Lista de Consolas -->
+  <ion-list>
+    <ion-item *ngFor="let consola of consolas">
+      <ion-thumbnail slot="start">
+        <img [src]="consola.imagenUrl" alt="{{ consola.nombre }}">
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ consola.nombre }}</h3>
+        <p><strong>Precio:</strong> {{ consola.precio| currency:'CLP':'symbol':'1.0-0' }}</p>
+        <p><strong>Stock:</strong> {{ consola.stock }}</p>
+      </ion-label>
+      <!-- Botones de acción para editar y eliminar -->
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/editarconsola']">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" [routerLink]="['/eliminarconsola']">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,121 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Atras" icon="arrow-back-outline" [routerLink] = "['/home']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Carro de Compras</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista De Productos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+  
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="" src="assets/img/juegos/caratula-hollow.jpeg" />
+          </ion-thumbnail>
+          <ion-label>
+            Hollow Kingth
+          </ion-label>
+          <ion-label slot="end">
+            $15.000
+          </ion-label>
+          <ion-label slot="end">
+            <ion-icon class="itemsCarro" style="color: blue;" name="add-circle-outline"></ion-icon>
+            <ion-icon class="itemsCarro" style="color: red;" name="remove-circle-outline"></ion-icon>
+          </ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="" src="assets/img/consolas/2dsXL-consola.jpeg" />
+          </ion-thumbnail>
+          <ion-label>
+           Nintendo 2ds 
+          </ion-label>
+          <ion-label slot="end">
+            $159.000
+          </ion-label>
+          <ion-label slot="end">
+            <ion-icon class="itemsCarro" style="color: blue;" name="add-circle-outline"></ion-icon>
+            <ion-icon class="itemsCarro" style="color: red;" name="remove-circle-outline"></ion-icon>
+          </ion-label>
+        </ion-item>
+  
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="" src="assets/img/juguetes/Zelda-juguete.png" />
+          </ion-thumbnail>
+          <ion-label>
+            Link Amibo
+          </ion-label>
+          <ion-label slot="end">
+            $67.000
+          </ion-label>
+          <ion-label slot="end">
+            <ion-icon class="itemsCarro" style="color: blue;" name="add-circle-outline"></ion-icon>
+            <ion-icon class="itemsCarro" style="color: red;" name="remove-circle-outline"></ion-icon>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="" src="assets/img/juegos/caratula-liesofp.jpeg" />
+          </ion-thumbnail>
+          <ion-label>
+            Lies of pi
+          </ion-label>
+          <ion-label slot="end">
+            $59.000
+          </ion-label>
+          <ion-label slot="end">
+            <ion-icon class="itemsCarro" style="color: blue;" name="add-circle-outline"></ion-icon>
+            <ion-icon class="itemsCarro" style="color: red;" name="remove-circle-outline"></ion-icon>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="" src="assets/img/consolas/ps4-1.jpeg" />
+          </ion-thumbnail>
+          <ion-label>
+            Ps4
+          </ion-label>
+          <ion-label slot="end">
+            $459.000
+          </ion-label>
+          <ion-label slot="end">
+            <ion-icon class="itemsCarro" style="color: blue;" name="add-circle-outline"></ion-icon>
+            <ion-icon class="itemsCarro" style="color: red;" name="remove-circle-outline"></ion-icon>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img alt="" src="assets/img/juguetes/Batman-juguete.jpg" />
+          </ion-thumbnail>
+          <ion-label>
+            Batman vs Superman
+          </ion-label>
+          <ion-label slot="end">
+            $550.000
+          </ion-label>
+          <ion-label slot="end">
+            <ion-icon class="itemsCarro" style="color: blue;" name="add-circle-outline"></ion-icon>
+            <ion-icon class="itemsCarro" style="color: red;" name="remove-circle-outline"></ion-icon>
+          </ion-label>
+        </ion-item>
+  
+      </ion-list>
+      <h2 class="montofinal">Total: 241.000</h2>
+      <ion-button class="btncompra" color="primary" expand="full" (click)="alertascarro()">
+        Comprar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Eliminar Juguete</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding contenido-centrado">
+  <ion-list>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img src="assets/img/juguetes/spiderman-juguete.jpg" alt="Imagen de Juguete">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Funko Pop de Spider-MAN</h2>
+        <p><strong>Stock:</strong> 50</p>
+        <p><strong>Precio:</strong> $19,990</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="botones-centrados">
+    <ion-button color="danger" expand="full" (click)="eliminarJuguete()">
+      Eliminar
+    </ion-button>
+    <ion-button  color="primary" expand="full" [routerLink]="['/crudjuguetes']">
+      Cancelar
+    </ion-button>
+  </div>
+</ion-content>

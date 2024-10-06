@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Eliminar Videojuego</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding contenido-centrado">
+  <ion-list>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img src="assets/img/juegos/caratula-hollow.jpeg" alt="Imagen de videojuego">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Hollow Knight </h2>
+        <p><strong>Consolas:</strong> PlayStation, Xbox</p>
+        <p><strong>Precio:</strong> $15,000</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="botones-centrados">
+    <ion-button color="danger" expand="full" (click)="eliminarJuego()">
+      Eliminar
+    </ion-button>
+    <ion-button  color="primary" expand="full" [routerLink]="['/crudjuegos']">
+      Cancelar
+    </ion-button>
+  </div>
+</ion-content>

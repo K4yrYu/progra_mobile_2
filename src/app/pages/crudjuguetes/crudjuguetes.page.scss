@@ -1,0 +1,61 @@
+/* Estilo general del contenido */
+ion-content {
+    --background: none;
+    background: linear-gradient(to bottom right, #121212, #007bff); /* Gris oscuro a azul brillante */
+  }
+  
+
+/* Contenedor del botón de agregar videojuego */
+.add-button-container {
+    display: flex; /* Utiliza flexbox para alinear los elementos dentro del contenedor */
+    justify-content: flex-end; /* Alinea el botón al final del contenedor (a la derecha) */
+    margin: 15px; /* Añade espacio alrededor del contenedor del botón */
+}
+
+/* Estilo para el botón de agregar videojuego */
+.add-button-container ion-button {
+    --background: #1100ff; /* Color de fondo del botón (azul) */
+    --color: white; /* Color del texto del botón (blanco) */
+    --padding-start: 16px; /* Espaciado interno en el inicio del botón */
+    --padding-end: 16px; /* Espaciado interno al final del botón */
+    --border-radius: 8px; /* Bordes redondeados del botón */
+    font-size: 1rem; /* Tamaño del texto del botón */
+}
+
+/* Estilo para el icono dentro del botón */
+.add-button-container ion-icon {
+    font-size: 1.5rem; /* Tamaño del ícono dentro del botón */
+}
+
+/* Estilo para el botón de editar y eliminar */
+ion-button {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --border-radius: 8px;
+    font-size: 1.2em;  // Tamaño más grande para el texto de los botones
+  }
+
+/* Estilo para el fondo de los elementos de la lista */
+ion-item {
+    --background: #ffffff; /* Fondo blanco para los elementos de la lista */
+}
+
+/* Estilo para el contenedor de la miniatura */
+ion-thumbnail {
+    width: 100px; /* Ajusta el ancho del contenedor */
+    height: 100px; /* Ajusta el alto del contenedor */
+    display: flex; /* Usa flexbox para centrar la imagen dentro del contenedor */
+    align-items: center; /* Alinea la imagen verticalmente al centro */
+    justify-content: center; /* Alinea la imagen horizontalmente al centro */
+    overflow: hidden; /* Asegura que cualquier parte de la imagen que se desborde del contenedor no sea visible */
+}
+
+/* Estilo para las imágenes dentro del thumbnail */
+ion-thumbnail img {
+    width: 100%; /* La imagen se ajustará al ancho del contenedor */
+    height: 100%; /* La imagen se ajustará al alto del contenedor */
+    object-fit: contain; /* Asegura que la imagen se muestre completa, manteniendo su relación de aspecto */
+}
+h3{
+    color: black;
+}

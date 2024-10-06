@@ -1,0 +1,117 @@
+/* Define el fondo del contenido principal con un degradado de gris oscuro a azul brillante */
+ion-content {
+  --background: none;
+  background: linear-gradient(to bottom right, #121212, #007bff); /* Fondo degradado */
+}
+
+/* Estiliza el contenedor principal para la información del videojuego */
+.jugueteU-container {
+  text-align: center; /* Centra el texto dentro del contenedor */
+  padding: 20px; /* Agrega padding alrededor del contenedor */
+  color: white; /* Color del texto */
+  font-size: 2rem; /* Tamaño de fuente */
+}
+
+/* Define el estilo de la imagen del videojuego */
+.juguete-image {
+  width: 50%; /* La imagen ocupa el 50% del ancho del contenedor */
+  margin: 0 auto 20px; /* Centra la imagen horizontalmente y agrega margen inferior de 20px */
+  border-radius: 20px; /* Bordes redondeados con un radio de 20px */
+}
+
+/* Estiliza los títulos dentro del contenedor de videojuegos */
+h4 {
+  font-size: 2.5rem; /* Tamaño de fuente del título */
+  color: white; /* Color del texto */
+  text-align: center; /* Centra el texto */
+  margin-bottom: 20px; /* Agrega margen inferior para separar los elementos */
+}
+
+/* Estiliza las etiquetas que muestran el precio, las consolas y el stock */
+ion-label {
+  display: block; /* Asegura que cada etiqueta ocupe una línea completa */
+  margin-bottom: 20px; /* Agrega margen inferior para separar los elementos */
+  font-size: 1.8rem; /* Tamaño de fuente ajustado */
+  color: white; /* Color del texto */
+}
+
+/* Añade separación vertical entre secciones de la página */
+.section-separator {
+  margin: 2rem 0; /* Mayor separación vertical de 2rem */
+}
+
+/* Estiliza el área de descripción del juego */
+.descripJuego {
+  width: 100%; /* La descripción ocupa el 100% del ancho disponible */
+  padding: 10px; /* Padding interno de 10px */
+  border-radius: 4px; /* Bordes redondeados con un radio de 4px */
+  box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho y alto del elemento */
+  color: white; /* Color del texto */
+  font-size: 1.6rem; /* Tamaño de fuente de la descripción */
+  text-align: center; /* Centra el texto */
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semi-transparente */
+}
+
+/* Estiliza el contenedor para el área de reseñas */
+.cajaresecnas {
+  padding: 20px; /* Padding interno de 20px */
+  display: flex; /* Usa flexbox para disposición de los elementos */
+  align-items: center; /* Alinea los elementos verticalmente al centro */
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+  border-radius: 8px; /* Bordes redondeados con un radio de 8px */
+}
+
+/* Estiliza el campo de texto para reseñas */
+.reseña-input {
+  width: 100%; /* El campo ocupa el 100% del ancho disponible */
+  height: 100px; /* Altura del campo de texto */
+  padding: 10px; /* Padding interno de 10px */
+  border-radius: 4px; /* Bordes redondeados con un radio de 4px */
+  border: none; /* Sin borde exterior */
+  font-size: 1.6rem; /* Tamaño de fuente del texto */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho y alto del elemento */
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+  color: #000; /* Color del texto */
+  resize: none; /* Deshabilita la capacidad de redimensionar el campo de texto */
+}
+
+/* Estiliza el contenedor para los botones */
+.btn-container {
+  display: flex; /* Usa flexbox para disposición de los botones */
+  align-items: flex-end; /* Alinea los botones al final del contenedor verticalmente */
+  gap: 10px; /* Espacio de 10px entre los botones */
+}
+
+/* Añade un margen superior a la sección de reseñas para separarla de otros elementos */
+.reseñas {
+  margin-top: 20px; /* Margen superior de 20px */
+}
+
+/* Estiliza cada reseña individual */
+.reseña {
+  display: flex; /* Usa flexbox para disposición de los elementos dentro de la reseña */
+  align-items: center; /* Alinea los elementos verticalmente al centro */
+  margin-bottom: 15px; /* Margen inferior de 15px */
+  padding: 10px; /* Padding interno de 10px */
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semi-transparente */
+  border-radius: 8px; /* Bordes redondeados con un radio de 8px */
+}
+
+/* Estiliza el nombre del usuario dentro de la reseña */
+.reseña-texto h5 {
+  margin: 0; /* Elimina el margen exterior */
+  font-size: 1.4rem; /* Tamaño de fuente del nombre del usuario */
+  color: white; /* Color del texto */
+}
+
+/* Estiliza el texto de la reseña */
+.reseña-texto p {
+  margin: 0; /* Elimina el margen exterior */
+  color: white; /* Color del texto */
+}
+
+/* Estiliza los botones dentro del contenedor de botones */
+.btns {
+  margin-left: 10px; /* Margen izquierdo de 10px */
+  align-items: center; /* Alinea los elementos dentro del botón al centro verticalmente */
+}

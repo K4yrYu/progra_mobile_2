@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <!-- Botón de regreso con texto "Volver" -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Atras" icon="arrow-back-outline" [routerLink]="['/paneladmin']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>CRUD Videojuegos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Botón para agregar un nuevo videojuego, ubicado antes de la lista -->
+  <div class="add-button-container">
+    <ion-button [routerLink]="['/agregarjuego']">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Agregar Videojuego
+    </ion-button>
+  </div>
+
+  <!-- Lista de videojuegos -->
+  <ion-list>
+    <ion-item *ngFor="let videojuego of videojuegos">
+      <ion-thumbnail slot="start">
+        <img [src]="videojuego.imagenUrl" alt="{{ videojuego.nombre }}">
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ videojuego.nombre }}</h3>
+        <p><strong>Precio:</strong> {{ videojuego.precio | currency:'CLP':'symbol':'1.0-0' }}</p>
+        <p><strong>stock:</strong> {{ videojuego.stock }}</p>
+        <p><strong>Consolas:</strong> {{ videojuego.consolas }}</p>
+      </ion-label>
+      <!-- Botones de acción para editar y eliminar -->
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/editarjuego']">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" [routerLink]="['/eliminarjuego']">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

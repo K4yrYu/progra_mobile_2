@@ -1,0 +1,142 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/" text="Carrito" icon="cart-outline" [routerLink] = "['/carrito']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Catalogo de Juguetes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--------------------------------------------------->
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar></ion-searchbar>
+  <ion-card class="juguete-card">
+    <ion-item lines="none" class="juguete-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juguetes/spiderman-juguete.jpg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Funko Pop Spiderman</h2>
+        <p>$:50.300</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" [routerLink]="['/jugueteunico']">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="juguete-card">
+    <ion-item lines="none" class="juguete-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juguetes/samus1.jpg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Samus</h2>
+        <p>$:32.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end">
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="juguete-card">
+    <ion-item lines="none" class="juguete-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juguetes/coronel-juguete.jpg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Funko Coronel Sanders</h2>
+        <p>$:56.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="juguete-card">
+    <ion-item lines="none" class="juguete-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juguetes/Zelda-juguete.png" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Link Amibbo</h2>
+        <p>$:80.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="juguete-card">
+    <ion-item lines="none" class="juguete-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juguetes/akirby-juguete.jpeg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Kirby Amibbo</h2>
+        <p>$:75.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="juguete-card">
+    <ion-item lines="none" class="juguete-item">
+      <ion-thumbnail slot="start" class="thumbnail-grande">
+        <img src="assets/img/juguetes/Kratos2.jpg" alt="img test">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Kratos</h2>
+        <p>$:75.000</p>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="add-cart-item">
+      <ion-button fill="outline" slot="end" (click)="compra()">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        Añadir al carro
+      </ion-button>
+      <ion-button fill="outline" slot="end" >
+        Ver Producto
+      </ion-button>
+    </ion-item>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Agregar Juguete</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="agregarjuguete-container">
+    <ion-list>
+      <h1>Agregar Juguete</h1>
+      
+      <ion-item>
+        <ion-label>Nombre del juguete</ion-label>
+        <ion-input [(ngModel)]="nombre" class="custom-input" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Descripción</ion-label>
+        <ion-textarea [(ngModel)]="descripcion" class="custom-input"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Precio</ion-label>
+        <ion-input [(ngModel)]="precio" class="custom-input" type="number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Stock</ion-label>
+        <ion-input [(ngModel)]="stock" class="custom-input" type="number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Imagen</ion-label>
+        <ion-input [(ngModel)]="urlImagen" class="custom-input" type="url"></ion-input>
+        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
+      </ion-item>
+
+    </ion-list>
+
+    <div style="height: 3pc;"></div>
+
+    <ion-button class="boton" expand="full" (click)="validarCampos()">
+      Agregar Juguete
+    </ion-button>
+    <ion-button class="boton" expand="full" [routerLink]="['/crudjuguetes']">
+      Volver
+    </ion-button>
+
+    <!-- Mensajes de error agrupados -->
+    <div class="error-messages" *ngIf="errorCampos || errorPrecio || errorStock">
+      <p *ngIf="errorCampos">Debe rellenar todos los campos.</p>
+      <p *ngIf="errorPrecio">El precio no puede ser menor a 0.</p>
+      <p *ngIf="errorStock">El stock no puede ser menor a 0.</p>
+    </div>
+    
+  </div>
+</ion-content>
