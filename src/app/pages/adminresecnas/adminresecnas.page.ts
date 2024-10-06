@@ -26,17 +26,22 @@ export class AdminresecnasPage implements OnInit {
   constructor(private bd: ManejodbService) { }
 
   ngOnInit() {
-    //verificar si la BD esta disponible
-    this.bd.dbState().subscribe(data=>{
-      if(data){
-        //subscribir al observable de la consulta
-        this.bd.fetchUsuarios().subscribe(res=>{
+    // verificar si la BD está disponible
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        // subscribir al observable de la consulta
+        this.bd.fetchUsuarios().subscribe(res => {
           this.arregloUsuarios = res;
-        })
+        });
       }
-    })
+    });
   }
 
-
-
+  // Método para eliminar usuario
+  eliminarUsuario(id_usuario: string) {
+    this.bd.eliminarUsuarios(id_usuario).then(() => {
+      // Actualizar la lista de usuarios después de eliminar
+      this.bd.consultarUsuarios();
+    });
+  }
 }

@@ -36,14 +36,12 @@ export class ManejodbService {
   //detalle
   detalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY autoincrement, cantidad_d INTEGER NOT NULL, subtotal INTEGER NOT NULL, estado_retiro BOOLEAN NOT NULL, id_venta INTEGER, id_producto INTEGER, FOREIGN KEY (id_venta) REFERENCES venta(id_venta), FOREIGN KEY (id_producto) REFERENCES producto(id_producto));";
  
-  //resecna
-  resecna: string = "CREATE TABLE IF NOT EXISTS resecna (id_resecna INTEGER PRIMARY KEY autoincrement, text_resecna TEXT NOT NULL, puntos_resecna INTEGER NOT NULL, foto_resecna BLOB, id_usuario INTEGER, id_producto, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (id_producto) REFERENCES producto(id_producto));";
+  //reseña
+  resecna: string = "CREATE TABLE IF NOT EXISTS resecna (id_resecna INTEGER PRIMARY KEY autoincrement, text_resecna TEXT NOT NULL, puntos_resecna INTEGER NOT NULL, foto_resecna BLOB, id_usuario INTEGER, id_producto INTEGER, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (id_producto) REFERENCES producto(id_producto));";
  
   //favoritos(lista de deseos)
-  favoritos: string = "CREATE TABLE IF NOT EXISTS favoritos (id_favoritos INTEGER PRIMARY KEY autoincrement, fecha_creacion DATE NOT NULL, id_usuario INTEGER, id_producto, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (id_producto) REFERENCES producto(id_producto));"; 
+  favoritos: string = "CREATE TABLE IF NOT EXISTS favoritos (id_favoritos INTEGER PRIMARY KEY autoincrement, fecha_creacion DATE NOT NULL, id_usuario INTEGER, id_producto INTEGER, FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (id_producto) REFERENCES producto(id_producto));"; 
 
-
-  
   //--------------------------------------------------------------------------------------------------------
 
   //////////////////////////////////////INSERTS//////////////////////////////////////////////////
@@ -55,14 +53,11 @@ export class ManejodbService {
   
   //insert de 1 usuario 
   registrousuario: string= "INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES ('12345678-9', 'Juan Ignacio', 'Perez Lopez', 'admin', 'Admin123.', 'juan.perez@example.com', FALSE, TRUE, 1);";
-
+  registrousuario2: string="INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES ('19994384-7', 'Alonso', 'Urrutia', 'admin', 'Admin1234.', 'Amuc23@gmail.com', FALSE, TRUE, 2);";
+  
   //insert de las categorias de los productos
   categoriasproductos: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES ('Juego'), ('Juguete'), ('Consola')";
 
-  //insert de 3 productos diferentes por cada categoria (alonso pongale XD, en la foranea del id es 1=juego 2=juguete 3=consola)
-
-
-  
   //--------------------------------------------------------------------------------------------------------
 
   //var para los registros de un select
@@ -89,12 +84,11 @@ export class ManejodbService {
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames5.db',
+        name: 'megagames10.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
         this.creartablas();
-        this.consultarUsuarios();
         this.alertasService.presentAlert("Creación de BD", "Base de datos creada con éxito."); // Alerta de éxito
         this.isDBReady.next(true);
         this.dbCreated = true; // Marca que la base de datos fue creada
@@ -117,24 +111,32 @@ export class ManejodbService {
       await this.database.executeSql(this.resecna, []);
       await this.database.executeSql(this.favoritos, []);
 
-      //se espera (await) a que terminen los insert si es que hay
-      await this.database.executeSql(this.rolesusuario1, []);
-      await this.database.executeSql(this.rolesusuario2, []);
-      await this.database.executeSql(this.registrousuario, []);
-      await this.database.executeSql(this.categoriasproductos, []);
+      // Verificar si ya existe el usuario 'admin'
+      const res = await this.database.executeSql('SELECT * FROM usuario WHERE username = "admin"', []);
+      if (res.rows.length === 0) { // Solo insertar si no existe
+        await this.database.executeSql(this.rolesusuario1, []);
+        await this.database.executeSql(this.rolesusuario2, []);
+        await this.database.executeSql(this.registrousuario, []);
+        await this.database.executeSql(this.registrousuario2, []);
+        await this.database.executeSql(this.categoriasproductos, []);
+      }
+
+      // Actualizar la lista de usuarios después de insertar
+      this.consultarUsuarios(); // Llamar a consultarUsuarios para refrescar la interfaz
+
     } catch (e) {
       this.alertasService.presentAlert("Creación de tabla", "Error creando las tablas: " + JSON.stringify(e));
     }
   }
 
-  consultarUsuarios(){
-    return this.database.executeSql('SELECT * FROM usuario',[]).then(res=>{
+  consultarUsuarios() {
+    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
       //variable para almacenar el resultado de la consulta
       let itemsU: Usuarios[] = [];
       //verificar si hay registros en la consulta
-      if(res.rows.length > 0){
+      if (res.rows.length > 0) {
         //se recorren los resultados
-        for(var i = 0; i < res.rows.length; i++){
+        for (var i = 0; i < res.rows.length; i++) {
           //se agrega el registro a mi variable (itemsU)
           itemsU.push({
             id_usuario: res.rows.item(i).id_usuario,
@@ -154,23 +156,20 @@ export class ManejodbService {
     })
   }
 
-  agregarUsuarios(){
-
+  agregarUsuarios() {
+    // Lógica para agregar usuarios
   }
 
-  modificarUsuarios(){
-
+  modificarUsuarios() {
+    // Lógica para modificar usuarios
   }
 
-  eliminarUsuarios(idU:string){ 
-    return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?',[idU]).then(res=>{
+  eliminarUsuarios(idU: string) {
+    return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?', [idU]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Usuario eliminado");
       //se llama al select para mostrar la lista actualizada
       this.consultarUsuarios();
-    }).catch(e=>{
-      //alerta del error
-      this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e));
-    })
+    });
   }
 }

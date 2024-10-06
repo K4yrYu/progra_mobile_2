@@ -5,14 +5,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-list>
-      <ion-item *ngFor="let usuario of arregloUsuarios">
-        <ion-label>
-          <h2>{{ usuario.nombres_usuario }} {{ usuario.apellidos_usuario }}</h2>
-          <p>RUT: {{ usuario.rut_usuario }}</p>
-          <p>Correo: {{ usuario.correo }}</p>
-          <p>Username: {{ usuario.username }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-content>
+  <ion-list>
+    <ion-item *ngFor="let usuario of arregloUsuarios">
+      <ion-label>
+        <h2>{{ usuario.nombres_usuario }} {{ usuario.apellidos_usuario }}</h2>
+        <p>RUT: {{ usuario.rut_usuario }}</p>
+        <p>Correo: {{ usuario.correo }}</p>
+        <p>Username: {{ usuario.username }}</p>
+      </ion-label>
+      <ion-button color="danger" (click)="eliminarUsuario(usuario.id_usuario)">
+        Eliminar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
