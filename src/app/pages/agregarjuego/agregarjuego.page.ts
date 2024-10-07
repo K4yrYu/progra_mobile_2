@@ -61,14 +61,16 @@ export class AgregarjuegoPage implements OnInit {
     this.errorPrecio = false;
     this.errorStock = false;
 
+    await this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
+
     // Mostrar alerta de éxito antes de navegar
     await this.alertasService.presentAlert('Éxito', 'Juego agregado correctamente.');
 
     // Navegar a la página deseada
     this.router.navigate(['/crudjuegos']);
+
+
   }
 
-  agregar(){
-    this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
-  }
+
 }

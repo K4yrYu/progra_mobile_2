@@ -123,7 +123,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames12.db',
+        name: 'megagames13.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
@@ -318,7 +318,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
   agregarJuegos(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: string) {
     // Lógica para agregar usuarios
-    return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,true,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
+    return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Agregar", "Juego Agregado");
       //se llama al select para mostrar la lista actualizada
