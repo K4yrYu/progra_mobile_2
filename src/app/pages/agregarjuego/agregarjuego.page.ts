@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Importa el servicio de alertas si lo necesitas
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
   selector: 'app-agregarjuego',
@@ -10,19 +11,24 @@ import { AlertasService } from 'src/app/services/alertas.service'; // Importa el
 export class AgregarjuegoPage implements OnInit {
 
   // Variables vinculadas a los campos del formulario
-  nombre: string = '';
-  descripcion: string = '';
-  precio: number | null = null;
-  stock: number | null = null;
-  consolas: string = '';
-  urlImagen: string = '';
+  nombre: string = ''; //nombre_prod
+  descripcion: string = ''; //descripcion_prod
+  precio!: number; //precio_prod
+  stock!: number; //stock_prod
+  consolas: string = ''; 
+  urlImagen: string = ''; //foto_prod
 
   // Variables de control para mostrar mensajes de error
   errorCampos: boolean = false;
   errorPrecio: boolean = false;
   errorStock: boolean = false;
 
-  constructor(private router: Router, private alertasService: AlertasService) {} // Si necesitas el servicio de alertas
+
+  
+
+
+
+  constructor(private router: Router, private alertasService: AlertasService, private bd: ManejodbService) {} // Si necesitas el servicio de alertas
 
   ngOnInit() {}
 
@@ -60,5 +66,9 @@ export class AgregarjuegoPage implements OnInit {
 
     // Navegar a la página deseada
     this.router.navigate(['/crudjuegos']);
+  }
+
+  agregar(){
+    this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
   }
 }

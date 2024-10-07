@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: JuegounicoPage
+  },
+  {
+    path: ':id_producto',
+    component: JuegounicoPage
   }
 ];
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras } from '@angular/router';
 import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
@@ -38,10 +39,18 @@ export class AdminresecnasPage implements OnInit {
   }
 
   // Método para eliminar usuario
-  eliminarUsuario(id_usuario: string) {
+  eliminarUsuario(id_usuario: any) {
     this.bd.eliminarUsuarios(id_usuario).then(() => {
       // Actualizar la lista de usuarios después de eliminar
       this.bd.consultarUsuarios();
     });
+  }
+
+  modificarUsuario(x:any){
+    
+  }
+
+  agregarUsuario(){
+
   }
 }
