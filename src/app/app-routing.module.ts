@@ -141,9 +141,26 @@ const routes: Routes = [
     loadChildren: () => import('./pages/adminresecnas/adminresecnas.module').then( m => m.AdminresecnasPageModule)
   },
   {
+    path: 'crudusuarios',
+    loadChildren: () => import('./pages/crudusuarios/crudusuarios.module').then( m => m.CrudusuariosPageModule)
+  },
+  {
+    path: 'eliminarusuario',
+    loadChildren: () => import('./pages/eliminarusuario/eliminarusuario.module').then( m => m.EliminarusuarioPageModule)
+  },
+  {
+    path: 'editarusuario',
+    loadChildren: () => import('./pages/editarusuario/editarusuario.module').then( m => m.EditarusuarioPageModule)
+  },
+  {
+    path: 'agregarusuario',
+    loadChildren: () => import('./pages/agregarusuario/agregarusuario.module').then( m => m.AgregarusuarioPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
+
 
 
 
