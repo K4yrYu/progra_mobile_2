@@ -29,7 +29,12 @@
         <ion-input class="custom-input" type="number" [(ngModel)]="videojuego.stock"></ion-input>
       </ion-item>
 
-      <!-- Select para el estado del videojuego -->
+      <ion-item>
+        <ion-label>Imagen</ion-label>
+        <ion-input class="custom-input" type="url" [(ngModel)]="videojuego.imagenUrl"></ion-input>
+        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
+      </ion-item>
+
       <ion-item>
         <ion-label>Estado</ion-label>
         <mat-select [(ngModel)]="estado">
@@ -39,11 +44,6 @@
         </mat-select>
       </ion-item>
 
-      <ion-item>
-        <ion-label>Imagen</ion-label>
-        <ion-input class="custom-input" type="url" [(ngModel)]="videojuego.imagenUrl"></ion-input>
-        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
-      </ion-item>
 
       <!-- Mensajes de error -->
       <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>

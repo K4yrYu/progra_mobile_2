@@ -15,7 +15,6 @@ export class AgregarjuegoPage implements OnInit {
   descripcion: string = ''; //descripcion_prod
   precio!: number; //precio_prod
   stock!: number; //stock_prod
-  consolas: string = ''; 
   urlImagen: string = ''; //foto_prod
 
   // Variables de control para mostrar mensajes de error
@@ -39,7 +38,7 @@ export class AgregarjuegoPage implements OnInit {
     this.errorStock = false;
 
     // Verificar si algún campo está vacío
-    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.consolas || !this.urlImagen) {
+    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.urlImagen) {
       this.errorCampos = true;
       return; // Salir de la función si hay errores
     }
@@ -62,9 +61,6 @@ export class AgregarjuegoPage implements OnInit {
     this.errorStock = false;
 
     await this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
-
-    // Mostrar alerta de éxito antes de navegar
-    await this.alertasService.presentAlert('Éxito', 'Juego agregado correctamente.');
 
     // Navegar a la página deseada
     this.router.navigate(['/crudjuegos']);

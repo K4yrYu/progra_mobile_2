@@ -34,13 +34,21 @@
         <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
       </ion-item>
 
+      <!-- Selección de estado de disponibilidad -->
+      <ion-item>
+        <ion-label>Estado</ion-label>
+        <mat-select [(ngModel)]="estado">
+          <mat-option *ngFor="let estado of estados" [value]="estado.value">{{estado.viewValue}}</mat-option>
+        </mat-select>
+      </ion-item>
+
       <!-- Mensajes de error -->
       <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
       <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
       <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
 
       <div style="height: 3pc;"></div> 
-      
+
     </ion-list>
     <ion-button class="boton" expand="full" (click)="guardarCambios()">Guardar Cambios</ion-button>
     <ion-button class="boton" expand="full" [routerLink]="['/crudconsolas']">Volver</ion-button>

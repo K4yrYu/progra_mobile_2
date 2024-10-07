@@ -2,12 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
 
+interface Estado {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-editarjuguete',
   templateUrl: './editarjuguete.page.html',
   styleUrls: ['./editarjuguete.page.scss'],
 })
 export class EditarjuguetePage implements OnInit {
+
+  estados: Estado[] = [
+    { value: 'disponible', viewValue: 'Disponible' },
+    { value: 'no disponible', viewValue: 'No disponible' },
+  ];
+
+  // Propiedad para el estado seleccionado
+  estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado si lo prefieres
 
   juguete: any = {
     nombre: 'Funko Pop de Spider-Man',
@@ -33,7 +46,7 @@ export class EditarjuguetePage implements OnInit {
     this.errorStock = false;
 
     // Verificar si algún campo está vacío
-    if (!this.juguete.nombre || this.juguete.precio === null || !this.juguete.descripcion || this.juguete.stock === null || !this.juguete.imagenUrl) {
+    if (!this.juguete.nombre || !this.juguete.descripcion || this.juguete.precio === null || this.juguete.stock === null || !this.juguete.imagenUrl || !this.estado) {
       this.errorCampos = true;
       return; // Salir si hay errores
     }
