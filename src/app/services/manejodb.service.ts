@@ -68,11 +68,15 @@ export class ManejodbService {
   categoriasproductos3: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES('Consola');";
 
   //insert de los diferentes productos
-  registrodejuegos1: string = "INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Hollow Knight', 15000, 50, 'Desafiante juego de pltataformas', FotoHolloKnight, TRUE, 1);";
+  // Insert 1
+registrojuego1= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('The Legend of Zelda: Breath of the Wild', 60000, 30, 'Explora el vasto mundo de Hyrule en una épica aventura.', 'zelda_breath.png', 1, 1);";
 
-  registrodejuegos2: string = "INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Pokemon Arceus', 56000, 10, 'Explora el increible mundo de los pokemon', FOTO_TESTEO, TRUE, 1);";
+// Insert 2
+registrojuego2= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Super Mario Odyssey', 50000, 25, 'Únete a Mario en una odisea por diferentes mundos.', 'mario_odyssey.png', 1, 1);";
 
-  registrodejuegos3: string = "INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Grand Blue Fantasy', 45000, 20, 'Desafiante juego de peleas 1 VS 1', FOTO_TESTEO, TRUE, 1);";
+// Insert 3
+registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Animal Crossing: New Horizons', 45000, 40, 'Crea tu propia isla paradisíaca en este relajante simulador de vida.', 'animal_crossing.png', 1, 1);";
+
   
   //--------------------------------------------------------------------------------------------------------
 
@@ -119,7 +123,7 @@ export class ManejodbService {
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames10.db',
+        name: 'megagames12.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
@@ -156,9 +160,9 @@ export class ManejodbService {
         await this.database.executeSql(this.categoriasproductos1, []);
         await this.database.executeSql(this.categoriasproductos2, []);
         await this.database.executeSql(this.categoriasproductos3, []);
-        await this.database.executeSql(this.registrodejuegos1, []);
-        await this.database.executeSql(this.registrodejuegos2, []);
-        await this.database.executeSql(this.registrodejuegos3, []);
+        await this.database.executeSql(this.registrojuego1, []);
+        await this.database.executeSql(this.registrojuego2, []);
+        await this.database.executeSql(this.registrojuego3, []);
       }
 
       // Actualizar la lista de usuarios después de insertar
