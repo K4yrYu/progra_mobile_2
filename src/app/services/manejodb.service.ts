@@ -123,7 +123,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames13.db',
+        name: 'megagames14.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
@@ -264,28 +264,29 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
   
 
   //se realizara un select * para cada producto 
-  consultarJuegoPorId(id_producto: string): Promise<any> {
-    return this.database.executeSql('SELECT * FROM producto p JOIN categoria c ON p.id_categoria = c.id_categoria WHERE p.id_producto = ?', [id_producto]).then(resp => {
-      // Variable para almacenar el resultado de la consulta
-      let itemJU: any = null;
-      
-      // Verificar si hay registros en la consulta
+  consultarJuegoPorId(idjuegoU: any){
+    return this.database.executeSql('SELECT * FROM producto WHERE id_producto = ?', [idjuegoU]).then(resp => {
+      //variable para almacenar el resultado de la consulta
+      let itemsJU: Juegos[] = [];
+      //verificar si hay registros en la consulta
       if (resp.rows.length > 0) {
-        itemJU = {
-          id_producto: resp.rows.item(0).id_producto,
-          nombre_prod: resp.rows.item(0).nombre_prod,
-          precio_prod: resp.rows.item(0).precio_prod,
-          stock_prod: resp.rows.item(0).stock_prod,
-          descripcion_prod: resp.rows.item(0).descripcion_prod,
-          foto_prod: resp.rows.item(0).foto_prod,
-          estatus: resp.rows.item(0).estatus,
-          id_categoria: resp.rows.item(0).id_categoria,
-          nombre_categoria: resp.rows.item(0).nombre_categoria
-        };
+        //se recorren los resultados
+        for (var i = 0; i < resp.rows.length; i++) {
+          //se agrega el registro a mi variable (itemsU)
+          itemsJU.push({
+            id_producto: resp.rows.item(i).id_producto, 
+            nombre_prod: resp.rows.item(i).nombre_prod, 
+            precio_prod: resp.rows.item(i).precio_prod,  
+            stock_prod: resp.rows.item(i).stock_prod,  
+            descripcion_prod: resp.rows.item(i).descripcion_prod,  
+            foto_prod: resp.rows.item(i).foto_prod, 
+            estatus: resp.rows.item(i).estatus, 
+            id_categoria: resp.rows.item(i).id_categoria
+          })
+        }
       }
-      
-      return itemJU;
-    });
+      this.listadoJuegoUnico.next(itemsJU as any);
+    })
   }
 
   ////////--JUEGOS
@@ -330,7 +331,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
 
 
-  modificarJuego(idJ: string, nomJ: string, precioJ: string, stockJ: string, descripJ: string, fotoJ: string, estatusJ: string) {
+  modificarJuego(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
     // Lógica para modificar usuarios
     return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
       //se añade la alerta

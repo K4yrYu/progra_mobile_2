@@ -8,12 +8,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  
   <div class="juegoU-container">
-    <img src="assets/img/juegos/caratula-hollow.jpeg" alt="Hollow Knight" class="juego-image" />
-    <h4>Hollow Knight</h4>
-    <ion-label>Precio: $15.000</ion-label>
-    <ion-label>Consolas: Todas</ion-label>
-    <ion-label>Stock: 45</ion-label>
+    <img src="assets/img/juegos/caratula-hollow.jpeg" alt="img_producto" class="juego-image" />
+    <h3>{{ juegoLlego.nombre_prod }}</h3>
+    <p><strong>Precio:</strong> {{ juegoLlego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
+    <p><strong>stock:</strong> {{ juegoLlego.stock_prod }}</p>
     
     <ion-row>
       <ion-col size="6">
@@ -36,7 +36,7 @@
   <h4>Descripción:</h4>
   <div class="descripcion-container">
     <p class="descripJuego">
-      Consta de un juego sencillo por plataformas y de mundo abierto, famoso por su gran dificultad y su variedad de enemigos.
+      {{juegoLlego.descripcion_prod}}
     </p>
   </div>
 

@@ -28,7 +28,7 @@
         <ion-icon slot="start" name="cart-outline"></ion-icon>
         Añadir al carro
       </ion-button>
-      <ion-button fill="outline" slot="end" [routerLink]="['/juegounico', juego.id_producto]">
+      <ion-button fill="outline" slot="end" (click)="irJuegoUnico(juego)">
         Ver Producto
       </ion-button>
     </ion-item>

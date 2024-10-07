@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta sea correcta
 import { ManejodbService } from 'src/app/services/manejodb.service';
 
@@ -26,9 +27,10 @@ export class JuegosPage implements OnInit {
   ]
 
 
-  constructor(private alertasService: AlertasService, private bd: ManejodbService) { } // Inyección del servicio de alertas
+  constructor(private alertasService: AlertasService, private bd: ManejodbService, private router: Router) { } // Inyección del servicio de alertas
 
   ngOnInit() {
+    
     // verificar si la BD está disponible
     this.bd.dbState().subscribe(data => {
       if (data) {
@@ -38,6 +40,16 @@ export class JuegosPage implements OnInit {
         });
       }
     });
+  }
+
+  irJuegoUnico(x:any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        juegoSelect: x
+      }
+    }
+    this.router.navigate(['/juegounico'], navigationExtras);
+
   }
 
   compra() {
