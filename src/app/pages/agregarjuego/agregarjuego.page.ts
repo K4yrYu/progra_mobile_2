@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Importa el servicio de alertas si lo necesitas
+import { AlertasService } from 'src/app/services/alertas.service';
 import { ManejodbService } from 'src/app/services/manejodb.service';
+import { CamaraService } from 'src/app/services/camara.service'; // Importa el servicio
 
 @Component({
   selector: 'app-agregarjuego',
@@ -9,64 +10,70 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
   styleUrls: ['./agregarjuego.page.scss'],
 })
 export class AgregarjuegoPage implements OnInit {
+  nombre: string = '';
+  descripcion: string = '';
+  precio!: number;
+  stock!: number;
+  consolas: string = ''; 
+  urlImagen: string = '';
 
-  // Variables vinculadas a los campos del formulario
-  nombre: string = ''; //nombre_prod
-  descripcion: string = ''; //descripcion_prod
-  precio!: number; //precio_prod
-  stock!: number; //stock_prod
-  urlImagen: string = ''; //foto_prod
-
-  // Variables de control para mostrar mensajes de error
   errorCampos: boolean = false;
   errorPrecio: boolean = false;
   errorStock: boolean = false;
+  errorImagen: boolean = false;
 
-
-  
-
-
-
-  constructor(private router: Router, private alertasService: AlertasService, private bd: ManejodbService) {} // Si necesitas el servicio de alertas
+  constructor(
+    private router: Router,
+    private alertasService: AlertasService,
+    private bd: ManejodbService,
+    private camaraService: CamaraService // Inyecta el servicio
+  ) {}
 
   ngOnInit() {}
 
   async validarCampos() {
-    // Reiniciar errores antes de la validación
-    this.errorCampos = false;
-    this.errorPrecio = false;
-    this.errorStock = false;
+    this.resetErrores();
 
-    // Verificar si algún campo está vacío
-    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.urlImagen) {
+    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.consolas || !this.urlImagen) {
       this.errorCampos = true;
-      return; // Salir de la función si hay errores
+      return;
     }
 
-    // Verificar si el precio es menor a 0
     if (this.precio < 0) {
       this.errorPrecio = true;
-      return; // Salir de la función si hay errores
+      return;
     }
 
-    // Verificar si el stock es menor a 0
     if (this.stock < 0) {
       this.errorStock = true;
-      return; // Salir de la función si hay errores
+      return;
     }
 
-    // Si todos los campos son válidos, limpiar los errores
+    await this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
+    await this.alertasService.presentAlert('Éxito', 'Juego agregado correctamente.');
+    this.router.navigate(['/crudjuegos']);
+  }
+
+  private resetErrores() {
     this.errorCampos = false;
     this.errorPrecio = false;
     this.errorStock = false;
-
-    await this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
-
-    // Navegar a la página deseada
-    this.router.navigate(['/crudjuegos']);
-
-
+    this.errorImagen = false;
   }
 
-
+  // Método para capturar la imagen usando el servicio de cámara
+  async tomarFoto() {
+    try {
+      const fotoUrl = await this.camaraService.takePicture();
+      if (fotoUrl) {
+        this.urlImagen = fotoUrl; // Asigna la URL de la imagen
+        this.errorImagen = false; // Limpia el error si se toma la foto
+      } else {
+        this.errorImagen = true; // Manejo si no se devuelve una imagen
+      }
+    } catch (error) {
+      console.error('Error al tomar la foto:', error);
+      this.errorImagen = true; // Mostrar mensaje de error si algo falla
+    }
+  }
 }

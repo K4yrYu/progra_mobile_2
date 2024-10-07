@@ -29,10 +29,19 @@
       </ion-item>
 
       <ion-item>
-        <ion-label>Imagen</ion-label>
-        <ion-input [(ngModel)]="urlImagen" class="custom-input" type="url"></ion-input>
-        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
+        <ion-label>Consolas Compatibles</ion-label>
+        <ion-input [(ngModel)]="consolas" class="custom-input" type="text"></ion-input>
       </ion-item>
+
+      <!-- Botón para tomar la foto -->
+      <ion-button expand="full" (click)="tomarFoto()">
+        Tomar Foto
+      </ion-button>
+
+      <!-- Mostrar la imagen si está disponible -->
+      <div *ngIf="urlImagen" style="height: 250px; width: 250px; overflow: hidden;">
+        <img [src]="urlImagen" style="height: 100%; width: 100%; object-fit: cover;" alt="Imagen del juego" />
+      </div>
 
       <!-- Mensajes de error -->
       <p *ngIf="errorCampos" class="error-message">
@@ -40,7 +49,7 @@
       </p>
       <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
       <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
-
+      <p *ngIf="errorImagen" class="error-message">La imagen es obligatoria.</p>
     </ion-list>
 
     <div style="height: 3pc;"></div> 
