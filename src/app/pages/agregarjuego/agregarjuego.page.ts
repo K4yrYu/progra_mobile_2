@@ -50,7 +50,6 @@ export class AgregarjuegoPage implements OnInit {
     }
 
     await this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
-    await this.alertasService.presentAlert('Éxito', 'Juego agregado correctamente.');
     this.router.navigate(['/crudjuegos']);
   }
 

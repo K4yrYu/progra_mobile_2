@@ -16,7 +16,7 @@
   <ion-card class="videojuego-card" *ngFor="let juego of arregloJuegos">
     <ion-item lines="none" class="videojuego-item">
       <ion-thumbnail slot="start" class="thumbnail-grande">
-        <img src="assets/img/juegos/kurukuru.gif" alt="GIF">
+        <img [src]="juego.foto_prod" alt="sin imagen" style="height: 250px; width: 250px;"/>  
       </ion-thumbnail>
       <ion-label>
         <h2>{{ juego.nombre_prod }}</h2>

@@ -10,10 +10,14 @@
 <ion-content [fullscreen]="true">
   
   <div class="juegoU-container">
-    <img src="assets/img/juegos/caratula-hollow.jpeg" alt="img_producto" class="juego-image" />
+    <img [src]="juegoLlego.foto_prod" alt="sin imagen" style="height: 250px; width: 250px;"/>
+    <p></p>
     <h3>{{ juegoLlego.nombre_prod }}</h3>
-    <p><strong>Precio:</strong> {{ juegoLlego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
-    <p><strong>stock:</strong> {{ juegoLlego.stock_prod }}</p>
+    <p><strong>Precio:</strong></p>
+    <p>{{ juegoLlego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
+    <p></p>
+    <p><strong>stock:</strong></p>
+    <p>{{ juegoLlego.stock_prod }}</p>
     
     <ion-row>
       <ion-col size="6">
