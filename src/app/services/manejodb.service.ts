@@ -75,7 +75,7 @@ registrojuego1= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 registrojuego2= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Super Mario Odyssey', 50000, 25, 'Únete a Mario en una odisea por diferentes mundos.', 'mario_odyssey.png', 1, 1);";
 
 // Insert 3
-registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Animal Crossing: New Horizons', 45000, 40, 'Crea tu propia isla paradisíaca en este relajante simulador de vida.', 'animal_crossing.png', 1, 1);";
+registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Animal Crossing: New Horizons', 45000, 40, 'Crea tu propia isla paradisíaca en este relajante simulador de vida.', 'animal_crossing.png', 0, 1);";
 
   
   //--------------------------------------------------------------------------------------------------------
@@ -345,7 +345,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
 
 
-  eliminarJuegos(idJ: string) {
+  eliminarJuegos(idJ: any) {
     return this.database.executeSql('DELETE FROM producto WHERE id_producto = ?', [idJ]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Juego eliminado");

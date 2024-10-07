@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { ManejodbService } from 'src/app/services/manejodb.service';
 
@@ -10,7 +10,7 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
 })
 export class CrudjuegosPage implements OnInit {
   
-
+  juegoSelect: any;
 
   //repetir pero cambiar a juguetes y consolas
   arregloJuegos: any = [
@@ -25,6 +25,8 @@ export class CrudjuegosPage implements OnInit {
       id_categoria: ''
     }
   ]
+
+  
 
 
   constructor(private alertasService: AlertasService, private bd: ManejodbService, private router: Router) { } // Inyección del servicio de alertas
@@ -43,6 +45,19 @@ export class CrudjuegosPage implements OnInit {
 
   agregarJuego(){
     this.router.navigate(['/agregarjuego'])
+  }
+
+  eliminarJuego(x: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        juegoSelect: x
+      }
+    }
+    this.router.navigate(['/eliminarjuego'], navigationExtras);
+  }
+
+  editarJuego(){
+
   }
 
 }

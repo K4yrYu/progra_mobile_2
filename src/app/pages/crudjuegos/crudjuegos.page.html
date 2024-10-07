@@ -30,10 +30,10 @@
       </ion-label>
       <!-- Botones de acción para editar y eliminar -->
       <ion-buttons slot="end">
-        <ion-button [routerLink]="['/editarjuego']">
+        <ion-button (click)="editarJuego()">
           <ion-icon slot="icon-only" name="create"></ion-icon>
         </ion-button>
-        <ion-button color="danger" [routerLink]="['/eliminarjuego']">
+        <ion-button color="danger" (click)="eliminarJuego(videojuego)">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-button>
       </ion-buttons>

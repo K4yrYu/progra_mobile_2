@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta sea correcta
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
   selector: 'app-eliminarjuego',
@@ -9,20 +10,49 @@ import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate
 })
 export class EliminarjuegoPage implements OnInit {
 
-  constructor(
-    private alertasService: AlertasService, // Inyección del servicio de alertas
-    private router: Router
-  ) { }
+  juegoLlego: any;
 
-  ngOnInit() { }
+  arregloJuegoUnico: any = [
+    {
+      id_producto: '',
+      nombre_prod: '',
+      precio_prod: '',
+      stock_prod:  '',
+      descripcion_prod: '',  
+      foto_prod: '',
+      estatus: '',
+      id_categoria: '',
+    }
+  ]
+
+  constructor(private bd: ManejodbService, private router: Router, private activedroute: ActivatedRoute, private alertasService: AlertasService) {
+    this.activedroute.queryParams.subscribe(res=>{
+      if(this.router.getCurrentNavigation()?.extras.state){
+        this.juegoLlego = this.router.getCurrentNavigation()?.extras?.state?.['juegoSelect'];
+      }
+    })
+   }
+
+  //arreglar pork no se ve el juego unico
+  ngOnInit() {
+    // verificar si la BD está disponible
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        // subscribir al observable de la consulta
+        this.bd.fetchJuegoUnico().subscribe(res => {
+          this.arregloJuegoUnico = res;
+          this.bd.consultarJuegoPorId(this.juegoLlego.id_producto);
+        });
+      }
+    });
+  }
 
   async eliminarJuego() {
     // Aquí puedes realizar la lógica para eliminar el videojuego
 
-    // Muestra la alerta utilizando el servicio
-    await this.alertasService.presentAlert('Producto Eliminado', 'El videojuego ha sido eliminado exitosamente.');
+    await this.bd.eliminarJuegos(this.juegoLlego.id_producto);
 
     // Redirige después de que el usuario haya cerrado la alerta
-    this.router.navigate(['/crudjuegos']);
+    await this.router.navigate(['/crudjuegos']);
   }
 }

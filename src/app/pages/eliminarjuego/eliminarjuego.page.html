@@ -11,9 +11,9 @@
         <img src="assets/img/juegos/caratula-hollow.jpeg" alt="Imagen de videojuego">
       </ion-thumbnail>
       <ion-label>
-        <h2>Hollow Knight </h2>
-        <p><strong>Consolas:</strong> PlayStation, Xbox</p>
-        <p><strong>Precio:</strong> $15,000</p>
+        <h3>{{ juegoLlego.nombre_prod }}</h3>
+        <p><strong>Precio:</strong> {{ juegoLlego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
+        <p><strong>stock:</strong> {{ juegoLlego.stock_prod }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
