@@ -4,7 +4,7 @@ export class Juegos {
     precio_prod!: number;
     stock_prod!: number;
     descripcion_prod!: string;
-    foto_prod!: string;
+    foto_prod!: Blob;
     estatus!: boolean;
     id_categoria!: number;
 }

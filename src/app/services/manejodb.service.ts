@@ -32,7 +32,7 @@ export class ManejodbService {
   usuario: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY autoincrement, rut_usuario VARCHAR(20) NOT NULL, nombres_usuario VARCHAR(100) NOT NULL, apellidos_usuario VARCHAR(100) NOT NULL, username VARCHAR(20) NOT NULL, clave VARCHAR(12) NOT NULL, correo VARCHAR(50) NOT NULL, token_recup_clave BOOLEAN NOT NULL, estado_user BOOLEAN NOT NULL, id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol_usuario(id_rol));";
    
   //producto
-  producto: string = "CREATE TABLE IF NOT EXISTS producto (id_producto INTEGER PRIMARY KEY autoincrement, nombre_prod VARCHAR(50) NOT NULL, precio_prod INTEGER NOT NULL, stock_prod INTEGER NOT NULL, descripcion_prod TEXT NOT NULL, foto_prod VARCHAR(50), estatus BOOLEAN, id_categoria INTEGER, FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria));"; //blob para la foto (TEMPORALMENTE CON VARCHAR)
+  producto: string = "CREATE TABLE IF NOT EXISTS producto (id_producto INTEGER PRIMARY KEY autoincrement, nombre_prod VARCHAR(50) NOT NULL, precio_prod INTEGER NOT NULL, stock_prod INTEGER NOT NULL, descripcion_prod TEXT NOT NULL, foto_prod BLOB, estatus BOOLEAN, id_categoria INTEGER, FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria));"; 
   
   //venta
   venta: string = "CREATE TABLE IF NOT EXISTS venta (id_venta INTEGER PRIMARY KEY autoincrement, fecha_venta DATE NOT NULL, total INTEGER NOT NULL, id_usuario INTEGER, id_estado INTEGER , FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (id_estado) REFERENCES estado(id_estado));";
@@ -69,13 +69,13 @@ export class ManejodbService {
 
   //insert de los diferentes productos
   // Insert 1
-registrojuego1= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('The Legend of Zelda: Breath of the Wild', 60000, 30, 'Explora el vasto mundo de Hyrule en una épica aventura.', 'zelda_breath.png', 1, 1);";
+registrojuego1= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('The Legend of Zelda: Breath of the Wild', 60000, 30, 'Explora el vasto mundo de Hyrule en una épica aventura.', 'null, 1, 1);";
 
 // Insert 2
-registrojuego2= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Super Mario Odyssey', 50000, 25, 'Únete a Mario en una odisea por diferentes mundos.', 'mario_odyssey.png', 1, 1);";
+registrojuego2= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Super Mario Odyssey', 50000, 25, 'Únete a Mario en una odisea por diferentes mundos.', 'null', 1, 1);";
 
 // Insert 3
-registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Animal Crossing: New Horizons', 45000, 40, 'Crea tu propia isla paradisíaca en este relajante simulador de vida.', 'animal_crossing.png', 0, 1);";
+registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Animal Crossing: New Horizons', 45000, 40, 'Crea tu propia isla paradisíaca en este relajante simulador de vida.', 'null', 0, 1);";
 
   
   //--------------------------------------------------------------------------------------------------------
@@ -317,7 +317,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
 
 
-  agregarJuegos(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: string) {
+  agregarJuegos(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
     // Lógica para agregar usuarios
     return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
       //se añade la alerta
@@ -330,7 +330,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
   }
 
 
-
+  /*
   modificarJuego(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
     // Lógica para modificar usuarios
     return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
@@ -341,7 +341,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
     }).catch(e=>{
       this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e)); 
   });
-  }
+  } */
 
 
 
