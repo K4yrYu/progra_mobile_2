@@ -7,5 +7,4 @@ export class Juegos {
     foto_prod!: string;
     estatus!: boolean;
     id_categoria!: number;
-    nombre_categoria!: string;
 }

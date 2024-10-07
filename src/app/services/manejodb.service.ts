@@ -61,7 +61,11 @@ export class ManejodbService {
   registrousuario2: string="INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES ('19994384-7', 'Alonso', 'Urrutia', 'admin', 'Admin1234.', 'Amuc23@gmail.com', FALSE, TRUE, 2);";
   
   //insert de las categorias de los productos
-  categoriasproductos: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES ('Juego'), ('Juguete'), ('Consola');";
+  categoriasproductos1: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES ('Juego');";
+
+  categoriasproductos2: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES('Juguete');";
+
+  categoriasproductos3: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES('Consola');";
 
   //insert de los diferentes productos
   registrodejuegos1: string = "INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Hollow Knight', 15000, 50, 'Desafiante juego de pltataformas', FotoHolloKnight, TRUE, 1);";
@@ -100,24 +104,10 @@ export class ManejodbService {
   }
 
   fetchJuegos(): Observable<Juegos[]>{
-    return this.listadoUsuarios.asObservable();
+    return this.listadoJuegos.asObservable();
   }
   fetchJuegoUnico(): Observable<Juegos[]>{
     return this.listadoJuegoUnico.asObservable();
-  }
-
-  fetchJuguetes(): Observable<Juguetes[]>{
-    return this.listadoUsuarios.asObservable();
-  }
-  fetchJugueteUnico(): Observable<Juguetes[]>{
-    return this.listadoUsuarios.asObservable();
-  }
-
-  fetchConsolas(): Observable<Consolas[]>{
-    return this.listadoUsuarios.asObservable();
-  }
-  fetchConsolaUnica(): Observable<Consolas[]>{
-    return this.listadoUsuarios.asObservable();
   }
 
   dbState(){
@@ -163,7 +153,9 @@ export class ManejodbService {
         await this.database.executeSql(this.rolesusuario2, []);
         await this.database.executeSql(this.registrousuario, []);
         await this.database.executeSql(this.registrousuario2, []);
-        await this.database.executeSql(this.categoriasproductos, []);
+        await this.database.executeSql(this.categoriasproductos1, []);
+        await this.database.executeSql(this.categoriasproductos2, []);
+        await this.database.executeSql(this.categoriasproductos3, []);
         await this.database.executeSql(this.registrodejuegos1, []);
         await this.database.executeSql(this.registrodejuegos2, []);
         await this.database.executeSql(this.registrodejuegos3, []);
@@ -171,6 +163,7 @@ export class ManejodbService {
 
       // Actualizar la lista de usuarios después de insertar
       this.consultarUsuarios(); // Llamar a consultarUsuarios para refrescar la interfaz
+      this.consultarJuegos();
 
     } catch (e) {
       this.alertasService.presentAlert("Creación de tabla", "Error creando las tablas: " + JSON.stringify(e));
@@ -293,7 +286,7 @@ export class ManejodbService {
 
   ////////--JUEGOS
   consultarJuegos(){
-    return this.database.executeSql('SELECT * FROM producto p JOIN categoria c ON p.id_categoria = c.id_categoria WHERE c.id_categoria = 1', []).then(resp => {
+    return this.database.executeSql('SELECT * FROM producto WHERE id_categoria = 1', []).then(resp => {
       //variable para almacenar el resultado de la consulta
       let itemsP: Juegos[] = [];
       //verificar si hay registros en la consulta
@@ -309,8 +302,7 @@ export class ManejodbService {
             descripcion_prod: resp.rows.item(i).descripcion_prod,  
             foto_prod: resp.rows.item(i).foto_prod, 
             estatus: resp.rows.item(i).estatus, 
-            id_categoria: resp.rows.item(i).id_categoria,
-            nombre_categoria: resp.rows.item(i).nombre_categoria
+            id_categoria: resp.rows.item(i).id_categoria
           })
         }
       }
@@ -322,7 +314,7 @@ export class ManejodbService {
 
   agregarJuegos(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: string) {
     // Lógica para agregar usuarios
-    return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,TRUE,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
+    return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,true,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Agregar", "Juego Agregado");
       //se llama al select para mostrar la lista actualizada

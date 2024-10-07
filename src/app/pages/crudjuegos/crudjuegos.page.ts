@@ -22,8 +22,7 @@ export class CrudjuegosPage implements OnInit {
       descripcion_prod: '',  
       foto_prod: '',
       estatus: '',
-      id_categoria: '', 
-      nombre_categoria: ''
+      id_categoria: ''
     }
   ]
 
