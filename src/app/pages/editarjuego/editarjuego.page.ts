@@ -2,12 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
 
+interface Estado {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-editarjuego',
   templateUrl: './editarjuego.page.html',
   styleUrls: ['./editarjuego.page.scss'],
 })
 export class EditarjuegoPage implements OnInit {
+
+  estados: Estado[] = [
+    { value: 'disponible', viewValue: 'Disponible' },
+    { value: 'no disponible', viewValue: 'No disponible' },
+  ];
+
+  // Propiedad para el estado seleccionado
+  estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado si lo prefieres
 
   videojuego: any = {
     nombre: 'Hollow Knight',
@@ -33,8 +46,8 @@ export class EditarjuegoPage implements OnInit {
     this.errorPrecio = false;
     this.errorStock = false;
 
-    // Verifica si algún campo está vacío
-    if (!this.videojuego.nombre || this.videojuego.precio === null || !this.videojuego.descripcion || this.videojuego.stock === null || !this.videojuego.consolas || !this.videojuego.imagenUrl) {
+    // Verifica si algún campo está vacío o si el estado no está seleccionado
+    if (!this.videojuego.nombre || this.videojuego.precio === null || !this.videojuego.descripcion || this.videojuego.stock === null || !this.videojuego.consolas || !this.videojuego.imagenUrl || !this.estado) {
       this.errorCampos = true;
       return; // Salir si hay errores
     }

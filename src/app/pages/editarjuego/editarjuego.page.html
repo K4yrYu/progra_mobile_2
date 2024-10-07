@@ -8,7 +8,7 @@
   <div class="editarjuego-container">
     <ion-list>
       <h1>Editar Juego</h1>
-      
+
       <ion-item>
         <ion-label>Nombre del Videojuego</ion-label>
         <ion-input class="custom-input" type="text" [(ngModel)]="videojuego.nombre"></ion-input>
@@ -29,9 +29,14 @@
         <ion-input class="custom-input" type="number" [(ngModel)]="videojuego.stock"></ion-input>
       </ion-item>
 
+      <!-- Select para el estado del videojuego -->
       <ion-item>
-        <ion-label>Consolas Compatibles</ion-label>
-        <ion-input class="custom-input" type="text" [(ngModel)]="videojuego.consolas"></ion-input>
+        <ion-label>Estado</ion-label>
+        <mat-select [(ngModel)]="estado">
+          <mat-option *ngFor="let estado of estados" [value]="estado.value">
+            {{ estado.viewValue }}
+          </mat-option>
+        </mat-select>
       </ion-item>
 
       <ion-item>
