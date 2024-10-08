@@ -28,23 +28,32 @@
         <ion-input [(ngModel)]="stock" class="custom-input" type="number" inputmode="numeric" (ionBlur)="validarNumeroEntero('stock')" min="0"></ion-input>
       </ion-item>
 
-      <ion-button expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+      <!-- Botón para tomar la foto -->
+      <ion-button expand="full" (click)="tomarFoto()">
+        Tomar Foto
+      </ion-button>
 
       <!-- Mostrar la imagen si está disponible -->
       <div *ngIf="urlImagen" style="height: 250px; width: 250px; overflow: hidden;">
-        <img [src]="urlImagen" style="height: 100%; width: 100%; object-fit: cover;" alt="Imagen del juguete" />
+        <img [src]="urlImagen" style="height: 100%; width: 100%; object-fit: cover;" alt="Imagen del juego" />
       </div>
 
       <!-- Mensajes de error -->
-      <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
+      <p *ngIf="errorCampos" class="error-message">
+        Todos los campos son obligatorios. Por favor, completa todos los campos.
+      </p>
       <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
       <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
       <p *ngIf="errorImagen" class="error-message">La imagen es obligatoria.</p>
     </ion-list>
 
-    <div style="height: 3pc;"></div>
+    <div style="height: 3pc;"></div> 
 
-    <ion-button class="boton" expand="full" (click)="validarCampos()">Agregar Juguete</ion-button>
-    <ion-button class="boton" expand="full" [routerLink]="['/crudjuguetes']">Volver</ion-button>
+    <ion-button class="boton" expand="full" (click)="validarCampos()">
+      Agregar Juguete
+    </ion-button>
+    <ion-button class="boton" expand="full" [routerLink]="['/crudjuguetes']">
+      Volver
+    </ion-button>
   </div>
 </ion-content>
