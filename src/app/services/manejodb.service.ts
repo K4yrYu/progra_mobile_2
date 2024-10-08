@@ -227,9 +227,9 @@ export class ManejodbService {
 
 
   //añadir usuario Admin
-  agregarUsuariosAdmin(rutU: string, nombresU: string, apellidosU: string, userU: string, claveU: string, correoU: string) {
+  agregarUsuariosAdmin(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
     // Lógica para agregar usuarios
-    return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, false, true, 1)', [rutU, nombresU, apellidosU, userU, claveU, correoU]).then(res => {
+    return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, 0, ?, 1)', [ rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU ]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Agregar", "Usuario Agregado");
       //se llama al select para mostrar la lista actualizada
@@ -240,9 +240,9 @@ export class ManejodbService {
   }
 
 
-  modificarUsuarios(idU: string, rutU: string, nombresU: string, apellidosU: string, userU: string, claveU: string, correoU: string, estadoU: boolean) {
+  modificarUsuarios(idU: any, rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
     // Lógica para modificar usuarios
-    return this.database.executeSql('UPDATE usuario SET rut_usuario = ?, nombres_usuario = ?, apellidos_usuario = ?, username = ?, clave = ?, correo = ?, estado_user = ? WHERE id_usuario = ?', [rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU, idU]).then(res => {
+    return this.database.executeSql('UPDATE usuario SET rut_usuario = ?, nombres_usuario = ?, apellidos_usuario = ?, username = ?, correo = ?, estado_user = ? WHERE id_usuario = ?', [rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU, idU]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Usuario modificado");
       //se llama al select para mostrar la lista actualizada
@@ -252,7 +252,7 @@ export class ManejodbService {
   });
   }
 
-  eliminarUsuarios(idU: string) {
+  eliminarUsuarios(idU: any) {
     return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?', [idU]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Usuario eliminado");
@@ -515,7 +515,7 @@ export class ManejodbService {
 
 
 
-  agregarConsolas(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
+  agregarConsola(nombre_prod: any, precio_prod:any, stock_prod: any, descripcion_prod: any, foto_prod: any) {
     // Lógica para agregar juguetes
     return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,3);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
       //se añade la alerta
@@ -543,7 +543,7 @@ export class ManejodbService {
 
 
 
-  eliminarConsolas(idCU: any) {
+  eliminarConsola(idCU: any) {
     return this.database.executeSql('DELETE FROM producto WHERE id_producto = ?', [idCU]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Consola eliminada");
