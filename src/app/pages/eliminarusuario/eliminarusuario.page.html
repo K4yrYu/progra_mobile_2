@@ -1,13 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>eliminarusuario</ion-title>
+    <ion-title>Eliminar Usuario</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">eliminarusuario</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding contenido-centrado">
+  <ion-list>
+    <ion-item>
+      <ion-thumbnail slot="start">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>Juan Pérez</h2> <!-- Nombre del usuario estático -->
+        <p><strong>Correo:</strong> juan.perezexample.com</p> <!-- Correo estático -->
+        <p><strong>Rol:</strong> Usuario</p> <!-- Rol estático -->
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="botones-centrados">
+    <ion-button color="danger" expand="full" (click)="eliminarUsuario()">
+      Eliminar
+    </ion-button>
+    <ion-button color="primary" expand="full" [routerLink]="['/crudusuarios']">
+      Cancelar
+    </ion-button>
+  </div>
 </ion-content>

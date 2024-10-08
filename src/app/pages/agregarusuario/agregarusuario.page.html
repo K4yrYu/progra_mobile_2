@@ -1,13 +1,88 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>agregarusuario</ion-title>
+    <ion-title>Agregar Usuario</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">agregarusuario</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="agregarusuario-container">
+    <ion-list>
+      <h1>Agregar Usuario</h1>
+
+      <!-- Campos del formulario -->
+      <ion-item>
+        <ion-label>Nombres</ion-label>
+        <ion-input [(ngModel)]="usuario.nombres" class="custom-input" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Apellidos</ion-label>
+        <ion-input [(ngModel)]="usuario.apellidos" class="custom-input" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>RUT</ion-label>
+        <ion-input [(ngModel)]="usuario.rut" class="custom-input" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Correo</ion-label>
+        <ion-input [(ngModel)]="usuario.correo" class="custom-input" type="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Usuario</ion-label>
+        <ion-input [(ngModel)]="usuario.usuario" class="custom-input" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Contraseña</ion-label>
+        <ion-input [(ngModel)]="usuario.contrasena" class="custom-input" type="password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Confirmar Contraseña</ion-label>
+        <ion-input [(ngModel)]="usuario.confirmarContrasena" class="custom-input" type="password"></ion-input>
+      </ion-item>
+
+      <!-- Selección de Rol -->
+      <ion-item>
+        <ion-label>Rol</ion-label>
+        <mat-select [(ngModel)]="usuario.rol">
+          <mat-option value="administrador">Administrador</mat-option>
+          <mat-option value="usuario">Usuario</mat-option>
+        </mat-select>
+      </ion-item>
+  
+      <!-- Selección de Estado -->
+      <ion-item>
+        <ion-label>Estado</ion-label>
+        <mat-select [(ngModel)]="usuario.estado">
+          <mat-option value="activo">Activo</mat-option>
+          <mat-option value="baneado">Baneado</mat-option>
+        </mat-select>
+      </ion-item>
+
+      <!-- Mensajes de error -->
+      <p *ngIf="errorCampos" class="error-message">
+        Todos los campos son obligatorios. Por favor, completa todos los campos.
+      </p>
+      <p *ngIf="errorContrasena" class="error-message">Las contraseñas no coinciden.</p>
+      <p *ngIf="errorFormatoContrasena" class="error-message">
+        La contraseña debe tener al menos 6 caracteres, incluyendo una letra minúscula, una letra mayúscula, un número y
+        un punto.
+      </p>
+      <p *ngIf="errorCorreo" class="error-message">El formato del correo es incorrecto.</p>
+      <p *ngIf="errorRut" class="error-message">El formato del RUT es incorrecto.</p>
+    </ion-list>
+
+    <div style="height: 3pc;"></div>
+
+    <ion-button class="boton" expand="full" (click)="validarCampos()">
+      Agregar Usuario
+    </ion-button>
+    <ion-button class="boton" expand="full" [routerLink]="['/crudusuarios']">
+      Volver
+    </ion-button>
+  </div>
 </ion-content>
