@@ -2,6 +2,8 @@ import { Component, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta sea correcta
 import Swiper from 'swiper'; // Muestra más de una tarjeta parcialmente visible esto se instala con un npm install swiper
+import { YouTubeService } from 'src/app/services/youtube.service'; // Asegúrate de que la ruta sea correcta
+
 
 @Component({
   selector: 'app-home',
@@ -22,32 +24,39 @@ export class HomePage implements AfterViewInit {
     {
       nomJ: 'Hollow Knight',
       precioJ: '$15.000',
-      imgJ: 'assets/img/juegos/caratula-hollow.jpeg'
+      imgJ: 'assets/img/juegos/caratula-hollow.jpeg',
+      videoId: 'y2EwIKVMTuU', // Añade el ID de vídeo correspondiente
     },
     {
       nomJ: 'Megaman11',
       precioJ: '$30.000',
-      imgJ: 'assets/img/juegos/caratula-megaman11.jpeg'
+      imgJ: 'assets/img/juegos/caratula-megaman11.jpeg',
+      videoId: 'sEjxVfWzgVI', // Añade el ID de vídeo correspondiente
+      
     },
     {
       nomJ: 'Skyrim',
       precioJ: '$20.000',
-      imgJ: 'assets/img/juegos/Skyrim_Cover.jpeg'
+      imgJ: 'assets/img/juegos/Skyrim_Cover.jpeg',
+      videoId: 'JSRtYpNRoN0&t=9s', // Añade el ID de vídeo correspondiente
     },
     {
       nomJ: 'Lies of pi',
       precioJ: '$40.000',
-      imgJ: 'assets/img/juegos/caratula-liesofp.jpeg'
+      imgJ: 'assets/img/juegos/caratula-liesofp.jpeg',
+      videoId: 'TYr1x25Z1Ak', // Añade el ID de vídeo correspondiente
     },
     {
       nomJ: 'Kakarot',
       precioJ: '$50.900',
-      imgJ: 'assets/img/juegos/dbz-kakaroto-portada.jpeg'
+      imgJ: 'assets/img/juegos/dbz-kakaroto-portada.jpeg',
+      videoId: 's0Xe1ggWDUI ', // Añade el ID de vídeo correspondiente
     },
     {
       nomJ: 'Gears Of War',
       precioJ: '$54.000',
-      imgJ: 'assets/img/juegos/gears of wars.jpeg'
+      imgJ: 'assets/img/juegos/gears of wars.jpeg',
+      videoId: 'wy8LRlS1SCc', // Añade el ID de vídeo correspondiente
     }
   ];
 
@@ -124,7 +133,9 @@ export class HomePage implements AfterViewInit {
   constructor(
     private router: Router, 
     private activedroute: ActivatedRoute, 
-    private alertasService: AlertasService // Inyección del servicio de alertas
+    private alertasService: AlertasService, // Inyección del servicio de alertas,
+    private youtubeService: YouTubeService // Inyección del servicio de YouTube
+
   ) {}
   
   ngAfterViewInit() {
@@ -134,4 +145,9 @@ export class HomePage implements AfterViewInit {
   compra() {
     this.alertasService.presentAlert('Añadido al carro', '¡Gracias!');
   }
+
+  verTrailer(videoId: string) {
+    this.youtubeService.openVideo(videoId);
+  }
 }
+ 
