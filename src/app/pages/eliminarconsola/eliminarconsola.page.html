@@ -8,12 +8,12 @@
   <ion-list>
     <ion-item>
       <ion-thumbnail slot="start">
-        <img src="assets/img/consolas/ps2-consola.jpeg" alt="Imagen de Consola">
+        <img [src]="consolaLlego.foto_prod" alt="sin imagen" style="height: 200px; width: 200px;"/>  
       </ion-thumbnail>
       <ion-label>
-        <h2>PlayStation 2</h2>
-        <p><strong>Stock:</strong> 20</p>
-        <p><strong>Precio:</strong> $459,990</p>
+        <h3>{{ consolaLlego.nombre_prod }}</h3>
+        <p><strong>Precio:</strong> {{ consolaLlego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
+        <p><strong>stock:</strong> {{ consolaLlego.stock_prod }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
