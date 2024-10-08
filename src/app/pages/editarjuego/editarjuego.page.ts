@@ -21,8 +21,7 @@ export class EditarjuegoPage implements OnInit {
     { value: '0', viewValue: 'No disponible' }, //0 False
   ];
 
-  // Propiedad para el estado seleccionado
-  estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado si lo prefieres
+  estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado
 
   juegoLlego: any;
 
@@ -45,20 +44,24 @@ export class EditarjuegoPage implements OnInit {
   errorStock: boolean = false;
   errorImagen: boolean = false;
 
-  constructor(private bd: ManejodbService, private router: Router, private activedroute: ActivatedRoute, private alertasService: AlertasService, private camaraService: CamaraService) {
-    this.activedroute.queryParams.subscribe(res=>{
-      if(this.router.getCurrentNavigation()?.extras.state){
+  constructor(
+    private bd: ManejodbService, 
+    private router: Router, 
+    private activedroute: ActivatedRoute, 
+    private alertasService: AlertasService, 
+    private camaraService: CamaraService
+  ) {
+    this.activedroute.queryParams.subscribe(res => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
         this.juegoLlego = this.router.getCurrentNavigation()?.extras?.state?.['juegoSelect'];
       }
     })
-   }
+  }
 
-  //arreglar pork no se ve el juego unico
   ngOnInit() {
     // verificar si la BD está disponible
     this.bd.dbState().subscribe(data => {
       if (data) {
-        // subscribir al observable de la consulta
         this.bd.fetchJuegoUnico().subscribe(res => {
           this.arregloJuegoUnico = res;
           this.bd.consultarJuegoPorId(this.juegoLlego.id_producto);
@@ -68,37 +71,43 @@ export class EditarjuegoPage implements OnInit {
   }
 
   async guardarCambios() {
-    // Reiniciar errores antes de la validación
+    this.resetErrores();
+
+    // Validación de campos
+    if (!this.juegoLlego.nombre_prod || this.juegoLlego.precio_prod === null || !this.juegoLlego.descripcion_prod || this.juegoLlego.stock_prod === null || !this.juegoLlego.foto_prod || !this.estado) {
+      this.errorCampos = true;
+      return;
+    }
+
+    if (this.juegoLlego.precio_prod < 0) {
+      this.errorPrecio = true;
+      return;
+    }
+
+    if (this.juegoLlego.stock_prod < 0) {
+      this.errorStock = true;
+      return;
+    }
+
+    await this.bd.modificarJuego(
+      this.juegoLlego.id_producto, 
+      this.juegoLlego.nombre_prod, 
+      this.juegoLlego.precio_prod, 
+      this.juegoLlego.stock_prod, 
+      this.juegoLlego.descripcion_prod, 
+      this.juegoLlego.foto_prod, 
+      this.estado
+    );
+
+    this.router.navigate(['/crudjuegos']);
+  }
+
+  private resetErrores() {
     this.errorCampos = false;
     this.errorPrecio = false;
     this.errorStock = false;
     this.errorImagen = false;
-
-    // Verifica si algún campo está vacío o si el estado no está seleccionado
-    if (!this.juegoLlego.nombre_prod || this.juegoLlego.precio_prod === null || !this.juegoLlego.descripcion_prod || this.juegoLlego.stock_prod === null || !this.juegoLlego.foto_prod || !this.estado) {
-      this.errorCampos = true;
-      return; // Salir si hay errores
-    }
-
-    // Verifica si el precio es menor a 0
-    if (this.juegoLlego.precio_prod < 0) {
-      this.errorPrecio = true;
-      return; // Salir si hay errores
-    }
-
-    // Verifica si el stock es menor a 0
-    if (this.juegoLlego.stock_prod < 0) {
-      this.errorStock = true;
-      return; // Salir si hay errores
-    }
-
-
-    await this.bd.modificarJuego(this.juegoLlego.id_producto, this.juegoLlego.nombre_prod, this.juegoLlego.precio_prod, this.juegoLlego.stock_prod, this.juegoLlego.descripcion_prod, this.juegoLlego.foto_prod, this.estado);
-
-    // Navegar a la página deseada
-    this.router.navigate(['/crudjuegos']);
   }
-
 
   // Método para capturar la imagen usando el servicio de cámara
   async tomarFoto() {
@@ -116,6 +125,12 @@ export class EditarjuegoPage implements OnInit {
     }
   }
 
-
-  
+  // Método para validar que los valores de precio y stock sean enteros
+  validarNumeroEntero(campo: string) {
+    if (campo === 'precio') {
+      this.juegoLlego.precio_prod = Math.floor(this.juegoLlego.precio_prod || 0); // Redondea hacia abajo si es decimal
+    } else if (campo === 'stock') {
+      this.juegoLlego.stock_prod = Math.floor(this.juegoLlego.stock_prod || 0); // Redondea hacia abajo si es decimal
+    }
+  }
 }

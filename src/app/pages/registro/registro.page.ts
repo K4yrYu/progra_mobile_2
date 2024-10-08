@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
+  nombres: string = '';
+  apellidos: string = '';
+  rut: string = '';
   usuario: string = '';
   correo: string = '';
   contrasena: string = '';
@@ -23,13 +26,20 @@ export class RegistroPage implements OnInit {
     if (!this.mensajesValidacion) {
       // Si no hay mensajes de validación, redirigir al usuario
       this.router.navigate(['/home']);
+      this.reiniciarCampos(); // Reiniciar campos después del registro
     }
   }
 
   validarFormulario(): string {
     // Validar campos vacíos
-    if (!this.usuario || !this.correo || !this.contrasena || !this.confirmarContrasena) {
+    if (!this.nombres || !this.apellidos || !this.rut || !this.usuario || !this.correo || !this.contrasena || !this.confirmarContrasena) {
       return 'Todos los campos son obligatorios.';
+    }
+
+    // Validar formato del RUT (puedes ajustar la expresión regular según tus necesidades)
+    const rutValido = /^[0-9]+[-][0-9kK]{1}$/.test(this.rut);
+    if (!rutValido) {
+      return 'El formato del RUT es inválido.';
     }
 
     // Validar formato del correo
@@ -51,5 +61,16 @@ export class RegistroPage implements OnInit {
 
     // Si todas las validaciones pasan, no retornar mensaje
     return '';
+  }
+
+  reiniciarCampos() {
+    this.nombres = '';
+    this.apellidos = '';
+    this.rut = '';
+    this.usuario = '';
+    this.correo = '';
+    this.contrasena = '';
+    this.confirmarContrasena = '';
+    this.mensajesValidacion = '';
   }
 }

@@ -33,9 +33,16 @@ export class LoginPage implements OnInit {
       this.router.navigate(['/perfil'], {
         queryParams: { userconect: this.usernameunlogged }
       });
+      this.resetFields(); // Llama a la función para limpiar los campos
       this.loginError = false;
     } else {
       this.loginError = true;
     }
+  }
+
+  // Función para limpiar los campos
+  resetFields() {
+    this.usernameunlogged = "";
+    this.password = "";
   }
 }

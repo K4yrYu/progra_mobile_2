@@ -20,18 +20,15 @@
 
       <ion-item>
         <ion-label>Precio</ion-label>
-        <ion-input [(ngModel)]="precio" class="custom-input" type="number"></ion-input>
+        <ion-input [(ngModel)]="precio" class="custom-input" type="number" inputmode="numeric" (ionBlur)="validarNumeroEntero('precio')" min="0"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Stock</ion-label>
-        <ion-input [(ngModel)]="stock" class="custom-input" type="number"></ion-input>
+        <ion-input [(ngModel)]="stock" class="custom-input" type="number" inputmode="numeric" (ionBlur)="validarNumeroEntero('stock')" min="0"></ion-input>
       </ion-item>
 
-      <!-- Botón para tomar la foto -->
-      <ion-button expand="full" (click)="tomarFoto()">
-        Tomar Foto
-      </ion-button>
+      <ion-button expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
 
       <!-- Mostrar la imagen si está disponible -->
       <div *ngIf="urlImagen" style="height: 250px; width: 250px; overflow: hidden;">
@@ -39,21 +36,15 @@
       </div>
 
       <!-- Mensajes de error -->
-      <p *ngIf="errorCampos" class="error-message">
-        Todos los campos son obligatorios. Por favor, completa todos los campos.
-      </p>
+      <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
       <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
       <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
       <p *ngIf="errorImagen" class="error-message">La imagen es obligatoria.</p>
     </ion-list>
 
-    <div style="height: 3pc;"></div> 
+    <div style="height: 3pc;"></div>
 
-    <ion-button class="boton" expand="full" (click)="validarCampos()">
-      Agregar Juego
-    </ion-button>
-    <ion-button class="boton" expand="full" [routerLink]="['/crudjuegos']">
-      Volver
-    </ion-button>
+    <ion-button class="boton" expand="full" (click)="validarCampos()">Agregar Juego</ion-button>
+    <ion-button class="boton" expand="full" [routerLink]="['/crudjuegos']">Volver</ion-button>
   </div>
 </ion-content>

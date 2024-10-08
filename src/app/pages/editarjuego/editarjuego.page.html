@@ -21,12 +21,12 @@
 
       <ion-item>
         <ion-label>Precio</ion-label>
-        <ion-input class="custom-input" type="number" [(ngModel)]="juegoLlego.precio_prod"></ion-input>
+        <ion-input class="custom-input" type="number" [(ngModel)]="juegoLlego.precio_prod" (ionBlur)="validarNumeroEntero('precio')"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Stock</ion-label>
-        <ion-input class="custom-input" type="number" [(ngModel)]="juegoLlego.stock_prod"></ion-input>
+        <ion-input class="custom-input" type="number" [(ngModel)]="juegoLlego.stock_prod" (ionBlur)="validarNumeroEntero('stock')"></ion-input>
       </ion-item>
 
       <!-- Botón para tomar la foto -->
@@ -48,7 +48,6 @@
         </mat-select>
       </ion-item>
 
-
       <!-- Mensajes de error -->
       <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
       <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
@@ -56,9 +55,10 @@
       <p *ngIf="errorImagen" class="error-message">La imagen es obligatoria.</p>
     
       <div style="height: 3pc;"></div> 
-      
     </ion-list>
+
     <ion-button class="boton" expand="full" (click)="guardarCambios()">Guardar Cambios</ion-button>
     <ion-button class="boton" expand="full" [routerLink]="['/crudjuegos']">Volver</ion-button>
   </div>
 </ion-content>
+
