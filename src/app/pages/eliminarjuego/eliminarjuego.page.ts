@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta sea correcta
 import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
@@ -25,7 +24,7 @@ export class EliminarjuegoPage implements OnInit {
     }
   ]
 
-  constructor(private bd: ManejodbService, private router: Router, private activedroute: ActivatedRoute, private alertasService: AlertasService) {
+  constructor(private bd: ManejodbService, private router: Router, private activedroute: ActivatedRoute) {
     this.activedroute.queryParams.subscribe(res=>{
       if(this.router.getCurrentNavigation()?.extras.state){
         this.juegoLlego = this.router.getCurrentNavigation()?.extras?.state?.['juegoSelect'];

@@ -8,12 +8,12 @@
   <ion-list>
     <ion-item>
       <ion-thumbnail slot="start">
-        <img src="assets/img/juguetes/spiderman-juguete.jpg" alt="Imagen de Juguete">
+        <img [src]="jugueteLlego.foto_prod" alt="sin imagen" style="height: 250px; width: 250px;"/>  
       </ion-thumbnail>
       <ion-label>
-        <h2>Funko Pop de Spider-MAN</h2>
-        <p><strong>Stock:</strong> 50</p>
-        <p><strong>Precio:</strong> $19,990</p>
+        <h3>{{ jugueteLlego.nombre_prod }}</h3>
+        <p><strong>Precio:</strong> {{ jugueteLlego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
+        <p><strong>stock:</strong> {{ jugueteLlego.stock_prod }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
