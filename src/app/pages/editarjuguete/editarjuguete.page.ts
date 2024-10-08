@@ -16,12 +16,11 @@ interface Estado {
 export class EditarjuguetePage implements OnInit {
 
   estados: Estado[] = [
-    { value: '1', viewValue: 'Disponible' }, //1  true
-    { value: '0', viewValue: 'No disponible' }, //0 False
+    { value: '1', viewValue: 'Disponible' }, // 1: true
+    { value: '0', viewValue: 'No disponible' }, // 0: false
   ];
 
   estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado
-
   jugueteLlego: any;
 
   arregloJugueteUnico: any = [
@@ -29,13 +28,13 @@ export class EditarjuguetePage implements OnInit {
       id_producto: '',
       nombre_prod: '',
       precio_prod: '',
-      stock_prod:  '',
-      descripcion_prod: '',  
+      stock_prod: '',
+      descripcion_prod: '',
       foto_prod: '',
       estatus: '',
       id_categoria: '',
     }
-  ]
+  ];
 
   // Variables de control para los mensajes de error
   errorCampos: boolean = false;
@@ -53,11 +52,11 @@ export class EditarjuguetePage implements OnInit {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.jugueteLlego = this.router.getCurrentNavigation()?.extras?.state?.['jugueteSelect'];
       }
-    })
+    });
   }
 
   ngOnInit() {
-    // verificar si la BD está disponible
+    // Verificar si la BD está disponible
     this.bd.dbState().subscribe(data => {
       if (data) {
         this.bd.fetchJuguetesUnico().subscribe(res => {
@@ -132,4 +131,3 @@ export class EditarjuguetePage implements OnInit {
     }
   }
 }
-

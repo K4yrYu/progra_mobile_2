@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
-import { CamaraService } from 'src/app/services/camara.service';
+import { AlertasService } from 'src/app/services/alertas.service';
 import { ManejodbService } from 'src/app/services/manejodb.service';
+import { CamaraService } from 'src/app/services/camara.service'; // Importa el servicio
 
 @Component({
   selector: 'app-agregarjuguete',
   templateUrl: './agregarjuguete.page.html',
   styleUrls: ['./agregarjuguete.page.scss'],
 })
-export class AgregarjuguetePage implements OnInit {
-
+export class AgregarJuguetePage implements OnInit {
   nombre: string = '';
   descripcion: string = '';
   precio!: number;
@@ -24,6 +23,7 @@ export class AgregarjuguetePage implements OnInit {
 
   constructor(
     private router: Router,
+    private alertasService: AlertasService,
     private bd: ManejodbService,
     private camaraService: CamaraService // Inyecta el servicio
   ) {}
@@ -72,6 +72,15 @@ export class AgregarjuguetePage implements OnInit {
     } catch (error) {
       console.error('Error al tomar la foto:', error);
       this.errorImagen = true; // Mostrar mensaje de error si algo falla
+    }
+  }
+
+  // Método para validar que los valores de precio y stock sean enteros
+  validarNumeroEntero(campo: string) {
+    if (campo === 'precio') {
+      this.precio = Math.floor(this.precio || 0); // Redondea hacia abajo si es decimal
+    } else if (campo === 'stock') {
+      this.stock = Math.floor(this.stock || 0); // Redondea hacia abajo si es decimal
     }
   }
 }
