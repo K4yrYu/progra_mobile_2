@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
+import { CamaraService } from 'src/app/services/camara.service';
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
   selector: 'app-agregarjuguete',
@@ -9,63 +11,67 @@ import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate
 })
 export class AgregarjuguetePage implements OnInit {
 
-  // Variables vinculadas a los campos del formulario
   nombre: string = '';
   descripcion: string = '';
-  precio: number | null = null;
-  stock: number | null = null;
+  precio!: number;
+  stock!: number;
   urlImagen: string = '';
-  
-  // Variables para los mensajes de error
+
   errorCampos: boolean = false;
   errorPrecio: boolean = false;
   errorStock: boolean = false;
+  errorImagen: boolean = false;
 
-  constructor(private router: Router, private alertasService: AlertasService) {}
+  constructor(
+    private router: Router,
+    private bd: ManejodbService,
+    private camaraService: CamaraService // Inyecta el servicio
+  ) {}
 
   ngOnInit() {}
 
   async validarCampos() {
-    // Reiniciar errores
+    this.resetErrores();
+
+    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.urlImagen) {
+      this.errorCampos = true;
+      return;
+    }
+
+    if (this.precio < 0) {
+      this.errorPrecio = true;
+      return;
+    }
+
+    if (this.stock < 0) {
+      this.errorStock = true;
+      return;
+    }
+
+    await this.bd.agregarJuguetes(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
+    this.router.navigate(['/crudjuguetes']);
+  }
+
+  private resetErrores() {
     this.errorCampos = false;
     this.errorPrecio = false;
     this.errorStock = false;
+    this.errorImagen = false;
+  }
 
-    // Verificar si algún campo está vacío
-    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.urlImagen) {
-      this.errorCampos = true;
+  // Método para capturar la imagen usando el servicio de cámara
+  async tomarFoto() {
+    try {
+      const fotoUrl = await this.camaraService.takePicture();
+      if (fotoUrl) {
+        this.urlImagen = fotoUrl; // Asigna la URL de la imagen
+        this.errorImagen = false; // Limpia el error si se toma la foto
+      } else {
+        this.errorImagen = true; // Manejo si no se devuelve una imagen
+      }
+    } catch (error) {
+      console.error('Error al tomar la foto:', error);
+      this.errorImagen = true; // Mostrar mensaje de error si algo falla
     }
-
-    // Verificar si el precio es menor a 0
-    if (this.precio !== null && this.precio < 0) {
-      this.errorPrecio = true;
-    }
-
-    // Verificar si el stock es menor a 0
-    if (this.stock !== null && this.stock < 0) {
-      this.errorStock = true;
-    }
-
-    // Si hay errores, mostrar alertas correspondientes
-    if (this.errorCampos) {
-      await this.alertasService.presentAlert('Error', 'Todos los campos son obligatorios.');
-      return;
-    }
-
-    if (this.errorPrecio) {
-      await this.alertasService.presentAlert('Error', 'El precio no puede ser menor a 0.');
-      return;
-    }
-
-    if (this.errorStock) {
-      await this.alertasService.presentAlert('Error', 'El stock no puede ser menor a 0.');
-      return;
-    }
-
-    // Si todos los campos son válidos, mostrar alerta de éxito
-    await this.alertasService.presentAlert('Éxito', 'Juguete agregado correctamente');
-
-    // Navegar a la página deseada
-    this.router.navigate(['/crudjuguetes']);
   }
 }

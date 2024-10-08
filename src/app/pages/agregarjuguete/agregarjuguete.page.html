@@ -6,11 +6,10 @@
 
 <ion-content [fullscreen]="true">
   <div class="agregarjuguete-container">
-    <ion-list>
-      <h1>Agregar Juguete</h1>
-      
+    <ion-list> 
+      <h1>Agregar Juguete</h1> 
       <ion-item>
-        <ion-label>Nombre del juguete</ion-label>
+        <ion-label>Nombre del Juguete</ion-label>
         <ion-input [(ngModel)]="nombre" class="custom-input" type="text"></ion-input>
       </ion-item>
 
@@ -29,15 +28,26 @@
         <ion-input [(ngModel)]="stock" class="custom-input" type="number"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label>Imagen</ion-label>
-        <ion-input [(ngModel)]="urlImagen" class="custom-input" type="url"></ion-input>
-        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
-      </ion-item>
+      <!-- Botón para tomar la foto -->
+      <ion-button expand="full" (click)="tomarFoto()">
+        Tomar Foto
+      </ion-button>
 
+      <!-- Mostrar la imagen si está disponible -->
+      <div *ngIf="urlImagen" style="height: 250px; width: 250px; overflow: hidden;">
+        <img [src]="urlImagen" style="height: 100%; width: 100%; object-fit: cover;" alt="Imagen del juego" />
+      </div>
+
+      <!-- Mensajes de error -->
+      <p *ngIf="errorCampos" class="error-message">
+        Todos los campos son obligatorios. Por favor, completa todos los campos.
+      </p>
+      <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
+      <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
+      <p *ngIf="errorImagen" class="error-message">La imagen es obligatoria.</p>
     </ion-list>
 
-    <div style="height: 3pc;"></div>
+    <div style="height: 3pc;"></div> 
 
     <ion-button class="boton" expand="full" (click)="validarCampos()">
       Agregar Juguete
@@ -45,13 +55,5 @@
     <ion-button class="boton" expand="full" [routerLink]="['/crudjuguetes']">
       Volver
     </ion-button>
-
-    <!-- Mensajes de error agrupados -->
-    <div class="error-messages" *ngIf="errorCampos || errorPrecio || errorStock">
-      <p *ngIf="errorCampos">Debe rellenar todos los campos.</p>
-      <p *ngIf="errorPrecio">El precio no puede ser menor a 0.</p>
-      <p *ngIf="errorStock">El stock no puede ser menor a 0.</p>
-    </div>
-    
   </div>
 </ion-content>

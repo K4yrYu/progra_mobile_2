@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
+import { AlertasService } from 'src/app/services/alertas.service';
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
   selector: 'app-crudjuguetes',
@@ -7,47 +10,59 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrudjuguetesPage implements OnInit {
 
-  juguetes: any = [
-    {
-      nombre: 'Funko Pop  de Spider-Man',
-      precio: 19990,
-      descripcion: 'Figura de Spider-Man .',
-      imagenUrl: 'assets/img/juguetes/spiderman-juguete.jpg',
-      stock: 50
-    },
-    {
-      nombre: 'Amibo Kirby',
-      precio: 14990,
-      descripcion: 'Figura coleccionable de kirby.',
-      imagenUrl: 'assets/img/juguetes/akirby-juguete.jpeg',
-      stock: 40
-    },
-    {
-      nombre: 'Funko Pop Coronel',
-      precio: 49990,
-      descripcion: 'Figura del coronel .',
-      imagenUrl: 'assets/img/juguetes/coronel-juguete.jpg',
-      stock: 30
-    },
-    {
-      nombre: 'Funko Pop Kratos',
-      precio: 69990,
-      descripcion: 'Figura de kratos.',
-      imagenUrl: 'assets/img/juguetes/Kratos2.jpg',
-      stock: 20
-    },
-    {
-      nombre: 'Zelda amibo',
-      precio: 9990,
-      descripcion: 'Amibo de zelda.',
-      imagenUrl: 'assets/img/juguetes/Zelda-juguete.png',
-      stock: 100
-    }
-  ];
+  jugueteSelect: any;
 
-  constructor() { }
+  //repetir pero cambiar a juguetes y consolas
+  arregloJuguetes: any = [
+    {
+      id_producto: '',
+      nombre_prod: '',
+      precio_prod: '',
+      stock_prod:  '',
+      descripcion_prod: '',  
+      foto_prod: '',
+      estatus: '',
+      id_categoria: ''
+    }
+  ]
+
+  
+
+
+  constructor(private alertasService: AlertasService, private bd: ManejodbService, private router: Router) { } // Inyección del servicio de alertas
 
   ngOnInit() {
+    // verificar si la BD está disponible
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        // subscribir al observable de la consulta
+        this.bd.fetchJuguetes().subscribe(res => {
+          this.arregloJuguetes = res;
+        });
+      }
+    });
+  }
+
+  agregarJuguete(){
+    this.router.navigate(['/agregarjuguete'])
+  }
+
+  eliminarJuguete(x: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        jugueteSelect: x
+      }
+    }
+    this.router.navigate(['/eliminarjuguete'], navigationExtras);
+  }
+
+  editarJuguete(x: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        jugueteSelect: x
+      }
+    }
+    this.router.navigate(['/editarjuguete'], navigationExtras);
   }
 
 }

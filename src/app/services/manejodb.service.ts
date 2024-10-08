@@ -65,23 +65,15 @@ export class ManejodbService {
 
   categoriasproductos2: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES('Juguete');";
 
-  categoriasproductos3: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES('Consola');";
-
-  //insert de los diferentes productos
-  // Insert 1
-registrojuego1= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('The Legend of Zelda: Breath of the Wild', 60000, 30, 'Explora el vasto mundo de Hyrule en una épica aventura.', 'null, 1, 1);";
-
-// Insert 2
-registrojuego2= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Super Mario Odyssey', 50000, 25, 'Únete a Mario en una odisea por diferentes mundos.', 'null', 1, 1);";
-
-// Insert 3
-registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES ('Animal Crossing: New Horizons', 45000, 40, 'Crea tu propia isla paradisíaca en este relajante simulador de vida.', 'null', 0, 1);";
+  categoriasproductos3: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES('Consola');"
 
   
   //--------------------------------------------------------------------------------------------------------
 
   //var para los registros de un select
   listadoUsuarios = new BehaviorSubject([]);
+  listadoUsuarioUnico = new BehaviorSubject([]); 
+  //esto para traer los datos del usuario cuando este se logge en el sistema
 
   //select juegos + juwgo unico
   listadoJuegos = new BehaviorSubject([]);
@@ -107,11 +99,29 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
     return this.listadoUsuarios.asObservable();
   }
 
+  fetchUsuarioUnico(): Observable<Usuarios[]>{
+    return this.listadoUsuarioUnico.asObservable();
+  }
+
   fetchJuegos(): Observable<Juegos[]>{
     return this.listadoJuegos.asObservable();
   }
   fetchJuegoUnico(): Observable<Juegos[]>{
     return this.listadoJuegoUnico.asObservable();
+  }
+
+  fetchJuguetes(): Observable<Juguetes[]>{
+    return this.listadoJuguetes.asObservable();
+  }
+  fetchJuguetesUnico(): Observable<Juguetes[]>{
+    return this.listadoJugueteUnico.asObservable();
+  }
+
+  fetchConsolas(): Observable<Consolas[]>{
+    return this.listadoConsolas.asObservable();
+  }
+  fetchConsolaUnico(): Observable<Consolas[]>{
+    return this.listadoConsolaUnico.asObservable();
   }
 
   dbState(){
@@ -160,14 +170,13 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
         await this.database.executeSql(this.categoriasproductos1, []);
         await this.database.executeSql(this.categoriasproductos2, []);
         await this.database.executeSql(this.categoriasproductos3, []);
-        await this.database.executeSql(this.registrojuego1, []);
-        await this.database.executeSql(this.registrojuego2, []);
-        await this.database.executeSql(this.registrojuego3, []);
       }
 
       // Actualizar la lista de usuarios después de insertar
       this.consultarUsuarios(); // Llamar a consultarUsuarios para refrescar la interfaz
       this.consultarJuegos();
+      this.consultarJuguetes();
+      this.consultarConsolas();
 
     } catch (e) {
       this.alertasService.presentAlert("Creación de tabla", "Error creando las tablas: " + JSON.stringify(e));
@@ -261,7 +270,6 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
   
   //OBTENER PRODUCTO POR ID (funcion del producto unico)
   // Método para obtener un producto específico por su ID
-  
 
   //se realizara un select * para cada producto 
   consultarJuegoPorId(idjuegoU: any){
@@ -289,6 +297,60 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
     })
   }
 
+  //-----------------------------------------------------------
+
+  consultarJuguetePorId(idjugueteU: any){
+    return this.database.executeSql('SELECT * FROM producto WHERE id_producto = ?', [idjugueteU]).then(resp => {
+      //variable para almacenar el resultado de la consulta
+      let itemsJGTU: Juguetes[] = [];
+      //verificar si hay registros en la consulta
+      if (resp.rows.length > 0) {
+        //se recorren los resultados
+        for (var i = 0; i < resp.rows.length; i++) {
+          //se agrega el registro a mi variable (itemsU)
+          itemsJGTU.push({
+            id_producto: resp.rows.item(i).id_producto, 
+            nombre_prod: resp.rows.item(i).nombre_prod, 
+            precio_prod: resp.rows.item(i).precio_prod,  
+            stock_prod: resp.rows.item(i).stock_prod,  
+            descripcion_prod: resp.rows.item(i).descripcion_prod,  
+            foto_prod: resp.rows.item(i).foto_prod, 
+            estatus: resp.rows.item(i).estatus, 
+            id_categoria: resp.rows.item(i).id_categoria
+          })
+        }
+      }
+      this.listadoJugueteUnico.next(itemsJGTU as any);
+    })
+  }
+
+  //---------------------------------------------------------------------------
+
+  consultarConsolaPorId(idconsolaU: any){
+    return this.database.executeSql('SELECT * FROM producto WHERE id_producto = ?', [idconsolaU]).then(resp => {
+      //variable para almacenar el resultado de la consulta
+      let itemsCU: Consolas[] = [];
+      //verificar si hay registros en la consulta
+      if (resp.rows.length > 0) {
+        //se recorren los resultados
+        for (var i = 0; i < resp.rows.length; i++) {
+          //se agrega el registro a mi variable (itemsU)
+          itemsCU.push({
+            id_producto: resp.rows.item(i).id_producto, 
+            nombre_prod: resp.rows.item(i).nombre_prod, 
+            precio_prod: resp.rows.item(i).precio_prod,  
+            stock_prod: resp.rows.item(i).stock_prod,  
+            descripcion_prod: resp.rows.item(i).descripcion_prod,  
+            foto_prod: resp.rows.item(i).foto_prod, 
+            estatus: resp.rows.item(i).estatus, 
+            id_categoria: resp.rows.item(i).id_categoria
+          })
+        }
+      }
+      this.listadoConsolaUnico.next(itemsCU as any);
+    })
+  }
+
   ////////--JUEGOS
   consultarJuegos(){
     return this.database.executeSql('SELECT * FROM producto WHERE id_categoria = 1', []).then(resp => {
@@ -298,7 +360,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
       if (resp.rows.length > 0) {
         //se recorren los resultados
         for (var i = 0; i < resp.rows.length; i++) {
-          //se agrega el registro a mi variable (itemsU)
+          //se agrega el registro a mi variable 
           itemsP.push({
             id_producto: resp.rows.item(i).id_producto, 
             nombre_prod: resp.rows.item(i).nombre_prod, 
@@ -318,7 +380,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
 
   agregarJuegos(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
-    // Lógica para agregar usuarios
+    // Lógica para agregar 
     return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Agregar", "Juego Agregado");
@@ -332,7 +394,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
 
   
   modificarJuego(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
-    // Lógica para modificar usuarios
+    // Lógica para modificar
     return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Modifciar", "juego Modificado");
@@ -356,6 +418,141 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
     });
   }
 
+
+  //---------------------------CRUD DE JUGUETES----------------------------------------------
+  consultarJuguetes(){
+    return this.database.executeSql('SELECT * FROM producto WHERE id_categoria = 2', []).then(resp => {
+      //variable para almacenar el resultado de la consulta
+      let itemsJGT: Juguetes[] = [];
+      //verificar si hay registros en la consulta
+      if (resp.rows.length > 0) {
+        //se recorren los resultados
+        for (var i = 0; i < resp.rows.length; i++) {
+          //se agrega el registro a mi variable 
+          itemsJGT.push({
+            id_producto: resp.rows.item(i).id_producto, 
+            nombre_prod: resp.rows.item(i).nombre_prod, 
+            precio_prod: resp.rows.item(i).precio_prod,  
+            stock_prod: resp.rows.item(i).stock_prod,  
+            descripcion_prod: resp.rows.item(i).descripcion_prod,  
+            foto_prod: resp.rows.item(i).foto_prod, 
+            estatus: resp.rows.item(i).estatus, 
+            id_categoria: resp.rows.item(i).id_categoria
+          })
+        }
+      }
+      this.listadoJuguetes.next(itemsJGT as any);
+    })
+  }
+
+
+
+  agregarJuguetes(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
+    // Lógica para agregar juguetes
+    return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,2);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
+      //se añade la alerta
+      this.alertasService.presentAlert("Agregar", "Juguete Agregado");
+      //se llama al select para mostrar la lista actualizada
+      this.consultarJuguetes();
+    }).catch(e=>{
+      this.alertasService.presentAlert("agregar", "Error: " + JSON.stringify(e)); 
+  });
+  }
+
+
+  
+  modificarJuguete(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
+    // Lógica para modificar juguetes
+    return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 2 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
+      //se añade la alerta
+      this.alertasService.presentAlert("Modificar", "juguete Modificado");
+      //se llama al select para mostrar la lista actualizada
+      this.consultarJuguetes();
+    }).catch(e=>{
+      this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e)); 
+  });
+  } 
+
+
+
+  eliminarJuguete(idJGT: any) {
+    return this.database.executeSql('DELETE FROM producto WHERE id_producto = ?', [idJGT]).then(res => {
+      //se añade la alerta
+      this.alertasService.presentAlert("Eliminar", "Juguete eliminado");
+      //se llama al select para mostrar la lista actualizada
+      this.consultarJuguetes();
+    }).catch(e=>{
+        this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e)); 
+    });
+  }
+
+  //---------------------------CRUD DE CONSOLAS----------------------------------------------
+
+  consultarConsolas(){
+    return this.database.executeSql('SELECT * FROM producto WHERE id_categoria = 3', []).then(resp => {
+      //variable para almacenar el resultado de la consulta
+      let itemsC: Consolas[] = [];
+      //verificar si hay registros en la consulta
+      if (resp.rows.length > 0) {
+        //se recorren los resultados
+        for (var i = 0; i < resp.rows.length; i++) {
+          //se agrega el registro a mi variable 
+          itemsC.push({
+            id_producto: resp.rows.item(i).id_producto, 
+            nombre_prod: resp.rows.item(i).nombre_prod, 
+            precio_prod: resp.rows.item(i).precio_prod,  
+            stock_prod: resp.rows.item(i).stock_prod,  
+            descripcion_prod: resp.rows.item(i).descripcion_prod,  
+            foto_prod: resp.rows.item(i).foto_prod, 
+            estatus: resp.rows.item(i).estatus, 
+            id_categoria: resp.rows.item(i).id_categoria
+          })
+        }
+      }
+      this.listadoConsolas.next(itemsC as any);
+    })
+  }
+
+
+
+  agregarConsolas(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
+    // Lógica para agregar juguetes
+    return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,3);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
+      //se añade la alerta
+      this.alertasService.presentAlert("Agregar", "Consola Agregada");
+      //se llama al select para mostrar la lista actualizada
+      this.consultarConsolas();
+    }).catch(e=>{
+      this.alertasService.presentAlert("agregar", "Error: " + JSON.stringify(e)); 
+  });
+  }
+
+
+  
+  modificarConsola(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
+    // Lógica para modificar juguetes
+    return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 3 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
+      //se añade la alerta
+      this.alertasService.presentAlert("Modificar", "Consola Modificada");
+      //se llama al select para mostrar la lista actualizada
+      this.consultarConsolas();
+    }).catch(e=>{
+      this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e)); 
+  });
+  } 
+
+
+
+  eliminarConsolas(idCU: any) {
+    return this.database.executeSql('DELETE FROM producto WHERE id_producto = ?', [idCU]).then(res => {
+      //se añade la alerta
+      this.alertasService.presentAlert("Eliminar", "Consola eliminada");
+      //se llama al select para mostrar la lista actualizada
+      this.consultarConsolas();
+    }).catch(e=>{
+        this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e)); 
+    });
+  }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////
 

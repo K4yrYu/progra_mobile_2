@@ -20,7 +20,7 @@
       </ion-thumbnail>
       <ion-label>
         <h2>{{ juego.nombre_prod }}</h2>
-        <p>$: {{ juego.precio_prod }}</p> 
+        <p>$: {{ juego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
       </ion-label>
     </ion-item>
     <ion-item lines="none" class="add-cart-item">
