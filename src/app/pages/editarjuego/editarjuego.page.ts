@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
 import { CamaraService } from 'src/app/services/camara.service';
 import { ManejodbService } from 'src/app/services/manejodb.service';
 
@@ -48,7 +47,6 @@ export class EditarjuegoPage implements OnInit {
     private bd: ManejodbService, 
     private router: Router, 
     private activedroute: ActivatedRoute, 
-    private alertasService: AlertasService, 
     private camaraService: CamaraService
   ) {
     this.activedroute.queryParams.subscribe(res => {

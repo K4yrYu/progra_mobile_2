@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
+import { ActivatedRoute, Router } from '@angular/router';
+import { CamaraService } from 'src/app/services/camara.service';
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 interface Estado {
   value: string;
@@ -15,58 +16,120 @@ interface Estado {
 export class EditarjuguetePage implements OnInit {
 
   estados: Estado[] = [
-    { value: 'disponible', viewValue: 'Disponible' },
-    { value: 'no disponible', viewValue: 'No disponible' },
+    { value: '1', viewValue: 'Disponible' }, //1  true
+    { value: '0', viewValue: 'No disponible' }, //0 False
   ];
 
-  // Propiedad para el estado seleccionado
-  estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado si lo prefieres
+  estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado
 
-  juguete: any = {
-    nombre: 'Funko Pop de Spider-Man',
-    precio: 19990,
-    descripcion: 'Figura de Spider-Man.',
-    imagenUrl: 'assets/img/juguetes/spiderman-juguete.jpg',
-    stock: 50
-  };
+  jugueteLlego: any;
 
-  // Variables para los mensajes de error
+  arregloJugueteUnico: any = [
+    {
+      id_producto: '',
+      nombre_prod: '',
+      precio_prod: '',
+      stock_prod:  '',
+      descripcion_prod: '',  
+      foto_prod: '',
+      estatus: '',
+      id_categoria: '',
+    }
+  ]
+
+  // Variables de control para los mensajes de error
   errorCampos: boolean = false;
   errorPrecio: boolean = false;
   errorStock: boolean = false;
+  errorImagen: boolean = false;
 
-  constructor(private router: Router, private alertasService: AlertasService) { }
+  constructor(
+    private bd: ManejodbService, 
+    private router: Router, 
+    private activedroute: ActivatedRoute,
+    private camaraService: CamaraService
+  ) {
+    this.activedroute.queryParams.subscribe(res => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.jugueteLlego = this.router.getCurrentNavigation()?.extras?.state?.['jugueteSelect'];
+      }
+    })
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // verificar si la BD está disponible
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        this.bd.fetchJuguetesUnico().subscribe(res => {
+          this.arregloJugueteUnico = res;
+          this.bd.consultarJuguetePorId(this.jugueteLlego.id_producto);
+        });
+      }
+    });
+  }
 
   async guardarCambios() {
-    // Reiniciar errores
+    this.resetErrores();
+
+    // Validación de campos
+    if (!this.jugueteLlego.nombre_prod || this.jugueteLlego.precio_prod === null || !this.jugueteLlego.descripcion_prod || this.jugueteLlego.stock_prod === null || !this.jugueteLlego.foto_prod || !this.estado) {
+      this.errorCampos = true;
+      return;
+    }
+
+    if (this.jugueteLlego.precio_prod < 0) {
+      this.errorPrecio = true;
+      return;
+    }
+
+    if (this.jugueteLlego.stock_prod < 0) {
+      this.errorStock = true;
+      return;
+    }
+
+    await this.bd.modificarJuguete(
+      this.jugueteLlego.id_producto, 
+      this.jugueteLlego.nombre_prod, 
+      this.jugueteLlego.precio_prod, 
+      this.jugueteLlego.stock_prod, 
+      this.jugueteLlego.descripcion_prod, 
+      this.jugueteLlego.foto_prod, 
+      this.estado
+    ); 
+
+    this.router.navigate(['/crudjuguetes']);
+  }
+
+  private resetErrores() {
     this.errorCampos = false;
     this.errorPrecio = false;
     this.errorStock = false;
+    this.errorImagen = false;
+  }
 
-    // Verificar si algún campo está vacío
-    if (!this.juguete.nombre || !this.juguete.descripcion || this.juguete.precio === null || this.juguete.stock === null || !this.juguete.imagenUrl || !this.estado) {
-      this.errorCampos = true;
-      return; // Salir si hay errores
+  // Método para capturar la imagen usando el servicio de cámara
+  async tomarFoto() {
+    try {
+      const fotoUrl = await this.camaraService.takePicture();
+      if (fotoUrl) {
+        this.jugueteLlego.foto_prod = fotoUrl; // Asigna la URL de la imagen
+        this.errorImagen = false; // Limpia el error si se toma la foto
+      } else {
+        this.errorImagen = true; // Manejo si no se devuelve una imagen
+      }
+    } catch (error) {
+      console.error('Error al tomar la foto:', error);
+      this.errorImagen = true; // Mostrar mensaje de error si algo falla
     }
+  }
 
-    // Verificar si el precio es menor a 0
-    if (this.juguete.precio < 0) {
-      this.errorPrecio = true;
-      return; // Salir si hay errores
+  // Método para validar que los valores de precio y stock sean enteros
+  validarNumeroEntero(campo: string) {
+    if (campo === 'precio') {
+      this.jugueteLlego.precio_prod = Math.floor(this.jugueteLlego.precio_prod || 0); // Redondea hacia abajo si es decimal
+    } else if (campo === 'stock') {
+      this.jugueteLlego.stock_prod = Math.floor(this.jugueteLlego.stock_prod || 0); // Redondea hacia abajo si es decimal
     }
-
-    // Verificar si el stock es menor a 0
-    if (this.juguete.stock < 0) {
-      this.errorStock = true;
-      return; // Salir si hay errores
-    }
-
-    // Si todos los campos son válidos, mostrar alerta de éxito
-    await this.alertasService.presentAlert('Éxito', 'Producto editado correctamente');
-
-    // Navegar a la página deseada
-    this.router.navigate(['/crudjuguetes']);
   }
 }
+
