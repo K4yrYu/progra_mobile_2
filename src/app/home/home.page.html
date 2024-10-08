@@ -18,7 +18,7 @@
     <!-- Swiper Slider (principales juegos y ofertas)-->
   
     <!-- Swiper Slider (titulo)-->
-    <h4 class="juguetes-oferta">Ofertas Juegos</h4>
+    <h4 class="juguetes-oferta">Proximos Videojuegos</h4>
     <!-- Swiper Slider (contenido)-->
     <div class="swiper-container">
       <div class="swiper-wrapper">
@@ -30,10 +30,6 @@
               <ion-card-subtitle>{{ colec_juegos.nomJ}}</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
-              <ion-button (click)="compra()">
-                <ion-icon name="cart-outline"></ion-icon>
-                Añadir
-              </ion-button>
               <ion-button (click)="verTrailer(colec_juegos.videoId)">
                 <ion-icon name="film-outline"></ion-icon>
                 Ver Trailer
@@ -48,7 +44,7 @@
     <!------------------------------------------------------------->
 
     <!-- Swiper Slider (titulo)-->
-    <h4 class="consolas-oferta">Ofertas Consolas</h4>
+    <h4 class="consolas-oferta">Proximas Consolas</h4>
     <!-- Swiper Slider (contenido)-->
     <div class="swiper-container">
       <div class="swiper-wrapper">
@@ -60,9 +56,9 @@
               <ion-card-subtitle>{{ colec_consolas.nomC}}</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
-              <ion-button (click)="compra()">
-                <ion-icon name="cart-outline"></ion-icon>
-                Añadir
+              <ion-button (click)="verTrailer(colec_consolas.videoId)">
+                <ion-icon name="film-outline"></ion-icon>
+                Ver Trailer
               </ion-button>
             </ion-card-content>
           </ion-card>
@@ -74,7 +70,7 @@
     <!------------------------------------------------------------->
 
     <!-- Swiper Slider (titulo)-->
-    <h4 class="juguetes-oferta">Ofertas Juguetes</h4>
+    <h4 class="juguetes-oferta">Proximos Juguetes</h4>
     <!-- Swiper Slider (contenido)-->
     <div class="swiper-container">
       <div class="swiper-wrapper">
@@ -86,9 +82,9 @@
               <ion-card-subtitle>{{ colec_juguetes.nomJT}}</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
-              <ion-button (click)="compra()">
-                <ion-icon name="cart-outline"></ion-icon>
-                Añadir
+              <ion-button (click)="verTrailer(colec_juguetes.videoId)">
+                <ion-icon name="film-outline"></ion-icon>
+                Ver Trailer
               </ion-button>
             </ion-card-content>
           </ion-card>

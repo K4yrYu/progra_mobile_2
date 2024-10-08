@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
   selector: 'app-crudconsolas',
@@ -7,47 +9,59 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrudconsolasPage implements OnInit {
 
-  consolas: any = [
-    {
-      nombre: 'PlayStation 2',
-      precio: 459990,
-      descripcion: 'Aguante la play 2.',
-      imagenUrl: 'assets/img/consolas/ps2-consola.jpeg',
-      stock: 20
-    },
-    {
-      nombre: 'Wii',
-      precio: 459990, 
-      descripcion: 'La consola más vendida de nintendo.',
-      imagenUrl: 'assets/img/consolas/wii-1.jpeg',
-      stock: 15
-    },
-    {
-      nombre: 'Nintendo Switch',
-      precio: 299990, 
-      descripcion: 'Una consola híbrida que se puede usar tanto como portátil como de sobremesa.',
-      imagenUrl: 'assets/img/consolas/nintendosw-1.jpeg',
-      stock: 30
-    },
-    {
-      nombre: 'PlayStation 4',
-      precio: 299990, 
-      descripcion: 'La consola anterior de Sony, aún popular con una gran biblioteca de juegos.',
-      imagenUrl: 'assets/img/consolas/ps4-1.jpeg',
-      stock: 25
-    },
-    {
-      nombre: 'Sega Genesis',
-      precio: 299990, 
-      descripcion: 'Una reliquia de los 80.',
-      imagenUrl: 'assets/img/consolas/sega-genesis-consola.jpeg',
-      stock: 18
-    }
-  ];
+  consolaSelect: any;
 
-  constructor() { }
+  //repetir pero cambiar a juguetes y consolas
+  arregloConsolas: any = [
+    {
+      id_producto: '',
+      nombre_prod: '',
+      precio_prod: '',
+      stock_prod:  '',
+      descripcion_prod: '',  
+      foto_prod: '',
+      estatus: '',
+      id_categoria: ''
+    }
+  ]
+
+  
+
+
+  constructor(private bd: ManejodbService, private router: Router) { } // Inyección del servicio de alertas
 
   ngOnInit() {
+    // verificar si la BD está disponible
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        // subscribir al observable de la consulta
+        this.bd.fetchConsolas().subscribe(res => {
+          this.arregloConsolas = res;
+        });
+      }
+    });
+  }
+
+  agregarConsola(){
+    this.router.navigate(['/agregarconsola'])
+  }
+
+  eliminarConsola(x: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        consolaSelect: x
+      }
+    }
+    this.router.navigate(['/eliminarconsola'], navigationExtras);
+  }
+
+  editarConsola(x: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        consolaSelect: x
+      }
+    }
+    this.router.navigate(['/editarconsola'], navigationExtras);
   }
 
 }

@@ -1,6 +1,4 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta sea correcta
 import Swiper from 'swiper'; // Muestra más de una tarjeta parcialmente visible esto se instala con un npm install swiper
 import { YouTubeService } from 'src/app/services/youtube.service'; // Asegúrate de que la ruta sea correcta
 
@@ -65,32 +63,38 @@ export class HomePage implements AfterViewInit {
     {
       nomC: 'Ps2',
       precioC: '$150.000',
-      imgC: 'assets/img/consolas/ps2-consola.jpeg'
+      imgC: 'assets/img/consolas/ps2-consola.jpeg',
+      videoId: 'Hvcps5dFzfc', // Añade el ID de vídeo correspondiente
     },
     {
       nomC: '2dsXL',
       precioC: '$210.000',
-      imgC: 'assets/img/consolas/2dsXL-consola.jpeg'
+      imgC: 'assets/img/consolas/2dsXL-consola.jpeg',
+      videoId: '6ua8CRQaBv4', // Añade el ID de vídeo correspondiente
     },
     {
       nomC: 'Switch',
       precioC: '$400.000',
-      imgC: 'assets/img/consolas/nintendosw-1.jpeg'
+      imgC: 'assets/img/consolas/nintendosw-1.jpeg',
+      videoId: 'iS-1tDfLxRQ', // Añade el ID de vídeo correspondiente
     },
     {
       nomC: 'Ps4',
       precioC: '$400.000',
-      imgC: 'assets/img/consolas/ps4-1.jpeg'
+      imgC: 'assets/img/consolas/ps4-1.jpeg',
+      videoId: 'NygHJeiVg10', // Añade el ID de vídeo correspondiente
     },
     {
       nomC: 'Sega Genesis',
       precioC: '$80.000',
-      imgC: 'assets/img/consolas/sega-genesis-consola.jpeg'
+      imgC: 'assets/img/consolas/sega-genesis-consola.jpeg',
+      videoId: '3YcRcXiuYOg', // Añade el ID de vídeo correspondiente
     },
     {
       nomC: 'Wii',
       precioC: '$120.000',
-      imgC: 'assets/img/consolas/wii-1.jpeg'
+      imgC: 'assets/img/consolas/wii-1.jpeg',
+      videoId: 'mBOaO7QTFMQ', // Añade el ID de vídeo correspondiente
     }
   ];
 
@@ -99,51 +103,50 @@ export class HomePage implements AfterViewInit {
     {
       nomJT: 'Batman ',
       precioJT: '$550.000',
-      imgJT: 'assets/img/juguetes/Batman-juguete.jpg'
+      imgJT: 'assets/img/juguetes/Batman-juguete.jpg',
+      videoId: 'ofZFAqnlVvY', // Añade el ID de vídeo correspondiente
     },
     {
       nomJT: 'C. Sanders',
       precioJT: '$20.000',
-      imgJT: 'assets/img/juguetes/coronel-juguete.jpg'
+      imgJT: 'assets/img/juguetes/coronel-juguete.jpg',
+      videoId: 'joDwiMy8TT4', // Añade el ID de vídeo correspondiente
     },
     {
       nomJT: 'Kirby Amiibo',
       precioJT: '$85.000',
-      imgJT: 'assets/img/juguetes/akirby-juguete.jpeg'
+      imgJT: 'assets/img/juguetes/akirby-juguete.jpeg',
+      videoId: '8WPw9U_7PXE', // Añade el ID de vídeo correspondiente
     },
     {
       nomJT: 'Kratos',
       precioJT: '$40.000',
-      imgJT: 'assets/img/juguetes/Kratos2.jpg'
+      imgJT: 'assets/img/juguetes/Kratos2.jpg',
+      videoId: 'JJ1arWpbFmM', // Añade el ID de vídeo correspondiente
     },
     {
       nomJT: 'Samus',
       precioJT: '$50.600',
-      imgJT: 'assets/img/juguetes/samus1.jpg'
+      imgJT: 'assets/img/juguetes/samus1.jpg',
+      videoId: 'jNbGAq_44sQ', // Añade el ID de vídeo correspondiente
     },
     {
       nomJT: 'Spiderman',
       precioJT: '$50.99',
-      imgJT: 'assets/img/juguetes/spiderman-juguete.jpg'
+      imgJT: 'assets/img/juguetes/spiderman-juguete.jpg',
+      videoId: 'MlbYeIxjSSI', // Añade el ID de vídeo correspondiente
     }
   ];
 
   usernamelogged!: string;
 
   constructor(
-    private router: Router, 
-    private activedroute: ActivatedRoute, 
-    private alertasService: AlertasService, // Inyección del servicio de alertas,
     private youtubeService: YouTubeService // Inyección del servicio de YouTube
 
   ) {}
   
   ngAfterViewInit() {
     new Swiper('.swiper-container', this.slideOpts);
-  }
-
-  compra() {
-    this.alertasService.presentAlert('Añadido al carro', '¡Gracias!');
   }
 
   verTrailer(videoId: string) {

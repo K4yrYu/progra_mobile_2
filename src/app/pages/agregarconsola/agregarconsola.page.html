@@ -6,12 +6,10 @@
 
 <ion-content [fullscreen]="true">
   <div class="agregarconsola-container">
-    <ion-list>
-      <h1>Agregar Consola</h1>
-
-      <!-- Campos del formulario -->
+    <ion-list> 
+      <h1>Agregar consola</h1> 
       <ion-item>
-        <ion-label>Nombre de la consola</ion-label>
+        <ion-label>Nombre de la Consola</ion-label>
         <ion-input [(ngModel)]="nombre" class="custom-input" type="text"></ion-input>
       </ion-item>
 
@@ -22,36 +20,31 @@
 
       <ion-item>
         <ion-label>Precio</ion-label>
-        <ion-input [(ngModel)]="precio" class="custom-input" type="number"></ion-input>
+        <ion-input [(ngModel)]="precio" class="custom-input" type="number" inputmode="numeric" (ionBlur)="validarNumeroEntero('precio')" min="0"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Stock</ion-label>
-        <ion-input [(ngModel)]="stock" class="custom-input" type="number"></ion-input>
+        <ion-input [(ngModel)]="stock" class="custom-input" type="number" inputmode="numeric" (ionBlur)="validarNumeroEntero('stock')" min="0"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label>Imagen</ion-label>
-        <ion-input [(ngModel)]="urlImagen" class="custom-input" type="url"></ion-input>
-        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
-      </ion-item>
+      <ion-button expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+
+      <!-- Mostrar la imagen si está disponible -->
+      <div *ngIf="urlImagen" style="height: 250px; width: 250px; overflow: hidden;">
+        <img [src]="urlImagen" style="height: 100%; width: 100%; object-fit: cover;" alt="Imagen del consola" />
+      </div>
 
       <!-- Mensajes de error -->
-      <p *ngIf="errorCampos" class="error-message">
-        Todos los campos son obligatorios. Por favor, completa todos los campos.
-      </p>
+      <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
       <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
       <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
-
+      <p *ngIf="errorImagen" class="error-message">La imagen es obligatoria.</p>
     </ion-list>
 
-    <div style="height: 3pc;"></div> 
+    <div style="height: 3pc;"></div>
 
-    <ion-button class="boton" expand="full" (click)="validarCampos()">
-      Agregar Consola
-    </ion-button>
-    <ion-button class="boton" expand="full" [routerLink]="['/crudconsolas']">
-      Volver
-    </ion-button>
+    <ion-button class="boton" expand="full" (click)="validarCampos()">Agregar Consola</ion-button>
+    <ion-button class="boton" expand="full" [routerLink]="['/crudconsolas']">Volver</ion-button>
   </div>
 </ion-content>

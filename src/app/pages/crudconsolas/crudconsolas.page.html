@@ -8,31 +8,31 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Botón para agregar una nueva Consolas, ubicado antes de la lista -->
+  <!-- Botón para agregar una nueva consola, ubicado antes de la lista -->
   <div class="add-button-container">
-    <ion-button [routerLink]="['/agregarconsola']">
+    <ion-button (click)="agregarConsola()">
       <ion-icon slot="start" name="add"></ion-icon>
       Agregar Consola
     </ion-button>
   </div>
 
-  <!-- Lista de Consolas -->
+  <!-- Lista de consolas -->
   <ion-list>
-    <ion-item *ngFor="let consola of consolas">
+    <ion-item *ngFor="let consola of arregloConsolas">
       <ion-thumbnail slot="start">
-        <img [src]="consola.imagenUrl" alt="{{ consola.nombre }}">
+        <img [src]="consola.foto_prod" alt="sin imagen" style="height: 100px; width: 100px;"/>  
       </ion-thumbnail>
       <ion-label>
-        <h3>{{ consola.nombre }}</h3>
-        <p><strong>Precio:</strong> {{ consola.precio| currency:'CLP':'symbol':'1.0-0' }}</p>
-        <p><strong>Stock:</strong> {{ consola.stock }}</p>
+        <h3>{{ consola.nombre_prod }}</h3>
+        <p><strong>Precio:</strong> {{ consola.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
+        <p><strong>stock:</strong> {{ consola.stock_prod }}</p>
       </ion-label>
       <!-- Botones de acción para editar y eliminar -->
       <ion-buttons slot="end">
-        <ion-button [routerLink]="['/editarconsola']">
+        <ion-button color="primary" (click)="editarConsola(consola)">
           <ion-icon slot="icon-only" name="create"></ion-icon>
         </ion-button>
-        <ion-button color="danger" [routerLink]="['/eliminarconsola']">
+        <ion-button color="danger" (click)="eliminarConsola(consola)">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-button>
       </ion-buttons>
