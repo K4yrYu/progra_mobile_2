@@ -330,7 +330,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
   }
 
 
-  /*
+  
   modificarJuego(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
     // Lógica para modificar usuarios
     return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
@@ -341,7 +341,7 @@ registrojuego3= "INSERT INTO producto (nombre_prod, precio_prod, stock_prod, des
     }).catch(e=>{
       this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e)); 
   });
-  } */
+  } 
 
 
 

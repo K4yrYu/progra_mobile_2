@@ -56,8 +56,13 @@ export class CrudjuegosPage implements OnInit {
     this.router.navigate(['/eliminarjuego'], navigationExtras);
   }
 
-  editarJuego(){
-
+  editarJuego(x: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        juegoSelect: x
+      }
+    }
+    this.router.navigate(['/editarjuego'], navigationExtras);
   }
 
 }

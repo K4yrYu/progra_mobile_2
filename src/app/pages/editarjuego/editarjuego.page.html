@@ -11,29 +11,33 @@
 
       <ion-item>
         <ion-label>Nombre del Videojuego</ion-label>
-        <ion-input class="custom-input" type="text" [(ngModel)]="videojuego.nombre"></ion-input>
+        <ion-input class="custom-input" type="text" [(ngModel)]="juegoLlego.nombre_prod"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Descripción</ion-label>
-        <ion-textarea class="custom-input" [(ngModel)]="videojuego.descripcion"></ion-textarea>
+        <ion-textarea class="custom-input" [(ngModel)]="juegoLlego.descripcion_prod"></ion-textarea>
       </ion-item>
 
       <ion-item>
         <ion-label>Precio</ion-label>
-        <ion-input class="custom-input" type="number" [(ngModel)]="videojuego.precio"></ion-input>
+        <ion-input class="custom-input" type="number" [(ngModel)]="juegoLlego.precio_prod"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label>Stock</ion-label>
-        <ion-input class="custom-input" type="number" [(ngModel)]="videojuego.stock"></ion-input>
+        <ion-input class="custom-input" type="number" [(ngModel)]="juegoLlego.stock_prod"></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-label>Imagen</ion-label>
-        <ion-input class="custom-input" type="url" [(ngModel)]="videojuego.imagenUrl"></ion-input>
-        <ion-icon name="camera" slot="end" class="camera-icon"></ion-icon>
-      </ion-item>
+      <!-- Botón para tomar la foto -->
+      <ion-button expand="full" (click)="tomarFoto()">
+        Tomar Foto
+      </ion-button>
+
+      <!-- Mostrar la imagen si está disponible -->
+      <div *ngIf="juegoLlego.foto_prod" style="height: 250px; width: 250px; overflow: hidden;">
+        <img [src]="juegoLlego.foto_prod" style="height: 100%; width: 100%; object-fit: cover;" alt="Imagen del juego" />
+      </div>
 
       <ion-item>
         <ion-label>Estado</ion-label>
@@ -49,6 +53,7 @@
       <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
       <p *ngIf="errorPrecio" class="error-message">El precio no puede ser menor a 0.</p>
       <p *ngIf="errorStock" class="error-message">El stock no puede ser menor a 0.</p>
+      <p *ngIf="errorImagen" class="error-message">La imagen es obligatoria.</p>
     
       <div style="height: 3pc;"></div> 
       

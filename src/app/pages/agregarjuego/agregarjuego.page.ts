@@ -14,7 +14,6 @@ export class AgregarjuegoPage implements OnInit {
   descripcion: string = '';
   precio!: number;
   stock!: number;
-  consolas: string = ''; 
   urlImagen: string = '';
 
   errorCampos: boolean = false;
@@ -34,7 +33,7 @@ export class AgregarjuegoPage implements OnInit {
   async validarCampos() {
     this.resetErrores();
 
-    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.consolas || !this.urlImagen) {
+    if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.urlImagen) {
       this.errorCampos = true;
       return;
     }
