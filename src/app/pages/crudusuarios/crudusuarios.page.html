@@ -1,28 +1,51 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <!-- Botón de regreso con texto "Volver" -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" text="Atras" icon="arrow-back-outline" [routerLink]="['/paneladmin']"></ion-back-button>
     </ion-buttons>
     <ion-title>CRUD Usuarios</ion-title>
-    <!-- Botones de acción para editar y eliminar -->
-    <ion-buttons slot="end">
-      <ion-button [routerLink]="['/editarusuario']">
-        <ion-icon slot="icon-only" name="create"></ion-icon>
-      </ion-button>
-      <ion-button color="danger" [routerLink]="['/eliminarusuario']">
-        <ion-icon slot="icon-only" name="trash"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Botón para agregar un nuevo videojuego, ubicado antes de la lista -->
-  <div class="add-button-container">
-    <ion-button [routerLink]="['/agregarusuario']">
+  <!-- Botón para agregar un nuevo usuario, ubicado antes de la lista -->
+  <div class="add-button-container" style="padding: 16px;">
+    <ion-button expand="full" [routerLink]="['/agregarusuario']">
       <ion-icon slot="start" name="add"></ion-icon>
-      Agregar Usuarios
+      Agregar Usuario
     </ion-button>
   </div>
+
+  <!-- Lista de Usuarios -->
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        Usuario 1
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/editarusuario']">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" [routerLink]="['/eliminarusuario']">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Usuario 2
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/editarusuario']">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" [routerLink]="['/eliminarusuario']">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Más usuarios pueden ser añadidos aquí -->
+  </ion-list>
 </ion-content>
