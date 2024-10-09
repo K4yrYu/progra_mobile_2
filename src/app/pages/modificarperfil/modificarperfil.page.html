@@ -10,11 +10,11 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <!-- Foto de perfil -->
-      <ion-img src="assets/img/Zero.png" alt="Imagen de perfil" class="profile-image"></ion-img>
+      <!-- Foto de perfil, muestra la imagen cargada o la imagen predeterminada -->
+      <ion-img [src]="getProfileImage()" alt="Imagen de perfil" class="profile-image"></ion-img>
 
       <!-- Botón Cambiar con ícono de cámara -->
-      <ion-button expand="block" color="primary" class="btnCCP">
+      <ion-button expand="block" color="primary" class="btnCCP" (click)="cambiarImagenPerfil()">
         <ion-icon name="camera"></ion-icon>
         Cambiar
       </ion-button>
@@ -39,11 +39,12 @@
         <ion-input type="email" placeholder="Correo" clear-input [(ngModel)]="correo" required></ion-input>
       </ion-item>
 
+      <!-- Botón para confirmar la modificación -->
       <ion-button class="btnCCP" expand="block" color="primary" (click)="onSubmit()">
         Confirmar
       </ion-button>
 
-      <!-- Mostrar el mensaje de error general si hay errores -->
+      <!-- Mostrar los mensajes de error si existen -->
       <div *ngIf="nombresInvalid" class="error-message">El campo Nombres es requerido.</div>
       <div *ngIf="apellidosInvalid" class="error-message">El campo Apellidos es requerido.</div>
       <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>

@@ -65,6 +65,11 @@ h1 {
   font-size: 3pc;
 }
 
+.select-separado {
+  margin-left: 10px; /* Ajusta el valor según lo necesites */
+}
+
+
 /* Estilo para los mensajes de error */
 .error-message {
   color: red;
@@ -72,39 +77,4 @@ h1 {
   margin-left: 16px;
 }
 
-/* Estilo para el contenedor del mat-select */
-mat-select {
-  --mat-background: transparent; /* Fondo transparente */
-  color: #ffffff; /* Texto blanco */
-  border: 2px solid #ffffff; /* Borde blanco */
-  border-radius: 10px; /* Bordes redondeados */
-  padding: 8px; /* Añade padding para que sea consistente con los ion-input */
-  margin-top: 40px; /* Consistencia con el espaciado de ion-item */
-}
 
-/* Estilo para las opciones dentro del mat-select */
-.mat-select-panel {
-  background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro con transparencia */
-  color: #ffffff; /* Texto blanco */
-}
-
-/* Estilo para las opciones seleccionadas */
-.mat-option.mat-selected {
-  background-color: #007bff !important; /* Color azul brillante al seleccionar */
-  color: #ffffff !important; /* Texto blanco */
-}
-
-/* Estilo para las opciones hover */
-.mat-option:hover {
-  background-color: rgba(0, 123, 255, 0.5) !important; /* Efecto hover azul brillante con transparencia */
-}
-
-/* Estilo del desplegable */
-.mat-select-trigger {
-  color: #ffffff; /* Texto blanco para el trigger del select */
-}
-
-/* Adaptar icono de flecha del select */
-.mat-select-arrow {
-  color: #ffffff; /* Icono de flecha blanco */
-}

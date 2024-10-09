@@ -7,6 +7,15 @@
 <ion-content [fullscreen]="true">
   <div class="editarusuario-container">
     <ion-list>
+      <h1>Editar Usuarios</h1>
+
+      <!-- Imagen del usuario -->
+      <ion-item>
+        <ion-label>Foto de Usuario</ion-label>
+        <ion-img [src]="usuario.foto || 'assets/img/Zero.png'" alt="Foto de perfil" class="profile-image"></ion-img>
+      </ion-item>
+
+      
       <ion-item>
         <ion-label>Nombres</ion-label>
         <ion-input class="custom-input" type="text" [(ngModel)]="usuario.nombres" placeholder="Nombres"></ion-input>
@@ -39,22 +48,28 @@
         <p *ngIf="errorContrasena" class="error-message">Las contrasenas no coinciden.</p>
       </ion-item>
 
-      <ion-item>
-        <ion-label>Rol</ion-label>
-        <mat-select [(ngModel)]="usuario.rol">
-          <mat-option value="administrador">Administrador</mat-option>
-          <mat-option value="usuario">Usuario</mat-option>
-        </mat-select>
-      </ion-item>
+         <!-- Selección de Rol -->
+         <ion-item>
+          <ion-label>Rol</ion-label>
+          <mat-select [(ngModel)]="usuario.rol" class="select-separado">
+            <mat-option value="administrador">Administrador</mat-option>
+            <mat-option value="usuario">Usuario</mat-option>
+          </mat-select>
+        </ion-item>
+  
+        <!-- Selección de Estado -->
+        <ion-item>
+          <ion-label>Estado</ion-label>
+          <mat-select [(ngModel)]="usuario.estado" class="select-separado">
+            <mat-option value="activo">Activo</mat-option>
+            <mat-option value="baneado">Baneado</mat-option>
+          </mat-select>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>Estado</ion-label>
-        <mat-select [(ngModel)]="usuario.estado">
-          <mat-option value="activo">Activo</mat-option>
-          <mat-option value="baneado">Baneado</mat-option>
-        </mat-select>
-      </ion-item>
 
+        <!-- Botón para agregar foto -->
+      <ion-button expand="block" (click)="agregarFoto()">Agregar Foto</ion-button>
+  
       <p *ngIf="errorCampos" class="error-message">Todos los campos son obligatorios. Por favor, completa todos los campos.</p>
 
       <div style="height: 3pc;"></div> 

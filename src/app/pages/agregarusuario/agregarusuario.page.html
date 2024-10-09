@@ -9,6 +9,12 @@
     <ion-list>
       <h1>Agregar Usuario</h1>
 
+      <!-- Imagen del usuario -->
+      <ion-item>
+        <ion-label>Foto de Usuario</ion-label>
+        <ion-img [src]="usuario.foto || 'assets/img/Zero.png'" alt="Foto de perfil" class="profile-image"></ion-img>
+      </ion-item>
+
       <!-- Campos del formulario -->
       <ion-item>
         <ion-label>Nombres</ion-label>
@@ -48,20 +54,23 @@
       <!-- Selección de Rol -->
       <ion-item>
         <ion-label>Rol</ion-label>
-        <mat-select [(ngModel)]="usuario.rol">
+        <mat-select [(ngModel)]="usuario.rol" class="select-separado">
           <mat-option value="administrador">Administrador</mat-option>
           <mat-option value="usuario">Usuario</mat-option>
         </mat-select>
       </ion-item>
-  
+
       <!-- Selección de Estado -->
       <ion-item>
         <ion-label>Estado</ion-label>
-        <mat-select [(ngModel)]="usuario.estado">
+        <mat-select [(ngModel)]="usuario.estado" class="select-separado">
           <mat-option value="activo">Activo</mat-option>
           <mat-option value="baneado">Baneado</mat-option>
         </mat-select>
       </ion-item>
+
+      <!-- Botón para agregar foto -->
+      <ion-button expand="block" (click)="agregarFoto()">Agregar Foto</ion-button>
 
       <!-- Mensajes de error -->
       <p *ngIf="errorCampos" class="error-message">

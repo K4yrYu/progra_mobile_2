@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
+import { AlertasService } from 'src/app/services/alertas.service';
+import { CamaraService } from 'src/app/services/camara.service'; // Importar el servicio de cámara
 
-// Definimos la interfaz para el usuario
 interface Usuario {
   nombres: string;
   apellidos: string;
@@ -13,6 +13,7 @@ interface Usuario {
   confirmarContrasena: string;
   rol: string;
   estado: string;
+  foto?: string; // Propiedad opcional para la foto
 }
 
 @Component({
@@ -21,7 +22,6 @@ interface Usuario {
   styleUrls: ['./agregarusuario.page.scss'],
 })
 export class AgregarusuarioPage {
-  // Cambiamos el tipo de usuario a Usuario
   usuario: Usuario = {
     nombres: '',
     apellidos: '',
@@ -31,9 +31,9 @@ export class AgregarusuarioPage {
     contrasena: '',
     confirmarContrasena: '',
     rol: '',
-    estado: ''
+    estado: '',
   };
-  
+
   // Variables de control para los mensajes de error
   errorCampos: boolean = false;
   errorCorreo: boolean = false;
@@ -41,7 +41,21 @@ export class AgregarusuarioPage {
   errorFormatoContrasena: boolean = false;
   errorRut: boolean = false;
 
-  constructor(private router: Router, private alertasService: AlertasService) {}
+  constructor(
+    private router: Router,
+    private alertasService: AlertasService,
+    private camaraService: CamaraService // Inyectar el servicio de cámara
+  ) {}
+
+  async agregarFoto() {
+    try {
+      const foto = await this.camaraService.takePicture();
+      this.usuario.foto = foto; // Guardar la URL de la foto
+    } catch (error) {
+      console.error('Error al tomar la foto:', error);
+      this.alertasService.presentAlert('Error', 'No se pudo agregar la foto.');
+    }
+  }
 
   async validarCampos() {
     // Reiniciar errores antes de la validación
@@ -52,7 +66,15 @@ export class AgregarusuarioPage {
     this.errorRut = false;
 
     // Verifica si algún campo está vacío
-    if (!this.usuario.nombres || !this.usuario.apellidos || !this.usuario.rut || !this.usuario.correo || !this.usuario.usuario || !this.usuario.contrasena || !this.usuario.confirmarContrasena) {
+    if (
+      !this.usuario.nombres ||
+      !this.usuario.apellidos ||
+      !this.usuario.rut ||
+      !this.usuario.correo ||
+      !this.usuario.usuario ||
+      !this.usuario.contrasena ||
+      !this.usuario.confirmarContrasena
+    ) {
       this.errorCampos = true;
       return; // Salir si hay errores
     }
@@ -86,8 +108,6 @@ export class AgregarusuarioPage {
 
     // Si todos los campos son válidos, mostrar alerta de éxito
     await this.alertasService.presentAlert('Éxito', 'Usuario agregado correctamente');
-
-    // Navegar a la página deseada
     this.router.navigate(['/crudusuarios']);
   }
 }

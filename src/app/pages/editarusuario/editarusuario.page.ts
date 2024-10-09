@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
+import { CamaraService } from 'src/app/services/camara.service'; // Importar el servicio de cámara
 
 @Component({
   selector: 'app-editarusuario',
@@ -25,9 +26,23 @@ export class EditarusuarioPage implements OnInit {
   errorCorreo: boolean = false;
   errorContrasena: boolean = false;
 
-  constructor(private router: Router, private alertasService: AlertasService) {}
+  constructor(private router: Router, 
+             private alertasService: AlertasService,
+             private camaraService: CamaraService 
+
+  ) {}
 
   ngOnInit() {}
+
+  async agregarFoto() {
+    try {
+      const foto = await this.camaraService.takePicture();
+      this.usuario.foto = foto; // Guardar la URL de la foto
+    } catch (error) {
+      console.error('Error al tomar la foto:', error);
+      this.alertasService.presentAlert('Error', 'No se pudo agregar la foto.');
+    }
+  }
 
   async guardarCambios() {
     // Reiniciar errores antes de la validación

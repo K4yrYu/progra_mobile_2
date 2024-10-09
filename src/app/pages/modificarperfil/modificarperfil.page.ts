@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CamaraService } from 'src/app/services/camara.service'; // Asegúrate de que el path sea correcto
 
 @Component({
   selector: 'app-modificarperfil',
@@ -10,11 +11,12 @@ export class ModificarperfilPage implements OnInit {
   nombres: string = '';
   apellidos: string = '';
   correo: string = '';
-  
+  imagenPerfil: string = ''; // Para almacenar la imagen de perfil
+
   // Mensajes de error
   errorMessage: string = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private camaraService: CamaraService) {}
 
   ngOnInit() {
     // Inicializa las variables si es necesario
@@ -34,6 +36,19 @@ export class ModificarperfilPage implements OnInit {
     return !this.correo || !emailPattern.test(this.correo);
   }
 
+  // Método para obtener la imagen de perfil o la imagen predeterminada si no hay ninguna cargada
+  getProfileImage(): string {
+    return this.imagenPerfil ? this.imagenPerfil : 'assets/img/Zero.png';
+  }
+
+  // Método para cambiar la imagen de perfil usando el servicio de la cámara
+  async cambiarImagenPerfil() {
+    try {
+      const imageUrl = await this.camaraService.takePicture();
+      this.imagenPerfil = imageUrl || 'assets/img/Zero.png'; // Asignar imagen por defecto si es undefined
+    } catch (error) {
+    }
+  }
   onSubmit() {
     // Restablece el mensaje de error al inicio
     this.errorMessage = '';
@@ -41,12 +56,6 @@ export class ModificarperfilPage implements OnInit {
     // Verifica si hay errores
     if (!this.nombres || !this.apellidos) {
       this.errorMessage = 'Por favor, completa todos los campos obligatorios.';
-      return;
-    }
-
-    // Verifica si el correo es inválido y establece el mensaje de error correspondiente
-    if (this.correoInvalid) {
-      this.errorMessage = 'Ingrese un correo electrónico válido.';
       return;
     }
 
