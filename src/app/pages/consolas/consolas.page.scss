@@ -60,8 +60,7 @@ ion-content {
 }
 
 ion-searchbar {
-  --color: white;
+  --color: black; /* Cambia el color del texto a negro */
   --placeholder-color: rgba(255, 255, 255, 0.8); /* Color del placeholder más visible */
   --cancel-button-color: #3498db; /* Color del botón de cancelar azul vibrante */
 }
-

@@ -18,3 +18,19 @@ ion-content {
     background-color: blue;
     color: white;
 }
+.camera-icon {
+    position: absolute; /* Posición absoluta para colocar el ícono */
+    bottom: 10px; /* Ajusta este valor para mover el ícono hacia arriba o abajo */
+    right: 10px; /* Ajusta este valor para mover el ícono hacia la izquierda o derecha */
+    font-size: 32px; /* Tamaño del ícono */
+    color: white; /* Color del ícono */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente para mejor visibilidad */
+    border-radius: 50%; /* Bordes redondeados */
+    padding: 5px; /* Espacio alrededor del ícono */
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }

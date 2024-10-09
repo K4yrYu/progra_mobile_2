@@ -8,32 +8,44 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  
-  <ion-card >
+  <ion-card>
     <ion-card-header>
-      <!--foto de perfil-->
+      <!-- Foto de perfil -->
       <ion-img src="assets/img/Zero.png" alt="Imagen de perfil" class="profile-image"></ion-img>
+      <ion-icon name="camera" class="camera-icon"></ion-icon> <!-- Ícono de cámara -->
     </ion-card-header>
-    <ion-card-content >
-      <ion-item>
+    <ion-card-content>
+      <div class="user-info">
         <p class="username">Usuario: admin</p>
-      </ion-item>
-      <ion-item>
         <p class="email">Correo: juanito&#64;example.com</p>
-      </ion-item>
-      <ion-item></ion-item>
+      </div>
+
+      <!-- Campos de entrada -->
       <ion-item>
-        <ion-input placeholder="Nuevo Nombre Usuario" clear-input></ion-input>
+        <ion-input placeholder="Nombres" clear-input [(ngModel)]="nombres" required></ion-input>
       </ion-item>
+      
+
       <ion-item>
-        <ion-input placeholder="Nueva dirección de Correo" clear-input></ion-input>
+        <ion-input placeholder="Apellidos" clear-input [(ngModel)]="apellidos" required></ion-input>
       </ion-item>
-      <ion-item></ion-item>
-      <ion-button class="btnCCP" expand="block" color="Primary" [routerLink] = "['/perfil']">
+      
+
+      <ion-item>
+        <ion-input type="email" placeholder="Correo" clear-input [(ngModel)]="correo" required></ion-input>
+      </ion-item>
+
+      <ion-button class="btnCCP" expand="block" color="primary" (click)="onSubmit()">
         Confirmar
       </ion-button>
+
+      <!-- Mostrar el mensaje de error general si hay errores -->
+      <div *ngIf="nombresInvalid" class="error-message">El campo Nombres es requerido.</div>
+      <div *ngIf="apellidosInvalid" class="error-message">El campo Apellidos es requerido.</div>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     </ion-card-content>
   </ion-card>
-  
 </ion-content>
+
+
+
