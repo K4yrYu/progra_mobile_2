@@ -11,10 +11,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar (ionInput)="buscarJuego($event)"></ion-searchbar>
 
-
-  <ion-card class="videojuego-card" *ngFor="let juego of arregloJuegos">
+  <ion-card class="videojuego-card" *ngFor="let juego of juegosFiltrados">
     <ion-item lines="none" class="videojuego-item">
       <ion-thumbnail slot="start" class="thumbnail-grande">
         <img [src]="juego.foto_prod" alt="sin imagen" style="height: 100px; width: 100px;"/>  
@@ -25,7 +24,6 @@
       </ion-label>
     </ion-item>
     <ion-item lines="none" class="add-cart-item">
-      <!-- Si juego.estatus es 1, muestra los botones -->
       <ng-container *ngIf="juego.estatus === 1; else noDisponible">
         <ion-button fill="outline" slot="end" (click)="compra()">
           <ion-icon slot="start" name="cart-outline"></ion-icon>
@@ -35,15 +33,10 @@
           Ver Producto
         </ion-button>
       </ng-container>
-    
-      <!-- Si juego.estatus es 0, muestra el mensaje "Producto no disponible" -->
       <ng-template #noDisponible>
         <p>Producto no disponible</p>
       </ng-template>
     </ion-item>
   </ion-card>
 </ion-content>
-        
-
-
 
