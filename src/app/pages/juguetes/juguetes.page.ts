@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta sea correcta
+import { AlertasService } from 'src/app/services/alertas.service';
 import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
@@ -9,51 +9,47 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
   styleUrls: ['./juguetes.page.scss'],
 })
 export class JuguetesPage implements OnInit {
-
   jugueteSelect: any;
+  arregloJuguetes: any[] = [];
+  juguetesFiltrados: any[] = []; // Para almacenar los juguetes filtrados
 
-   //repetir pero cambiar a juguetes y consolas
-   arregloJuguetes: any = [
-    {
-      id_producto: '',
-      nombre_prod: '',
-      precio_prod: '',
-      stock_prod:  '',
-      descripcion_prod: '',  
-      foto_prod: '',
-      estatus: '',
-      id_categoria: '', 
-      nombre_categoria: ''
-    }
-  ]
-
-
-  constructor(private alertasService: AlertasService, private bd: ManejodbService, private router: Router) { } // Inyección del servicio de alertas
+  constructor(private alertasService: AlertasService, private bd: ManejodbService, private router: Router) {}
 
   ngOnInit() {
-    
-    // verificar si la BD está disponible
     this.bd.dbState().subscribe(data => {
       if (data) {
-        // subscribir al observable de la consulta
         this.bd.fetchJuguetes().subscribe(res => {
           this.arregloJuguetes = res;
+          this.juguetesFiltrados = res; // Inicializar con todos los juguetes
         });
       }
     });
   }
 
-  irJugueteUnico(x:any){
+  irJugueteUnico(x: any) {
     let navigationExtras: NavigationExtras = {
       state: {
         jugueteSelect: x
       }
-    }
+    };
     this.router.navigate(['/jugueteunico'], navigationExtras);
-
   }
 
   compra() {
-    this.alertasService.presentAlert('Añadido al carro', '¡Gracias!'); // Uso del servicio para mostrar la alerta
+    this.alertasService.presentAlert('Añadido al carro', '¡Gracias!');
+  }
+
+  buscarJuguete(event: any) {
+    const textoBusqueda = event.target.value.toLowerCase();
+
+    // Si el campo de búsqueda está vacío, mostramos todos los juguetes
+    if (textoBusqueda.trim() === '') {
+      this.juguetesFiltrados = this.arregloJuguetes;
+    } else {
+      // Filtrar los juguetes según el texto de búsqueda
+      this.juguetesFiltrados = this.arregloJuguetes.filter(juguete =>
+        juguete.nombre_prod.toLowerCase().includes(textoBusqueda)
+      );
+    }
   }
 }

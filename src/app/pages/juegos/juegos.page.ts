@@ -11,15 +11,15 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
 export class JuegosPage implements OnInit {
   arregloJuegos: any[] = [
     {
-      id_producto: '1',
-      nombre_prod: 'Juego 1',
-      precio_prod: '20000',
-      stock_prod:  '5',
-      descripcion_prod: 'Un juego muy entretenido',
-      foto_prod: 'ruta_imagen',
-      estatus: 1,
-      id_categoria: '1',
-      nombre_categoria: 'Consolas'
+      id_producto: '',
+      nombre_prod: '',
+      precio_prod: '',
+      stock_prod:  '',
+      descripcion_prod: '',
+      foto_prod: '',
+      estatus: '',
+      id_categoria: '',
+      nombre_categoria: ''
     },
     // Otros juegos...
   ];
