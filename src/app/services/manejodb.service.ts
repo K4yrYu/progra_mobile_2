@@ -139,7 +139,7 @@ export class ManejodbService {
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames15.db',
+        name: 'megagames16.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
@@ -248,17 +248,60 @@ export class ManejodbService {
     });
 }
 
-  //añadir usuario cliente (REGISTRO)
-  agregarUsuariosCliente(rutU: string, nombresU: string, apellidosU: string, userU: string, claveU: string, correoU: string) {
-    // Lógica para agregar usuarios
-    return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, false, true, 2)', [rutU, nombresU, apellidosU, userU, claveU, correoU]).then(res => {
-      //se añade la alerta
-      this.alertasService.presentAlert("Agregar", "Usuario Agregado");
-      //se llama al select para mostrar la lista actualizada
-      this.consultarUsuarios();
-    }).catch(e=>{
-      this.alertasService.presentAlert("agregar", "Error: " + JSON.stringify(e)); 
+//valida el uusario loggeado para un autoinicio de sesion
+actualizarEstadoUsuario(username: any): Promise<void> {
+  return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE username = ?', [1, username])
+    .then(() => {
+      console.log(`Estado de usuario ${username} actualizado a logged in.`);
+    })
+    .catch(error => {
+      console.error('Error al actualizar el estado de usuario:', error);
+    });
+}
+
+//verifica que el nombre de usuario no este ocupado por otro usuario al registrarse 
+verificarUsuarioExistente(username: any): Promise<boolean> {
+  return this.database.executeSql('SELECT * FROM usuario WHERE username = ?', [username]).then(res => {
+    // Retorna true si hay algún usuario con ese username, false si no hay
+    return res.rows.length > 0;
+  }).catch(error => {
+    console.error('Error al verificar el usuario existente:', error);
+    return false; // Devuelve false en caso de error
   });
+}
+
+cerrarSesion(username: string): Promise<void> {
+  return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE username = ?', [0, username])
+    .then(() => {
+      console.log(`Estado de usuario ${username} actualizado a logged out.`);
+    })
+    .catch(error => {
+      console.error('Error al actualizar el estado de usuario:', error);
+    });
+}
+
+  //añadir usuario cliente (REGISTRO)
+  agregarUsuariosCliente(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any): Promise<void> {
+    // Retornar una promesa para garantizar que la función cumple con el tipo de retorno
+    return this.verificarUsuarioExistente(userU).then(existe => {
+      if (existe) {
+        // Si el usuario ya existe, muestra una alerta
+        this.alertasService.presentAlert("Agregar", "El nombre de usuario ya está en uso. Por favor, elige otro.");
+        return; // Termina la ejecución de la promesa
+      } else {
+        // Si el usuario no existe, procede a agregarlo
+        return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, false, true, 2)', [rutU, nombresU, apellidosU, userU, claveU, correoU])
+          .then(res => {
+            this.alertasService.presentAlert("Agregar", "Usuario agregado exitosamente.");
+            this.consultarUsuarios(); // Llama a la función para mostrar la lista actualizada
+          }).catch(e => {
+            this.alertasService.presentAlert("Agregar", "Error: " + JSON.stringify(e)); 
+          });
+      }
+    }).catch(error => {
+      console.error('Error al verificar la existencia del usuario:', error);
+      this.alertasService.presentAlert("Agregar", "Error al verificar el usuario.");
+    });
   }
 
 

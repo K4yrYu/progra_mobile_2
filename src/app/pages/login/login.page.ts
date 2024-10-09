@@ -51,12 +51,19 @@ export class LoginPage implements OnInit {
   loggin(user: any, clave: any) {
     this.bd.consultarUsuariosLoggin(user, clave).then((found) => {
       if (found && this.passwordPattern.test(this.password)) {
-        // Redirige a perfil pasando el nombre de usuario como parámetro en la URL
-        this.router.navigate(['/perfil'], {
-          queryParams: { userconect: this.usernameunlogged }
+        // Actualiza el estado de userlogged a 1
+        this.bd.actualizarEstadoUsuario(user).then(() => {
+          // Redirige a perfil pasando el nombre de usuario como parámetro en la URL
+          this.router.navigate(['/perfil'], {
+            queryParams: { userconect: this.usernameunlogged }
+          });
+          this.resetFields(); // Limpia los campos en caso de éxito
+          this.loginError = false;
+        }).catch(error => {
+          console.error('Error al actualizar el estado de usuario:', error);
+          this.loginError = true; // Maneja errores en la actualización
+          this.resetFields(); // Limpia los campos en caso de error
         });
-        this.resetFields(); // Limpia los campos en caso de éxito
-        this.loginError = false;
       } else {
         this.loginError = true;
         this.resetFields(); // Limpia los campos en caso de error
