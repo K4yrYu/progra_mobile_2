@@ -15,6 +15,10 @@
         <ion-img [src]="usuario.foto || 'assets/img/Zero.png'" alt="Foto de perfil" class="profile-image"></ion-img>
       </ion-item>
 
+
+      <!-- Botón para agregar foto -->
+      <ion-button expand="block" (click)="agregarFoto()">Agregar Foto</ion-button>
+
       <!-- Campos del formulario -->
       <ion-item>
         <ion-label>Nombres</ion-label>
@@ -69,8 +73,6 @@
         </mat-select>
       </ion-item>
 
-      <!-- Botón para agregar foto -->
-      <ion-button expand="block" (click)="agregarFoto()">Agregar Foto</ion-button>
 
       <!-- Mensajes de error -->
       <p *ngIf="errorCampos" class="error-message">
