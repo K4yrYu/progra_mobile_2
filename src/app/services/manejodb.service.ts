@@ -397,7 +397,7 @@ export class ManejodbService {
     // Lógica para modificar
     return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
       //se añade la alerta
-      this.alertasService.presentAlert("Modifciar", "juego Modificado");
+      this.alertasService.presentAlert("Modificar", "juego Modificado");
       //se llama al select para mostrar la lista actualizada
       this.consultarJuegos();
     }).catch(e=>{
