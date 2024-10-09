@@ -8,8 +8,6 @@ import { ManejodbService } from 'src/app/services/manejodb.service'; // Asegúra
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  Usuario_registrado: string = "admin";
-  password_registrado: string = "Admin123.";
 
   usernameunlogged: string = "";
   password: string = "";
@@ -18,27 +16,56 @@ export class LoginPage implements OnInit {
   // Expresión regular para validar la contraseña
   passwordPattern: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\.)[A-Za-z\d.]{6,}$/;
 
-  constructor(private router: Router, private manejodbService: ManejodbService) {}
+  arregloUsuarios: any [] = [
+    {
+      id_usuario: '',
+      rut_usuario: '',
+      nombres_usuario: '',
+      apellidos_usuario: '',
+      username: '',
+      clave: '',
+      correo: '',
+      token_recup_clave: '',
+      foto_usuario: '',
+      estado_user: '',
+      userlogged: '',
+      id_rol: ''
+    }
+  ]
+
+  constructor(private router: Router, private bd: ManejodbService) {}
+
 
   ngOnInit() {
-    this.manejodbService.crearBD(); // Llama al método para crear la base de datos
+    this.bd.crearBD(); // Llama al método para crear la base de datos
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        this.bd.fetchUsuarios().subscribe(res => {
+          this.arregloUsuarios = res;
+        });
+      }
+    });
   }
 
-  loggin() {
-    // Verifica que el usuario y la contraseña sean correctos
-    if (this.usernameunlogged === this.Usuario_registrado 
-        && this.password === this.password_registrado
-        && this.passwordPattern.test(this.password)) {
-      // Redirige a perfil pasando el nombre de usuario como parámetro en la URL
-      this.router.navigate(['/perfil'], {
-        queryParams: { userconect: this.usernameunlogged }
-      });
-      this.resetFields(); // Limpia los campos en caso de éxito
-      this.loginError = false;
-    } else {
-      this.loginError = true;
+
+  loggin(user: any, clave: any) {
+    this.bd.consultarUsuariosLoggin(user, clave).then((found) => {
+      if (found && this.passwordPattern.test(this.password)) {
+        // Redirige a perfil pasando el nombre de usuario como parámetro en la URL
+        this.router.navigate(['/perfil'], {
+          queryParams: { userconect: this.usernameunlogged }
+        });
+        this.resetFields(); // Limpia los campos en caso de éxito
+        this.loginError = false;
+      } else {
+        this.loginError = true;
+        this.resetFields(); // Limpia los campos en caso de error
+      }
+    }).catch(error => {
+      console.error('Error al consultar usuarios:', error);
+      this.loginError = true; // Maneja errores en la consulta
       this.resetFields(); // Limpia los campos en caso de error
-    }
+    });
   }
 
   // Función para limpiar los campos

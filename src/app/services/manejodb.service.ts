@@ -14,6 +14,7 @@ import { Consolas } from './consolas';
 })
 export class ManejodbService {
 
+  loggin!: any;
   public database!: SQLiteObject;
   private dbCreated: boolean = false; // Propiedad para rastrear si la BD ya fue creada
 
@@ -29,7 +30,7 @@ export class ManejodbService {
   categoria: string = "CREATE TABLE IF NOT EXISTS categoria (id_categoria INTEGER PRIMARY KEY autoincrement, nombre_categoria TEXT NOT NULL);";
 
   //Usuario
-  usuario: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY autoincrement, rut_usuario VARCHAR(20) NOT NULL, nombres_usuario VARCHAR(100) NOT NULL, apellidos_usuario VARCHAR(100) NOT NULL, username VARCHAR(20) NOT NULL, clave VARCHAR(12) NOT NULL, correo VARCHAR(50) NOT NULL, token_recup_clave BOOLEAN NOT NULL, foto_usuario BLOB estado_user BOOLEAN NOT NULL, id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol_usuario(id_rol));";
+  usuario: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY autoincrement, rut_usuario VARCHAR(20) NOT NULL, nombres_usuario VARCHAR(100) NOT NULL, apellidos_usuario VARCHAR(100) NOT NULL, username VARCHAR(20) NOT NULL, clave VARCHAR(12) NOT NULL, correo VARCHAR(50) NOT NULL, token_recup_clave BOOLEAN NOT NULL, foto_usuario BLOB, estado_user BOOLEAN NOT NULL, userlogged BOOLEAN NOT NULL ,id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol_usuario(id_rol));";
    
   //producto
   producto: string = "CREATE TABLE IF NOT EXISTS producto (id_producto INTEGER PRIMARY KEY autoincrement, nombre_prod VARCHAR(50) NOT NULL, precio_prod INTEGER NOT NULL, stock_prod INTEGER NOT NULL, descripcion_prod TEXT NOT NULL, foto_prod BLOB, estatus BOOLEAN, id_categoria INTEGER, FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria));"; 
@@ -56,10 +57,15 @@ export class ManejodbService {
   rolesusuario2: string= "INSERT OR IGNORE INTO rol_usuario (nombre_rol) VALUES ('cliente');";
   
   //insert de 1 usuario 
-  registrousuario: string= "INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES ('12345678-9', 'Juan Ignacio', 'Perez Lopez', 'admin', 'Admin123.', 'juan.perez@example.com', FALSE, TRUE, 1);";
 
-  registrousuario2: string="INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES ('19994384-7', 'Alonso', 'Urrutia', 'admin', 'Admin1234.', 'Amuc23@gmail.com', FALSE, TRUE, 2);";
+  //user maestro
+  registrousuario: string= "INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, foto_usuario, estado_user, userlogged, id_rol) VALUES ('12345678-9', 'Juan Ignacio', 'Perez Lopez', 'admin', 'Admin123.', 'vicentepalma1202@gmail.com', 0, null, 1, 0, 1);";
+
+
+  //usuario cliente  
+  registrousuario2: string="INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, foto_usuario, estado_user, userlogged, id_rol) VALUES ('19994384-7', 'Alonso', 'Urrutia', 'admin2', 'Admin1234.', 'Amuc23@gmail.com', 0, null, 1, 0, 2);";
   
+
   //insert de las categorias de los productos
   categoriasproductos1: string ="INSERT OR IGNORE INTO categoria (nombre_categoria) VALUES ('Juego');";
 
@@ -133,7 +139,7 @@ export class ManejodbService {
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames14.db',
+        name: 'megagames15.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
@@ -203,7 +209,9 @@ export class ManejodbService {
             clave: res.rows.item(i).clave,
             correo: res.rows.item(i).correo,
             token_recup_clave: res.rows.item(i).token_recup_clave,
+            foto_usuario: res.rows.item(i).foto_usuario,
             estado_user: res.rows.item(i).estado_user,
+            userlogged: res.rows.item(i).userlogged,
             id_rol: res.rows.item(i).id_rol
           })
         }
@@ -212,7 +220,35 @@ export class ManejodbService {
     })
   }
 
-  //añadir usuario cliente
+  consultarUsuariosLoggin(user: any, clave: any): Promise<boolean> {
+    return this.database.executeSql('SELECT * FROM usuario WHERE username = ? AND clave = ?', [user, clave]).then(res => {
+      let itemsUL: Usuarios[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          itemsUL.push({
+            id_usuario: res.rows.item(i).id_usuario,
+            rut_usuario: res.rows.item(i).rut_usuario,
+            nombres_usuario: res.rows.item(i).nombres_usuario,
+            apellidos_usuario: res.rows.item(i).apellidos_usuario,
+            username: res.rows.item(i).username,
+            clave: res.rows.item(i).clave,
+            correo: res.rows.item(i).correo,
+            token_recup_clave: res.rows.item(i).token_recup_clave,
+            foto_usuario: res.rows.item(i).foto_usuario,
+            estado_user: res.rows.item(i).estado_user,
+            userlogged: res.rows.item(i).userlogged,
+            id_rol: res.rows.item(i).id_rol
+          });
+        }
+        this.listadoUsuarioUnico.next(itemsUL as any);
+        return true; // Usuario encontrado
+      } else {
+        return false; // No se encontró usuario
+      }
+    });
+}
+
+  //añadir usuario cliente (REGISTRO)
   agregarUsuariosCliente(rutU: string, nombresU: string, apellidosU: string, userU: string, claveU: string, correoU: string) {
     // Lógica para agregar usuarios
     return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, false, true, 2)', [rutU, nombresU, apellidosU, userU, claveU, correoU]).then(res => {
@@ -226,7 +262,7 @@ export class ManejodbService {
   }
 
 
-  //añadir usuario Admin
+  //añadir usuario (panel admin)
   agregarUsuariosAdmin(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
     // Lógica para agregar usuarios
     return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, 0, ?, 1)', [ rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU ]).then(res => {
@@ -241,6 +277,9 @@ export class ManejodbService {
 
 
   modificarUsuarios(idU: any, rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
+    if(idU = 1){
+      return this.alertasService.presentAlert("ERROR","NO PUEDE MODIFICARSE AL ADMINISTRADOR PRINCIPAL");
+    } else {
     // Lógica para modificar usuarios
     return this.database.executeSql('UPDATE usuario SET rut_usuario = ?, nombres_usuario = ?, apellidos_usuario = ?, username = ?, correo = ?, estado_user = ? WHERE id_usuario = ?', [rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU, idU]).then(res => {
       //se añade la alerta
@@ -249,10 +288,13 @@ export class ManejodbService {
       this.consultarUsuarios();
     }).catch(e=>{
       this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e)); 
-  });
+  })};
   }
 
   eliminarUsuarios(idU: any) {
+    if(idU = 1){
+      return this.alertasService.presentAlert("ERROR","NO PUEDE ELIMINAR AL ADMINISTRADOR PRINCIPAL");
+    } else {
     return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?', [idU]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Usuario eliminado");
@@ -260,7 +302,7 @@ export class ManejodbService {
       this.consultarUsuarios();
     }).catch(e=>{
         this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e)); 
-    });
+    })};
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////

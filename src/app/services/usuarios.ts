@@ -7,7 +7,9 @@ export class Usuarios {
     clave!: string;
     correo!: string;
     token_recup_clave!: boolean;
+    foto_usuario!: Blob;
     estado_user!: boolean;
+    userlogged!: boolean;
     id_rol!: number;
 
 }

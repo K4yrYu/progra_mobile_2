@@ -9,6 +9,7 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
   styleUrls: ['./juegos.page.scss'],
 })
 export class JuegosPage implements OnInit {
+  
   arregloJuegos: any[] = [
     {
       id_producto: '',
@@ -21,7 +22,6 @@ export class JuegosPage implements OnInit {
       id_categoria: '',
       nombre_categoria: ''
     },
-    // Otros juegos...
   ];
 
   juegosFiltrados: any[] = []; // Para almacenar los juegos filtrados

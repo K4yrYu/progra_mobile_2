@@ -22,7 +22,7 @@
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
       </ion-item>
-      <ion-button expand="block" (click)="loggin()">Ingresar</ion-button>
+      <ion-button expand="block" (click)="loggin(usernameunlogged,password)">Ingresar</ion-button>
     </ion-list>
     <p *ngIf="loginError" style="color: red;">Usuario o contraseña incorrectos. Intente nuevamente.</p>
     <p class="opsAD">No tienes cuenta? <a routerLink="/registro">Regístrate aquí!</a></p>
