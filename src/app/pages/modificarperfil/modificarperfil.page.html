@@ -12,26 +12,30 @@
     <ion-card-header>
       <!-- Foto de perfil -->
       <ion-img src="assets/img/Zero.png" alt="Imagen de perfil" class="profile-image"></ion-img>
-      <ion-icon name="camera" class="camera-icon"></ion-icon> <!-- Ícono de cámara -->
+
+      <!-- Botón Cambiar con ícono de cámara -->
+      <ion-button expand="block" color="primary" class="btnCCP">
+        <ion-icon name="camera"></ion-icon>
+        Cambiar
+      </ion-button>
     </ion-card-header>
+
     <ion-card-content>
       <div class="user-info">
         <p class="username">Usuario: admin</p>
         <p class="email">Correo: juanito&#64;example.com</p>
       </div>
 
-      <!-- Campos de entrada -->
-      <ion-item>
+      <!-- Campos de entrada con más espacio hacia abajo -->
+      <ion-item class="input-item">
         <ion-input placeholder="Nombres" clear-input [(ngModel)]="nombres" required></ion-input>
       </ion-item>
-      
 
-      <ion-item>
+      <ion-item class="input-item">
         <ion-input placeholder="Apellidos" clear-input [(ngModel)]="apellidos" required></ion-input>
       </ion-item>
-      
 
-      <ion-item>
+      <ion-item class="input-item">
         <ion-input type="email" placeholder="Correo" clear-input [(ngModel)]="correo" required></ion-input>
       </ion-item>
 
@@ -46,6 +50,3 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-
-
-
