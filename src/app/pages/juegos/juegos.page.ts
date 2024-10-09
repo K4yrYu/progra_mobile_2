@@ -14,7 +14,7 @@ export class JuegosPage implements OnInit {
       id_producto: '',
       nombre_prod: '',
       precio_prod: '',
-      stock_prod:  '',
+      stock_prod:  '', 
       descripcion_prod: '',
       foto_prod: '',
       estatus: '',

@@ -9,6 +9,7 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
   styleUrls: ['./juegounico.page.scss'],
 })
 export class JuegounicoPage implements OnInit {
+  
   juegoLlego: any;
 
   arregloJuegoUnico: any = [

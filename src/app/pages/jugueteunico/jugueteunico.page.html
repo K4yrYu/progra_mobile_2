@@ -8,11 +8,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  
   <div class="jugueteU-container">
-    <img src="assets/img/juguetes/spiderman-juguete.jpg" alt="jugueteimg" class="juguete-image" />
-    <h4>Funko Pop Spiderman</h4>
-    <ion-label>Precio: $50.300</ion-label>
-    <ion-label>Stock: 35</ion-label>
+    <img [src]="jugueteLlego.foto_prod" alt="sin imagen" style="height: 300px; width: 250px;"/>
+    <p></p>
+    <h3>{{ jugueteLlego.nombre_prod }}</h3>
+    <p><strong>Precio:</strong></p>
+    <p>{{ jugueteLlego.precio_prod | currency:'CLP':'symbol':'1.0-0' }}</p>
+    <p></p>
+    <p><strong>stock:</strong></p>
+    <p>{{ jugueteLlego.stock_prod }}</p>
     
     <ion-row>
       <ion-col size="6">
@@ -34,7 +39,9 @@
 
   <h4>Descripción:</h4>
   <div class="descripcion-container">
-    <p class="descripJuego">Una Figura de spiderman de funko</p>
+    <p class="descripJuego">
+      {{jugueteLlego.descripcion_prod}}
+    </p>
   </div>
 
   <div class="section-separator"></div>
