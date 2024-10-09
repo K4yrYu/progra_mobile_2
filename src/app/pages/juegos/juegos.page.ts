@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta sea correcta
+import { Juegos } from 'src/app/services/juegos';
 import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class JuegosPage implements OnInit {
       nombre_categoria: ''
     }
   ]
+
 
 
   constructor(private alertasService: AlertasService, private bd: ManejodbService, private router: Router) { } // Inyección del servicio de alertas
@@ -55,4 +57,6 @@ export class JuegosPage implements OnInit {
   compra() {
     this.alertasService.presentAlert('Añadido al carro', '¡Gracias!'); // Uso del servicio para mostrar la alerta
   }
+
+  
 }
