@@ -191,7 +191,7 @@ export class ManejodbService {
 
   ///////////////////////////////CRUD COMPLETO PARA LOS USUARIOS//////////////////////////////////
 
-  consultarUsuarios() {
+  async consultarUsuarios() {
     return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
       //variable para almacenar el resultado de la consulta
       let itemsU: Usuarios[] = [];
@@ -220,7 +220,7 @@ export class ManejodbService {
     })
   }
 
-  consultarUsuariosLoggin(user: any, clave: any): Promise<boolean> {
+  async consultarUsuariosLoggin(user: any, clave: any): Promise<boolean> {
     return this.database.executeSql('SELECT * FROM usuario WHERE username = ? AND clave = ?', [user, clave]).then(res => {
       let itemsUL: Usuarios[] = [];
       if (res.rows.length > 0) {
@@ -248,7 +248,7 @@ export class ManejodbService {
     });
 }
 
-consultarUsuariosPorUsername(user: any) {
+async consultarUsuariosPorUsername(user: any) {
   return this.database.executeSql('SELECT * FROM usuario WHERE username = ?', [user]).then(res => {
     //variable para almacenar el resultado de la consulta
     let itemsUPP: Usuarios[] = [];
@@ -278,7 +278,7 @@ consultarUsuariosPorUsername(user: any) {
 }
 
   //valida el uusario loggeado para un autoinicio de sesion
-  actualizarEstadoUsuario(username: any): Promise<void> {
+  async actualizarEstadoUsuario(username: any): Promise<void> {
     return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE username = ?', [1, username])
       .then(() => {
         console.log(`Estado de usuario ${username} actualizado a logged in.`);
@@ -289,7 +289,7 @@ consultarUsuariosPorUsername(user: any) {
   }
 
   //verifica que el nombre de usuario no este ocupado por otro usuario al registrarse 
-  verificarUsuarioExistente(username: any): Promise<boolean> {
+  async verificarUsuarioExistente(username: any): Promise<boolean> {
     return this.database.executeSql('SELECT * FROM usuario WHERE username = ?', [username]).then(res => {
       // Retorna true si hay algún usuario con ese username, false si no hay
       return res.rows.length > 0;
@@ -298,7 +298,7 @@ consultarUsuariosPorUsername(user: any) {
     });
   }
 
-  cerrarSesion(username: string): Promise<void> {
+  async cerrarSesion(username: string): Promise<void> {
     return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE username = ?', [0, username])
       .then(() => {
         console.log(`Estado de usuario ${username} actualizado a logged out.`);
@@ -309,7 +309,7 @@ consultarUsuariosPorUsername(user: any) {
   }
 
   //añadir usuario cliente (REGISTRO)
-  agregarUsuariosCliente(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any) {
+  async agregarUsuariosCliente(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any) {
     // Lógica para agregar usuarios
     return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, foto_usuario, estado_user, userlogged, id_rol) VALUES (?, ?, ?, ?, ?, ?, 0, null, 1, 0, 2)', [rutU, nombresU, apellidosU, userU, claveU, correoU]).then(res => {
       //se añade la alerta
@@ -323,7 +323,7 @@ consultarUsuariosPorUsername(user: any) {
 
 
   //añadir usuario (panel admin)
-  agregarUsuariosAdmin(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any, id_rolU: any) {
+  async agregarUsuariosAdmin(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any, id_rolU: any) {
     // Lógica para agregar usuarios
     return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, foto_usuario, estado_user, userlogged, id_rol) VALUES (?, ?, ?, ?, ?, ?, 0, null, 1, 0, ?)', [rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU, id_rolU]).then(res => {
       //se añade la alerta
@@ -336,7 +336,7 @@ consultarUsuariosPorUsername(user: any) {
   }
 
 
-  modificarUsuarios(idU: any, rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
+  async modificarUsuarios(idU: any, rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
     if (idU = 1) {
       return this.alertasService.presentAlert("ERROR", "NO PUEDE MODIFICARSE AL ADMINISTRADOR PRINCIPAL");
     } else {
@@ -352,15 +352,13 @@ consultarUsuariosPorUsername(user: any) {
     };
   }
 
-  eliminarUsuarios(idU: any) {
-    if (idU = 1) {
+  async eliminarUsuarios(idU: any) {
+    if (idU === 1) {
       return this.alertasService.presentAlert("ERROR", "NO PUEDE ELIMINAR AL ADMINISTRADOR PRINCIPAL");
     } else {
       return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?', [idU]).then(res => {
         //se añade la alerta
         this.alertasService.presentAlert("Eliminar", "Usuario eliminado");
-        //se llama al select para mostrar la lista actualizada
-        this.consultarUsuarios();
       }).catch(e => {
         this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e));
       })
