@@ -294,7 +294,6 @@ consultarUsuariosPorUsername(user: any) {
       // Retorna true si hay algún usuario con ese username, false si no hay
       return res.rows.length > 0;
     }).catch(error => {
-      console.error('Error al verificar el usuario existente:', error);
       return false; // Devuelve false en caso de error
     });
   }
@@ -305,7 +304,7 @@ consultarUsuariosPorUsername(user: any) {
         console.log(`Estado de usuario ${username} actualizado a logged out.`);
       })
       .catch(error => {
-        console.error('Error al actualizar el estado de usuario:', error);
+        this.alertasService.presentAlert("ERROR", 'Error al actualizar el estado de usuario:' + error);
       });
   }
 
@@ -482,52 +481,31 @@ consultarUsuariosPorUsername(user: any) {
     }
 }
 
-async agregarJuegos(nombre_prod: string, precio_prod: number, stock_prod: number, descripcion_prod: string, foto_prod: any): Promise<void> {
-    try {
-        const res = await this.database.executeSql('SELECT COUNT(*) as count FROM producto WHERE nombre_prod = ?', [nombre_prod]);
-        const nombreExiste = res.rows.item(0).count > 0;
-
-        if (nombreExiste) {
-            this.alertasService.presentAlert("Error", "El juego con ese nombre ya existe.");
-            return Promise.reject("El juego ya existe");
-        }
-
-        // Procede a agregar el nuevo juego
-        await this.database.executeSql('INSERT INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?, ?, ?, ?, ?, 1, 1)', 
-            [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]);
-        this.alertasService.presentAlert("Agregar", "Juego Agregado");
-        await this.consultarJuegos(); // Actualiza la lista
-    } catch (e) {
-        this.alertasService.presentAlert("Agregar", "Error al agregar juego");
-        console.error("Error al agregar juego:", e);
-    }
+async agregarJuegos(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
+  // Lógica para agregar 
+  return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
+    //se añade la alerta
+    this.alertasService.presentAlert("Agregar", "Juego Agregado");
+    //se llama al select para mostrar la lista actualizada
+    this.consultarJuegos();
+  }).catch(e=>{
+    this.alertasService.presentAlert("agregar", "Error: " + JSON.stringify(e)); 
+});
 }
 
-async modificarJuego(idJ: any, nomJ: string, precioJ: number, stockJ: number, descripJ: string, fotoJ: any, estatusJ: any): Promise<void> {
-    try {
-        const nuevoNombre = nomJ.trim();
-        const res = await this.database.executeSql('SELECT nombre_prod FROM producto WHERE id_producto = ?', [idJ]);
-        const nombreActual = res.rows.item(0).nombre_prod.trim();
 
-        if (nuevoNombre.toLowerCase() !== nombreActual.toLowerCase()) {
-            const countRes = await this.database.executeSql('SELECT COUNT(*) as count FROM producto WHERE TRIM(nombre_prod) = ? AND id_producto != ?', [nuevoNombre, idJ]);
-            const nombreExiste = countRes.rows.item(0).count > 0;
 
-            if (nombreExiste) {
-                this.alertasService.presentAlert("Error", "El nombre del juego ya existe. Por favor elige otro nombre.");
-                return Promise.reject("Nombre del juego ya existe");
-            }
-        }
-
-        await this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', 
-            [nuevoNombre, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]);
-        this.alertasService.presentAlert("Modificar", "Juego modificado");
-        await this.consultarJuegos(); // Actualiza la lista
-    } catch (error) {
-        console.error("Error al modificar juego:", error);
-        this.alertasService.presentAlert("Modificar", "Error al modificar juego");
-    }
-}
+async modificarJuego(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
+  // Lógica para modificar
+  return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
+    //se añade la alerta
+    this.alertasService.presentAlert("Modificar", "juego Modificado");
+    //se llama al select para mostrar la lista actualizada
+    this.consultarJuegos();
+  }).catch(e=>{
+    this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e)); 
+});
+} 
 
 async eliminarJuegos(idJ: any) {
     try {
