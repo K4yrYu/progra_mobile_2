@@ -56,7 +56,7 @@ export class CrudusuariosPage implements OnInit {
         usuarioSelect: x
       }
     }
-    this.router.navigate(['/eliminarjuego'], navigationExtras);
+    this.router.navigate(['/eliminarusuario'], navigationExtras);
   }
 
   editarUsuario(x: any){
