@@ -10,30 +10,18 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
 })
 export class EliminarusuarioPage implements OnInit {
 
-  //usuario que llega desde crud
+  // Usuario que llega desde CRUD
   usuarioLlego: any;
 
-  //usuario que esta en la sesion
-  UsuarioEnSesion: any;
+  // Arreglo para el usuario conectado
+  arregloUsuarioConectado: any = [];
 
-  arregloUsuariounico: any = [
-    {
-      id_usuario: '',
-      rut_usuario: '',
-      nombres_usuario: '',
-      apellidos_usuario: '',
-      username: '',
-      clave: '',
-      correo: '',
-      token_recup_clave: '',
-      foto_usuario: '',
-      estado_user: '',
-      userlogged: '',
-      id_rol: ''
-    }
-  ]
-
-  constructor(private bd: ManejodbService, private router: Router, private activedroute: ActivatedRoute) {
+  constructor(
+    private bd: ManejodbService,
+    private router: Router,
+    private activedroute: ActivatedRoute,
+    private alertacon: AlertasService
+  ) {
     this.activedroute.queryParams.subscribe(res => {
       const navigation = this.router.getCurrentNavigation();
       if (navigation && navigation.extras.state) {
@@ -43,23 +31,35 @@ export class EliminarusuarioPage implements OnInit {
   }
 
   ngOnInit() {
-    // verificar si la BD está disponible
+    // Verificar si la BD está disponible
     this.bd.dbState().subscribe(data => {
       if (data) {
-        // subscribir al observable de la consulta
-        this.bd.fetchUsuarioUnico().subscribe(res => {
-          this.arregloUsuariounico = res;
+        // Obtener el usuario conectado
+        this.bd.fetchUsuarioConectado().subscribe(resc => {
+          this.arregloUsuarioConectado = resc;
         });
       }
     });
   }
 
-
   async eliminarUsuario() {
-    
-    //enviar id usuario a borrar / id_usuario en sesion 
-    await this.bd.eliminarUsuarios(this.usuarioLlego.id_usuario);
+    // Comprobar si hay usuarios conectados
+    if (this.arregloUsuarioConectado.length > 0) {
+      const usuarioConectado = this.arregloUsuarioConectado[0]; // Asumiendo que solo hay un usuario conectado
 
+      // Validar si el usuario en sesión es el mismo que el que se desea eliminar
+      if (usuarioConectado.username === this.usuarioLlego.username) {
+        return this.alertacon.presentAlert("ERROR", "No se puede borrar al usuario en sesión.");
+      }
+
+      // Validar si el usuario en sesión tiene el rol de cliente (id_rol = 2)
+      if (usuarioConectado.id_rol === 2) {
+        return this.alertacon.presentAlert("ERROR", "El cliente no tiene permisos de edición.");
+      }
+    }
+
+    // Enviar id usuario a borrar / id_usuario en sesión 
+    await this.bd.eliminarUsuarios(this.usuarioLlego.id_usuario);
 
     // Redirige después de que el usuario haya cerrado la alerta
     this.router.navigate(['/crudusuarios']);
