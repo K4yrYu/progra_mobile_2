@@ -370,6 +370,17 @@ async cerrarSesion(): Promise<void> {
       });
   }
 
+  //valida el uusario loggeado para un autoinicio de sesion
+  async actualizarEstadoUsuario2(): Promise<void> {
+    return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE userlogged = 1 AND userlogged = 0', [0])
+      .then(() => {
+        console.log(`usuarios restablecidos.`);
+      })
+      .catch(error => {
+        console.error('Error al actualizar el estado de usuario:', error);
+      });
+  }
+
   //verifica que el nombre de usuario no este ocupado por otro usuario al registrarse 
   async verificarUsuarioExistente(username: any): Promise<boolean> {
     return this.database.executeSql('SELECT * FROM usuario WHERE username = ?', [username]).then(res => {

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { ManejodbService } from 'src/app/services/manejodb.service';
+import { AutenticacionService } from 'src/app/services/autenticacion.service';
 
 @Component({
   selector: 'app-perfil',
@@ -11,8 +12,8 @@ import { ManejodbService } from 'src/app/services/manejodb.service';
 })
 export class PerfilPage implements OnInit {
 
-
-  arregloUsuarioConectado: any [] = [
+  // Definir la variable que contendrá los datos del usuario conectado
+  arregloUsuarioConectado: any[] = [
     {
       id_usuario: '',
       rut_usuario: '',
@@ -27,41 +28,51 @@ export class PerfilPage implements OnInit {
       userlogged: '',
       id_rol: ''
     }
-  ]
+  ];
 
+  constructor(
+    private alertasService: AlertasService,
+    private bd: ManejodbService,
+    private router: Router,
+    private platform: Platform, // Inyecta Platform
+    private autenticacionService: AutenticacionService
+  ) {}
 
-
-  constructor
-  (private alertasService: AlertasService,
-   private bd: ManejodbService,
-   private router: Router,
-   private platform: Platform // Inyecta Platform
-   ) {}
+  // Puedes usar el servicio aquí
+  cerrarSesionManual() {
+    this.autenticacionService.cerrarSesion(); // Llama a cerrar sesión manualmente si es necesario
+  }
 
   ngOnInit() {
+    // Verificar si la base de datos está lista
     this.bd.dbState().subscribe(data => {
       if (data) {
-        // Llama a la función que consulta todos los usuarios por estado
-        this.bd.consultarUsuariosPorEstadoConectado().then(res => {
-          this.arregloUsuarioConectado = res; // Almacena los usuarios en la variable
-        }).catch(error => {
-          console.error('Error al consultar usuarios por estado:', error);
-        });
+        this.consultarUsuarios();
       }
-    });
-
-     // Suscripción al evento de cambio de ubicación de la página
-     this.platform.backButton.subscribeWithPriority(10, () => {
-      // Lógica para cerrar sesión al presionar el botón de retroceso del teléfono
-      this.cerrarSesion();
     });
   }
 
- 
+  // Función para consultar los usuarios conectados
+  async consultarUsuarios() {
+    try {
+      this.arregloUsuarioConectado = await this.bd.consultarUsuariosPorEstadoConectado();
+    } catch (error) {
+      console.error('Error al consultar usuarios por estado:', error);
+    }
+  }
 
- 
+  // Retorna la imagen del usuario o una imagen predeterminada si no existe
+  getImagenUsuario(foto: string | null): string {
+    return foto ? foto : 'assets/img/user_default_photo.jpg';
+  }
+
+  // Función para cerrar la sesión y redirigir al login
   async cerrarSesion() {
-    await this.bd.cerrarSesion();
-    this.router.navigate(['/login']);
+    try {
+      await this.bd.cerrarSesion();
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   }
 }
