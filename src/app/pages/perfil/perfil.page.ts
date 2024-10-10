@@ -1,3 +1,4 @@
+import { Platform } from '@ionic/angular'; // Importa Platform
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service';
@@ -30,7 +31,12 @@ export class PerfilPage implements OnInit {
 
 
 
-  constructor(private alertasService: AlertasService, private bd: ManejodbService,  private router: Router) {}
+  constructor
+  (private alertasService: AlertasService,
+   private bd: ManejodbService,
+   private router: Router,
+   private platform: Platform // Inyecta Platform
+   ) {}
 
   ngOnInit() {
     this.bd.dbState().subscribe(data => {
@@ -42,6 +48,12 @@ export class PerfilPage implements OnInit {
           console.error('Error al consultar usuarios por estado:', error);
         });
       }
+    });
+
+     // Suscripción al evento de cambio de ubicación de la página
+     this.platform.backButton.subscribeWithPriority(10, () => {
+      // Lógica para cerrar sesión al presionar el botón de retroceso del teléfono
+      this.cerrarSesion();
     });
   }
 
