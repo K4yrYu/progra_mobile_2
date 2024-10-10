@@ -38,7 +38,6 @@ export class RegistroPage implements OnInit {
     if (!this.mensajesValidacion) {
       // Si no hay mensajes de validación, redirigir al usuario
       this.bd.agregarUsuariosCliente(this.rut, this.nombres, this.apellidos, this.usuario, this.contrasena, this.correo);
-      this.router.navigate(['/login']);
       this.reiniciarCampos(); // Reiniciar campos después del registro
     }
   }
@@ -76,8 +75,6 @@ export class RegistroPage implements OnInit {
     const usuarioExistente = this.arregloUsuarios.find(usuario => usuario.username === this.usuario);
     
     if (usuarioExistente) {
-      // Si el usuario ya existe, muestra una alerta
-      this.alerta.presentAlert("ERROR", "El usuario ya existe");
       return 'El usuario ya existe'; // Retorna un mensaje si el usuario ya existe
     }
 

@@ -11,32 +11,31 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card >
+  <ion-card *ngFor="let usuario of arregloUsuarioConectado">
     <ion-card-header>
-      <ion-img src="assets/img/Zero.png" alt="Imagen de perfil" class="profile-image"></ion-img>
+        <img src="assets/img/Zero.png" alt="Imagen predeterminada" style="height: 90px; width: 60px;"/>
     </ion-card-header>
-    <ion-card-content >
-      <p class="username">Usuario: {{ userF }}</p>
-      <p class="email">Correo: juanito&#64;example.com</p> 
-      <div class="perfil-container" >
-        <ion-button expand="block" class="btnOpsPerfil" [routerLink] = "['/modificarperfil']">
+    <ion-card-content>
+      <p class="username">Usuario: {{ usuario.username }}</p>
+      <p class="email">Correo: {{ usuario.correo }}</p> 
+      <div class="perfil-container">
+        <ion-button expand="block" class="btnOpsPerfil" [routerLink]="['/modificarperfil']">
           Modificar Perfil
         </ion-button>
-        <ion-button expand="block" class="btnOpsPerfil" [routerLink] = "['/listadeseos']">
+        <ion-button expand="block" class="btnOpsPerfil" [routerLink]="['/listadeseos']">
           Lista de Deseos
         </ion-button>
-        <ion-button expand="block" class="btnOpsPerfil" [routerLink] = "['/historialcompras']">
+        <ion-button expand="block" class="btnOpsPerfil" [routerLink]="['/historialcompras']">
           Historial de Compras
         </ion-button>
-        <!--cambiar a resecnas (cambiado temporalmente a adminresecnas)-->
-        <ion-button expand="block" class="btnOpsPerfil" [routerLink] = "['/adminresecnas']">
+        <ion-button expand="block" class="btnOpsPerfil" [routerLink]="['/resecnas']">
           Mis Reseñas
         </ion-button>
-        <ion-button expand="block" class="btnOpsPerfil" [routerLink] = "['/ayudacliente']">
+        <ion-button expand="block" class="btnOpsPerfil" [routerLink]="['/ayudacliente']">
           Ayuda al Cliente
         </ion-button>
-        <ion-button expand="block" class="btnOpsPerfil" [routerLink] = "['/home']">
-          ir a home
+        <ion-button expand="block" class="btnOpsPerfil" [routerLink]="['/home']">
+          Ir a Home
         </ion-button>
       </div>
       <ion-button class="btnCS" color="danger" expand="block" (click)="cerrarSesion()">

@@ -48,15 +48,12 @@ export class LoginPage implements OnInit {
   }
 
 
-  loggin(user: any, clave: any) {
-    this.bd.consultarUsuariosLoggin(user, clave).then((found) => {
+  async loggin(user: any, clave: any) {
+    await this.bd.consultarUsuariosLoggin(user, clave).then((found) => {
       if (found && this.passwordPattern.test(this.password)) {
         // Actualiza el estado de userlogged a 1
-        this.bd.actualizarEstadoUsuario(user).then(() => {
-          // Redirige a perfil pasando el nombre de usuario como parámetro en la URL
-          this.router.navigate(['/perfil'], {
-            queryParams: { userconect: this.usernameunlogged }
-          });
+          this.bd.actualizarEstadoUsuario(user).then(() => {
+          this.router.navigate(['/perfil']);
           this.resetFields(); // Limpia los campos en caso de éxito
           this.loginError = false;
         }).catch(error => {
@@ -78,4 +75,8 @@ export class LoginPage implements OnInit {
     this.usernameunlogged = "";
     this.password = "";
   }
+
+  
+
+  
 }

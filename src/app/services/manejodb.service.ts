@@ -78,7 +78,9 @@ export class ManejodbService {
 
   //var para los registros de un select
   listadoUsuarios = new BehaviorSubject([]);
-  listadoUsuarioUnico = new BehaviorSubject([]);
+  listadoUsuarioUnico = new BehaviorSubject([]); //por nombre
+  listadoUsuarioConectado = new BehaviorSubject([]);
+
   //esto para traer los datos del usuario cuando este se logge en el sistema
 
   //select juegos + juwgo unico
@@ -109,6 +111,10 @@ export class ManejodbService {
     return this.listadoUsuarioUnico.asObservable();
   }
 
+  fetchUsuarioConectado(): Observable<Usuarios[]> {
+    return this.listadoUsuarioConectado.asObservable();
+  }
+
   fetchJuegos(): Observable<Juegos[]> {
     return this.listadoJuegos.asObservable();
   }
@@ -134,12 +140,12 @@ export class ManejodbService {
     return this.isDBReady.asObservable();
   }
 
-  crearBD() {
+  async crearBD() {
     if (this.dbCreated) return; // Verifica si la base de datos ya fue creada
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames17.db',
+        name: 'megagames19.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
@@ -191,6 +197,7 @@ export class ManejodbService {
 
   ///////////////////////////////CRUD COMPLETO PARA LOS USUARIOS//////////////////////////////////
 
+  //select * de todos los usuarios
   async consultarUsuarios() {
     return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
       //variable para almacenar el resultado de la consulta
@@ -220,34 +227,9 @@ export class ManejodbService {
     })
   }
 
-  async consultarUsuariosLoggin(user: any, clave: any): Promise<boolean> {
-    return this.database.executeSql('SELECT * FROM usuario WHERE username = ? AND clave = ?', [user, clave]).then(res => {
-      let itemsUL: Usuarios[] = [];
-      if (res.rows.length > 0) {
-        for (var i = 0; i < res.rows.length; i++) {
-          itemsUL.push({
-            id_usuario: res.rows.item(i).id_usuario,
-            rut_usuario: res.rows.item(i).rut_usuario,
-            nombres_usuario: res.rows.item(i).nombres_usuario,
-            apellidos_usuario: res.rows.item(i).apellidos_usuario,
-            username: res.rows.item(i).username,
-            clave: res.rows.item(i).clave,
-            correo: res.rows.item(i).correo,
-            token_recup_clave: res.rows.item(i).token_recup_clave,
-            foto_usuario: res.rows.item(i).foto_usuario,
-            estado_user: res.rows.item(i).estado_user,
-            userlogged: res.rows.item(i).userlogged,
-            id_rol: res.rows.item(i).id_rol
-          });
-        }
-        this.listadoUsuarioUnico.next(itemsUL as any);
-        return true; // Usuario encontrado
-      } else {
-        return false; // No se encontró usuario
-      }
-    });
-}
 
+
+//busca a los usuarios por su username (nombre de usuario)
 async consultarUsuariosPorUsername(user: any) {
   return this.database.executeSql('SELECT * FROM usuario WHERE username = ?', [user]).then(res => {
     //variable para almacenar el resultado de la consulta
@@ -277,6 +259,105 @@ async consultarUsuariosPorUsername(user: any) {
   })
 }
 
+//verifica y valida el login 
+async consultarUsuariosLoggin(user: any, clave: any): Promise<boolean> {
+  return this.database.executeSql('SELECT * FROM usuario WHERE username = ? AND clave = ?', [user, clave]).then(res => {
+    let itemsUL: Usuarios[] = [];
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        itemsUL.push({
+          id_usuario: res.rows.item(i).id_usuario,
+          rut_usuario: res.rows.item(i).rut_usuario,
+          nombres_usuario: res.rows.item(i).nombres_usuario,
+          apellidos_usuario: res.rows.item(i).apellidos_usuario,
+          username: res.rows.item(i).username,
+          clave: res.rows.item(i).clave,
+          correo: res.rows.item(i).correo,
+          token_recup_clave: res.rows.item(i).token_recup_clave,
+          foto_usuario: res.rows.item(i).foto_usuario,
+          estado_user: res.rows.item(i).estado_user,
+          userlogged: res.rows.item(i).userlogged,
+          id_rol: res.rows.item(i).id_rol
+        });
+      }
+      this.listadoUsuarioUnico.next(itemsUL as any);
+      return true; // Usuario encontrado
+    } else {
+      return false; // No se encontró usuario
+    }
+  });
+}
+
+async consultarUsuariosPorEstado(): Promise<Usuarios[]> {
+  return this.database.executeSql('SELECT * FROM usuario WHERE estado_user = 1', []).then(res => {
+    let items: Usuarios[] = []; // Asegúrate de que Usuarios sea el tipo correcto
+
+    if (res.rows.length > 0) {
+      for (let i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_usuario: res.rows.item(i).id_usuario,
+          rut_usuario: res.rows.item(i).rut_usuario,
+          nombres_usuario: res.rows.item(i).nombres_usuario,
+          apellidos_usuario: res.rows.item(i).apellidos_usuario,
+          username: res.rows.item(i).username,
+          clave: res.rows.item(i).clave,
+          correo: res.rows.item(i).correo,
+          token_recup_clave: res.rows.item(i).token_recup_clave,
+          foto_usuario: res.rows.item(i).foto_usuario,
+          estado_user: res.rows.item(i).estado_user,
+          userlogged: res.rows.item(i).userlogged,
+          id_rol: res.rows.item(i).id_rol
+        });
+      }
+    }
+    return items; // Retorna el arreglo de usuarios
+  }).catch(error => {
+    this.alertasService.presentAlert("ERROR","USUARIO NO ENCONTRADO" + error);
+    return []; // Retorna un arreglo vacío en caso de error
+  });
+}
+
+async consultarUsuariosPorEstadoConectado(): Promise<Usuarios[]> {
+  return this.database.executeSql('SELECT * FROM usuario WHERE userlogged = 1', []).then(res => {
+    let itemsUPEC: Usuarios[] = []; // Asegúrate de que Usuarios sea el tipo correcto
+
+    if (res.rows.length > 0) {
+      for (let i = 0; i < res.rows.length; i++) {
+        itemsUPEC.push({
+          id_usuario: res.rows.item(i).id_usuario,
+          rut_usuario: res.rows.item(i).rut_usuario,
+          nombres_usuario: res.rows.item(i).nombres_usuario,
+          apellidos_usuario: res.rows.item(i).apellidos_usuario,
+          username: res.rows.item(i).username,
+          clave: res.rows.item(i).clave,
+          correo: res.rows.item(i).correo,
+          token_recup_clave: res.rows.item(i).token_recup_clave,
+          foto_usuario: res.rows.item(i).foto_usuario,
+          estado_user: res.rows.item(i).estado_user,
+          userlogged: res.rows.item(i).userlogged,
+          id_rol: res.rows.item(i).id_rol
+        });
+      }
+      this.listadoUsuarioConectado.next(itemsUPEC as any);
+    }
+    return itemsUPEC; // Retorna el arreglo de usuarios
+  }).catch(error => {
+    this.alertasService.presentAlert("ERROR","USUARIO NO ENCONTRADO" + error);
+    return []; // Retorna un arreglo vacío en caso de error
+  });
+}
+
+async cerrarSesion(): Promise<void> {
+  return this.database.executeSql('UPDATE usuario SET userlogged = 0 WHERE userlogged = 1', [])
+    .then(() => {
+      this.alertasService.presentAlert("Sesion Cerrada","Vuelva pronto");
+    })
+    .catch(error => {
+      this.alertasService.presentAlert("ERROR", 'Error al actualizar el estado de usuario:' + error);
+    });
+}
+
+
   //valida el uusario loggeado para un autoinicio de sesion
   async actualizarEstadoUsuario(username: any): Promise<void> {
     return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE username = ?', [1, username])
@@ -298,16 +379,7 @@ async consultarUsuariosPorUsername(user: any) {
     });
   }
 
-  async cerrarSesion(username: string): Promise<void> {
-    return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE username = ?', [0, username])
-      .then(() => {
-        console.log(`Estado de usuario ${username} actualizado a logged out.`);
-      })
-      .catch(error => {
-        this.alertasService.presentAlert("ERROR", 'Error al actualizar el estado de usuario:' + error);
-      });
-  }
-
+  
   //añadir usuario cliente (REGISTRO)
   async agregarUsuariosCliente(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any) {
     // Lógica para agregar usuarios
@@ -337,7 +409,7 @@ async consultarUsuariosPorUsername(user: any) {
 
 
   async modificarUsuarios(idU: any, rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
-    if (idU = 1) {
+    if (idU === 1) {
       return this.alertasService.presentAlert("ERROR", "NO PUEDE MODIFICARSE AL ADMINISTRADOR PRINCIPAL");
     } else {
       // Lógica para modificar usuarios
@@ -359,6 +431,7 @@ async consultarUsuariosPorUsername(user: any) {
       return this.database.executeSql('DELETE FROM usuario WHERE id_usuario = ?', [idU]).then(res => {
         //se añade la alerta
         this.alertasService.presentAlert("Eliminar", "Usuario eliminado");
+        this.consultarUsuarios();
       }).catch(e => {
         this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e));
       })
@@ -374,7 +447,7 @@ async consultarUsuariosPorUsername(user: any) {
   // Método para obtener un producto específico por su ID
 
   //se realizara un select * para cada producto 
-  consultarJuegoPorId(idjuegoU: any) {
+  async consultarJuegoPorId(idjuegoU: any) {
     return this.database.executeSql('SELECT * FROM producto WHERE id_producto = ?', [idjuegoU]).then(resp => {
       //variable para almacenar el resultado de la consulta
       let itemsJU: Juegos[] = [];
@@ -401,7 +474,7 @@ async consultarUsuariosPorUsername(user: any) {
 
   //-----------------------------------------------------------
 
-  consultarJuguetePorId(idjugueteU: any) {
+  async consultarJuguetePorId(idjugueteU: any) {
     return this.database.executeSql('SELECT * FROM producto WHERE id_producto = ?', [idjugueteU]).then(resp => {
       //variable para almacenar el resultado de la consulta
       let itemsJGTU: Juguetes[] = [];
@@ -428,7 +501,7 @@ async consultarUsuariosPorUsername(user: any) {
 
   //---------------------------------------------------------------------------
 
-  consultarConsolaPorId(idconsolaU: any) {
+  async consultarConsolaPorId(idconsolaU: any) {
     return this.database.executeSql('SELECT * FROM producto WHERE id_producto = ?', [idconsolaU]).then(resp => {
       //variable para almacenar el resultado de la consulta
       let itemsCU: Consolas[] = [];
@@ -518,7 +591,7 @@ async eliminarJuegos(idJ: any) {
 
 
   //---------------------------CRUD DE JUGUETES----------------------------------------------
-  consultarJuguetes() {
+  async consultarJuguetes() {
     return this.database.executeSql('SELECT * FROM producto WHERE id_categoria = 2', []).then(resp => {
       //variable para almacenar el resultado de la consulta
       let itemsJGT: Juguetes[] = [];
@@ -545,7 +618,7 @@ async eliminarJuegos(idJ: any) {
 
 
 
-  agregarJuguetes(nombre_prod: string, precio_prod: number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
+  async agregarJuguetes(nombre_prod: string, precio_prod: number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
     // Lógica para agregar juguetes
     return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,2);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
       //se añade la alerta
@@ -559,7 +632,7 @@ async eliminarJuegos(idJ: any) {
 
 
 
-  modificarJuguete(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
+  async modificarJuguete(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
     // Lógica para modificar juguetes
     return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 2 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
       //se añade la alerta
@@ -573,7 +646,7 @@ async eliminarJuegos(idJ: any) {
 
 
 
-  eliminarJuguete(idJGT: any) {
+  async eliminarJuguete(idJGT: any) {
     return this.database.executeSql('DELETE FROM producto WHERE id_producto = ?', [idJGT]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Juguete eliminado");
@@ -586,7 +659,7 @@ async eliminarJuegos(idJ: any) {
 
   //---------------------------CRUD DE CONSOLAS----------------------------------------------
 
-  consultarConsolas() {
+  async consultarConsolas() {
     return this.database.executeSql('SELECT * FROM producto WHERE id_categoria = 3', []).then(resp => {
       //variable para almacenar el resultado de la consulta
       let itemsC: Consolas[] = [];
@@ -613,7 +686,7 @@ async eliminarJuegos(idJ: any) {
 
 
 
-  agregarConsola(nombre_prod: any, precio_prod: any, stock_prod: any, descripcion_prod: any, foto_prod: any) {
+  async agregarConsola(nombre_prod: any, precio_prod: any, stock_prod: any, descripcion_prod: any, foto_prod: any) {
     // Lógica para agregar juguetes
     return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,3);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
       //se añade la alerta
@@ -627,7 +700,7 @@ async eliminarJuegos(idJ: any) {
 
 
 
-  modificarConsola(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
+  async modificarConsola(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
     // Lógica para modificar juguetes
     return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 3 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
       //se añade la alerta
@@ -641,7 +714,7 @@ async eliminarJuegos(idJ: any) {
 
 
 
-  eliminarConsola(idCU: any) {
+  async eliminarConsola(idCU: any) {
     return this.database.executeSql('DELETE FROM producto WHERE id_producto = ?', [idCU]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Eliminar", "Consola eliminada");
