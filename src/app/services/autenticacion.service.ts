@@ -23,10 +23,11 @@ export class AutenticacionService {
 
   async cerrarSesion() {
     try {
-      await this.bd.cerrarSesion(); // Llama a la función de cerrar sesión que actualiza el estado
+      await this.bd.actualizarEstadoUsuario2(); // Actualiza el estado del usuario en sesión
+      await this.bd.cerrarSesion(); // Cambia el estado de userlogged a 0
       this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
     } catch (error) {
-      console.error('Error cerrando sesión:', error); // Manejo de errores en la consola si es necesario
+      console.error('Error cerrando sesión:', error);
     }
   }
 }

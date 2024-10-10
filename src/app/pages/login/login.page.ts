@@ -40,7 +40,6 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
-    this.bd.actualizarEstadoUsuario2();
     this.userpalalerta = '';
     this.resetFields();
     this.bd.crearBD(); // Llama al método para crear la base de datos

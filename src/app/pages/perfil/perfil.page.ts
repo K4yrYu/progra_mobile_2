@@ -1,53 +1,37 @@
-import { Platform } from '@ionic/angular'; // Importa Platform
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { ManejodbService } from 'src/app/services/manejodb.service';
 import { AutenticacionService } from 'src/app/services/autenticacion.service';
+import { ViewWillEnter } from '@ionic/angular'; // Importar ViewWillEnter
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
 })
-export class PerfilPage implements OnInit {
+export class PerfilPage implements OnInit, ViewWillEnter { // Implementa ViewWillEnter
 
   // Definir la variable que contendrá los datos del usuario conectado
-  arregloUsuarioConectado: any[] = [
-    {
-      id_usuario: '',
-      rut_usuario: '',
-      nombres_usuario: '',
-      apellidos_usuario: '',
-      username: '',
-      clave: '',
-      correo: '',
-      token_recup_clave: '',
-      foto_usuario: '',
-      estado_user: '',
-      userlogged: '',
-      id_rol: ''
-    }
-  ];
+  arregloUsuarioConectado: any[] = [];
 
   constructor(
     private alertasService: AlertasService,
     private bd: ManejodbService,
     private router: Router,
-    private platform: Platform, // Inyecta Platform
     private autenticacionService: AutenticacionService
   ) {}
 
-  // Puedes usar el servicio aquí
-  cerrarSesionManual() {
-    this.autenticacionService.cerrarSesion(); // Llama a cerrar sesión manualmente si es necesario
+  // Método que se llama cada vez que la vista se está a punto de mostrar
+  ionViewWillEnter() {
+    this.consultarUsuarios(); // Cargar usuarios cada vez que se entra a la vista
   }
 
   ngOnInit() {
     // Verificar si la base de datos está lista
     this.bd.dbState().subscribe(data => {
       if (data) {
-        this.consultarUsuarios();
+        this.consultarUsuarios(); // Cargar usuarios cuando la base de datos está lista
       }
     });
   }
@@ -69,7 +53,8 @@ export class PerfilPage implements OnInit {
   // Función para cerrar la sesión y redirigir al login
   async cerrarSesion() {
     try {
-      await this.cerrarSesionManual();
+      await this.autenticacionService.cerrarSesion(); // Llama a cerrar sesión manualmente
+      this.arregloUsuarioConectado = []; // Limpiar el arreglo después de cerrar sesión
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
