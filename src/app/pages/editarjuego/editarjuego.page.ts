@@ -14,14 +14,12 @@ interface Estado {
   styleUrls: ['./editarjuego.page.scss'],
 })
 export class EditarjuegoPage implements OnInit {
-
   estados: Estado[] = [
-    { value: '1', viewValue: 'Disponible' }, //1  true
-    { value: '0', viewValue: 'No disponible' }, //0 False
+    { value: '1', viewValue: 'Disponible' }, // 1 true
+    { value: '0', viewValue: 'No disponible' }, // 0 false
   ];
 
   estado: string = ''; // Inicializada en blanco o asigna un valor predeterminado
-
   juegoLlego: any;
 
   arregloJuegoUnico: any = [
@@ -29,13 +27,13 @@ export class EditarjuegoPage implements OnInit {
       id_producto: '',
       nombre_prod: '',
       precio_prod: '',
-      stock_prod:  '',
-      descripcion_prod: '',  
+      stock_prod: '',
+      descripcion_prod: '',
       foto_prod: '',
       estatus: '',
       id_categoria: '',
     }
-  ]
+  ];
 
   // Variables de control para los mensajes de error
   errorCampos: boolean = false;
@@ -44,20 +42,20 @@ export class EditarjuegoPage implements OnInit {
   errorImagen: boolean = false;
 
   constructor(
-    private bd: ManejodbService, 
-    private router: Router, 
-    private activedroute: ActivatedRoute, 
+    private bd: ManejodbService,
+    private router: Router,
+    private activedroute: ActivatedRoute,
     private camaraService: CamaraService
   ) {
     this.activedroute.queryParams.subscribe(res => {
       if (this.router.getCurrentNavigation()?.extras.state) {
-        this.juegoLlego = this.router.getCurrentNavigation()?.extras?.state?.['juegoSelect'];
+        this.juegoLlego = { ...this.router.getCurrentNavigation()?.extras?.state?.['juegoSelect'] }; // Clonación del objeto
       }
-    })
+    });
   }
 
   ngOnInit() {
-    // verificar si la BD está disponible
+    // Verificar si la BD está disponible
     this.bd.dbState().subscribe(data => {
       if (data) {
         this.bd.fetchJuegoUnico().subscribe(res => {
@@ -87,17 +85,22 @@ export class EditarjuegoPage implements OnInit {
       return;
     }
 
-    await this.bd.modificarJuego(
-      this.juegoLlego.id_producto, 
-      this.juegoLlego.nombre_prod, 
-      this.juegoLlego.precio_prod, 
-      this.juegoLlego.stock_prod, 
-      this.juegoLlego.descripcion_prod, 
-      this.juegoLlego.foto_prod, 
-      this.estado
-    );
+    try {
+      await this.bd.modificarJuego(
+        this.juegoLlego.id_producto,
+        this.juegoLlego.nombre_prod,
+        this.juegoLlego.precio_prod,
+        this.juegoLlego.stock_prod,
+        this.juegoLlego.descripcion_prod,
+        this.juegoLlego.foto_prod,
+        this.estado
+      );
 
-    this.router.navigate(['/crudjuegos']);
+      this.router.navigate(['/crudjuegos']);
+    } catch (error) {
+      // Manejo del error si el nombre ya existe
+      console.error('Error al modificar el juego:', error);
+    }
   }
 
   private resetErrores() {
@@ -121,6 +124,11 @@ export class EditarjuegoPage implements OnInit {
       console.error('Error al tomar la foto:', error);
       this.errorImagen = true; // Mostrar mensaje de error si algo falla
     }
+  }
+
+  // Método para volver sin cambiar valores
+  volver() {
+    this.router.navigate(['/crudjuegos']);
   }
 
   // Método para validar que los valores de precio y stock sean enteros
