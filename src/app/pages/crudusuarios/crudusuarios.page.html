@@ -22,7 +22,7 @@
       <ion-thumbnail slot="start">
         <img *ngIf="user.foto_usuario; else defaultImage" [src]="user.foto_usuario" alt="sin imagen" style="height: 100px; width: 100px;"/>
         <ng-template #defaultImage>
-          <img src="assets/img/Zero.png" alt="Imagen predeterminada" style="height: 90px; width: 60px;"/>
+          <img src="assets/img/user_default_photo.jpg" alt="Imagen predeterminada" style="height: 90px; width: 60px;"/>
         </ng-template>
       </ion-thumbnail>
       <ion-label>

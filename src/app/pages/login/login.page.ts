@@ -79,7 +79,7 @@ export class LoginPage implements OnInit {
   }
 
   alertauser(x: any) {
-    this.silentalert.presentSilentToast(`Bienvenido ${x}`, 4000); // Usa comillas invertidas
+    this.silentalert.presentSilentToast(`Bienvenido ${x}`, 2000); // Usa comillas invertidas
   }
 
   // Función para limpiar los campos

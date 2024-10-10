@@ -57,4 +57,11 @@ export class JuegounicoPage implements OnInit {
   listadeseos() {
     this.alertasService.presentAlert('Añadido a Lista de Deseos', '¡Gracias!'); // Uso del servicio para mostrar la alerta
   }
+
+  // Retorna la imagen del usuario o una imagen predeterminada si no existe
+  getImagenUsuario(foto: string | null): string {
+    return foto ? foto : 'assets/img/user_default_photo.jpg';
+  }
+
 }
+

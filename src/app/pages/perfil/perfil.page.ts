@@ -69,7 +69,7 @@ export class PerfilPage implements OnInit {
   // Función para cerrar la sesión y redirigir al login
   async cerrarSesion() {
     try {
-      await this.bd.cerrarSesion();
+      await this.cerrarSesionManual();
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
