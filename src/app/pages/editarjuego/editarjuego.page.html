@@ -36,7 +36,7 @@
 
       <!-- Mostrar la imagen si está disponible -->
       <div *ngIf="juegoLlego.foto_prod" style="height: 250px; width: 250px; overflow: hidden;">
-        <img [src]="juegoLlego.foto_prod" style="height: 250px; width: 250px;  object-fit: cover;" alt="Imagen del juego" />
+        <img [src]="juegoLlego.foto_prod" style="height: 250px; width: 250px; object-fit: cover;" alt="Imagen del juego" />
       </div>
 
       <ion-item>
@@ -58,7 +58,6 @@
     </ion-list>
 
     <ion-button class="boton" expand="full" (click)="guardarCambios()">Guardar Cambios</ion-button>
-    <ion-button class="boton" expand="full" [routerLink]="['/crudjuegos']">Volver</ion-button>
+    <ion-button class="boton" expand="full" (click)="volver()">Volver</ion-button>
   </div>
 </ion-content>
-

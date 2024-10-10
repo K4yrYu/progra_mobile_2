@@ -31,11 +31,13 @@ export class AgregarjuegoPage implements OnInit {
   async validarCampos() {
     this.resetErrores();
 
+    // Validar que todos los campos necesarios estén completos
     if (!this.nombre || !this.descripcion || this.precio === null || this.stock === null || !this.urlImagen) {
       this.errorCampos = true;
       return;
     }
 
+    // Validar que el precio y el stock no sean negativos
     if (this.precio < 0) {
       this.errorPrecio = true;
       return;
@@ -46,8 +48,14 @@ export class AgregarjuegoPage implements OnInit {
       return;
     }
 
-    await this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
-    this.router.navigate(['/crudjuegos']);
+    // Intentar agregar el juego
+    try {
+      await this.bd.agregarJuegos(this.nombre, this.precio, this.stock, this.descripcion, this.urlImagen);
+      this.router.navigate(['/crudjuegos']);
+    } catch (error) {
+      console.error('Error al agregar el juego:', error);
+      // Aquí puedes mostrar una alerta o manejar el error de otra manera
+    }
   }
 
   private resetErrores() {
