@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertasSilenciosasService } from 'src/app/services/alertasilenciosa.service';
 import { ManejodbService } from 'src/app/services/manejodb.service'; // Asegúrate de que la ruta sea correcta
 
 @Component({
@@ -15,6 +16,8 @@ export class LoginPage implements OnInit {
 
   // Expresión regular para validar la contraseña
   passwordPattern: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\.)[A-Za-z\d.]{6,}$/;
+
+  userpalalerta: any;
 
   arregloUsuarios: any [] = [
     {
@@ -33,10 +36,12 @@ export class LoginPage implements OnInit {
     }
   ]
 
-  constructor(private router: Router, private bd: ManejodbService) {}
+  constructor(private router: Router, private bd: ManejodbService, private silentalert: AlertasSilenciosasService) {}
 
 
   ngOnInit() {
+    this.userpalalerta = '';
+    this.resetFields();
     this.bd.crearBD(); // Llama al método para crear la base de datos
     this.bd.dbState().subscribe(data => {
       if (data) {
@@ -50,10 +55,12 @@ export class LoginPage implements OnInit {
 
   async loggin(user: any, clave: any) {
     await this.bd.consultarUsuariosLoggin(user, clave).then((found) => {
+      this.userpalalerta = user;
       if (found && this.passwordPattern.test(this.password)) {
         // Actualiza el estado de userlogged a 1
+          this.alertauser(this.userpalalerta);
           this.bd.actualizarEstadoUsuario(user).then(() => {
-          this.router.navigate(['/perfil']);
+          this.router.navigate(['/home']);
           this.resetFields(); // Limpia los campos en caso de éxito
           this.loginError = false;
         }).catch(error => {
@@ -68,6 +75,10 @@ export class LoginPage implements OnInit {
       this.loginError = true; // Maneja errores en la consulta
       this.resetFields(); // Limpia los campos en caso de error
     });
+  }
+
+  alertauser(x: any) {
+    this.silentalert.presentSilentToast(`Bienvenido ${x}`, 4000); // Usa comillas invertidas
   }
 
   // Función para limpiar los campos

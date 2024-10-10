@@ -38,6 +38,7 @@ export class RegistroPage implements OnInit {
     if (!this.mensajesValidacion) {
       // Si no hay mensajes de validación, redirigir al usuario
       this.bd.agregarUsuariosCliente(this.rut, this.nombres, this.apellidos, this.usuario, this.contrasena, this.correo);
+      this.router.navigate(['/login']);
       this.reiniciarCampos(); // Reiniciar campos después del registro
     }
   }
