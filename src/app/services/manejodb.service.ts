@@ -381,6 +381,8 @@ async cerrarSesion(): Promise<void> {
       });
   }
 
+  
+
   //verifica que el nombre de usuario no este ocupado por otro usuario al registrarse 
   async verificarUsuarioExistente(username: any): Promise<boolean> {
     return this.database.executeSql('SELECT * FROM usuario WHERE username = ?', [username]).then(res => {

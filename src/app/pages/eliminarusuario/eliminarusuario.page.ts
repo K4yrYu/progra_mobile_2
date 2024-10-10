@@ -56,9 +56,10 @@ export class EliminarusuarioPage implements OnInit {
 
 
   async eliminarUsuario() {
-
+    
     //enviar id usuario a borrar / id_usuario en sesion 
     await this.bd.eliminarUsuarios(this.usuarioLlego.id_usuario);
+
 
     // Redirige después de que el usuario haya cerrado la alerta
     this.router.navigate(['/crudusuarios']);

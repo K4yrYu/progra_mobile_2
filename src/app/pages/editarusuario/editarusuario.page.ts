@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service'; // Asegúrate de que la ruta del servicio sea correcta
 import { CamaraService } from 'src/app/services/camara.service'; // Importar el servicio de cámara
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
   selector: 'app-editarusuario',
@@ -25,10 +26,12 @@ export class EditarusuarioPage implements OnInit {
   errorCampos: boolean = false;
   errorCorreo: boolean = false;
   errorContrasena: boolean = false;
+  errorUsuario: boolean = false;
 
   constructor(private router: Router, 
              private alertasService: AlertasService,
-             private camaraService: CamaraService 
+             private camaraService: CamaraService,
+             private bd: ManejodbService 
 
   ) {}
 
@@ -68,6 +71,7 @@ export class EditarusuarioPage implements OnInit {
       this.errorContrasena = true;
       return; // Salir si hay errores
     }
+
 
     // Si todos los campos son válidos, mostrar alerta de éxito
     await this.alertasService.presentAlert('Éxito', 'Usuario editado correctamente');
