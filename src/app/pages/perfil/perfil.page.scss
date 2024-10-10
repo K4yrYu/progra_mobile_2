@@ -5,12 +5,14 @@ ion-content {
 
 
 .profile-image {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    display: block;
-    margin: 0 auto 16px auto;
-  }
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Asegura que la imagen mantenga sus proporciones mientras llena el área */
+  border-radius: 50%; /* Mantiene la imagen circular */
+  display: block;
+  margin: 0 auto 16px auto; /* Centra la imagen dentro de su contenedor */
+  border: 2px solid #ffffff; /* Agrega un borde blanco alrededor de la imagen para destacarla */
+}
   
   .username {
     text-align: center;
