@@ -38,14 +38,14 @@ export class ModificarperfilPage implements OnInit {
 
   // Método para obtener la imagen de perfil o la imagen predeterminada si no hay ninguna cargada
   getProfileImage(): string {
-    return this.imagenPerfil ? this.imagenPerfil : 'assets/img/Zero.png';
+    return this.imagenPerfil ? this.imagenPerfil : 'assets/img/user_default_photo.jpg';
   }
 
   // Método para cambiar la imagen de perfil usando el servicio de la cámara
   async cambiarImagenPerfil() {
     try {
       const imageUrl = await this.camaraService.takePicture();
-      this.imagenPerfil = imageUrl || 'assets/img/Zero.png'; // Asignar imagen por defecto si es undefined
+      this.imagenPerfil = imageUrl || 'assets/img/user_default_photo.jpg'; // Asignar imagen por defecto si es undefined
     } catch (error) {
     }
   }
