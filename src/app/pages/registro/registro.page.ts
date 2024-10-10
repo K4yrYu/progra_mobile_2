@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertasService } from 'src/app/services/alertas.service';
+import { ManejodbService } from 'src/app/services/manejodb.service';
 
 @Component({
   selector: 'app-registro',
@@ -16,16 +18,27 @@ export class RegistroPage implements OnInit {
   confirmarContrasena: string = '';
   mensajesValidacion: string = '';
 
-  constructor(private router: Router) { }
+  arregloUsuarios: any[] = [];
 
-  ngOnInit() {}
+  constructor(private router: Router, private bd: ManejodbService, private alerta: AlertasService) { }
+
+  ngOnInit() {
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        this.bd.fetchUsuarios().subscribe(res => {
+          this.arregloUsuarios = res;
+        });
+      }
+    });
+  }
 
   registrar() {
     this.mensajesValidacion = this.validarFormulario();
 
     if (!this.mensajesValidacion) {
       // Si no hay mensajes de validación, redirigir al usuario
-      this.router.navigate(['/home']);
+      this.bd.agregarUsuariosCliente(this.rut, this.nombres, this.apellidos, this.usuario, this.contrasena, this.correo);
+      this.router.navigate(['/login']);
       this.reiniciarCampos(); // Reiniciar campos después del registro
     }
   }
@@ -36,10 +49,10 @@ export class RegistroPage implements OnInit {
       return 'Todos los campos son obligatorios.';
     }
 
-    // Validar formato del RUT (puedes ajustar la expresión regular según tus necesidades)
+    // Validar formato del RUT
     const rutValido = /^[0-9]+[-][0-9kK]{1}$/.test(this.rut);
     if (!rutValido) {
-      return 'El formato del RUT es inválido.';
+      return 'El formato del RUT es inválido. Debe ser en el formato: 12345678-k';
     }
 
     // Validar formato del correo
@@ -57,6 +70,15 @@ export class RegistroPage implements OnInit {
     const contraseñaValida = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{6,}$/.test(this.contrasena);
     if (!contraseñaValida) {
       return 'La contraseña debe tener al menos 6 caracteres, incluyendo mayúsculas, minúsculas y caracteres especiales.';
+    }
+
+    // Verifica si el usuario ya existe
+    const usuarioExistente = this.arregloUsuarios.find(usuario => usuario.username === this.usuario);
+    
+    if (usuarioExistente) {
+      // Si el usuario ya existe, muestra una alerta
+      this.alerta.presentAlert("ERROR", "El usuario ya existe");
+      return 'El usuario ya existe'; // Retorna un mensaje si el usuario ya existe
     }
 
     // Si todas las validaciones pasan, no retornar mensaje

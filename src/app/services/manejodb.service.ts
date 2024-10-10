@@ -139,7 +139,7 @@ export class ManejodbService {
 
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'megagames16.db',
+        name: 'megagames17.db',
         location: 'default'
       }).then((db: SQLiteObject) => {
         this.database = db;
@@ -248,6 +248,35 @@ export class ManejodbService {
     });
 }
 
+consultarUsuariosPorUsername(user: any) {
+  return this.database.executeSql('SELECT * FROM usuario WHERE username = ?', [user]).then(res => {
+    //variable para almacenar el resultado de la consulta
+    let itemsUPP: Usuarios[] = [];
+    //verificar si hay registros en la consulta
+    if (res.rows.length > 0) {
+      //se recorren los resultados
+      for (var i = 0; i < res.rows.length; i++) {
+        //se agrega el registro a mi variable (itemsU)
+        itemsUPP.push({
+          id_usuario: res.rows.item(i).id_usuario,
+          rut_usuario: res.rows.item(i).rut_usuario,
+          nombres_usuario: res.rows.item(i).nombres_usuario,
+          apellidos_usuario: res.rows.item(i).apellidos_usuario,
+          username: res.rows.item(i).username,
+          clave: res.rows.item(i).clave,
+          correo: res.rows.item(i).correo,
+          token_recup_clave: res.rows.item(i).token_recup_clave,
+          foto_usuario: res.rows.item(i).foto_usuario,
+          estado_user: res.rows.item(i).estado_user,
+          userlogged: res.rows.item(i).userlogged,
+          id_rol: res.rows.item(i).id_rol
+        })
+      }
+    }
+    this.listadoUsuarioUnico.next(itemsUPP as any);
+  })
+}
+
 //valida el uusario loggeado para un autoinicio de sesion
 actualizarEstadoUsuario(username: any): Promise<void> {
   return this.database.executeSql('UPDATE usuario SET userlogged = ? WHERE username = ?', [1, username])
@@ -281,34 +310,23 @@ cerrarSesion(username: string): Promise<void> {
 }
 
   //añadir usuario cliente (REGISTRO)
-  agregarUsuariosCliente(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any): Promise<void> {
-    // Retornar una promesa para garantizar que la función cumple con el tipo de retorno
-    return this.verificarUsuarioExistente(userU).then(existe => {
-      if (existe) {
-        // Si el usuario ya existe, muestra una alerta
-        this.alertasService.presentAlert("Agregar", "El nombre de usuario ya está en uso. Por favor, elige otro.");
-        return; // Termina la ejecución de la promesa
-      } else {
-        // Si el usuario no existe, procede a agregarlo
-        return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, false, true, 2)', [rutU, nombresU, apellidosU, userU, claveU, correoU])
-          .then(res => {
-            this.alertasService.presentAlert("Agregar", "Usuario agregado exitosamente.");
-            this.consultarUsuarios(); // Llama a la función para mostrar la lista actualizada
-          }).catch(e => {
-            this.alertasService.presentAlert("Agregar", "Error: " + JSON.stringify(e)); 
-          });
-      }
-    }).catch(error => {
-      console.error('Error al verificar la existencia del usuario:', error);
-      this.alertasService.presentAlert("Agregar", "Error al verificar el usuario.");
-    });
+  agregarUsuariosCliente(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any) {
+    // Lógica para agregar usuarios
+    return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, foto_usuario, estado_user, userlogged, id_rol) VALUES (?, ?, ?, ?, ?, ?, 0, null, 1, 0, 2)', [rutU, nombresU, apellidosU, userU, claveU, correoU]).then(res => {
+      //se añade la alerta
+      this.alertasService.presentAlert("Agregar", "Usuario Agregado");
+      //se llama al select para mostrar la lista actualizada
+      this.consultarUsuarios();
+    }).catch(e=>{
+      this.alertasService.presentAlert("agregar", "Error: " + JSON.stringify(e)); 
+  });
   }
 
 
   //añadir usuario (panel admin)
-  agregarUsuariosAdmin(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any) {
+  agregarUsuariosAdmin(rutU: any, nombresU: any, apellidosU: any, userU: any, claveU: any, correoU: any, estadoU: any, id_rolU: any) {
     // Lógica para agregar usuarios
-    return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, estado_user, id_rol) VALUES (?, ?, ?, ?, ?, ?, 0, ?, 1)', [ rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU ]).then(res => {
+    return this.database.executeSql('INSERT OR IGNORE INTO usuario (rut_usuario, nombres_usuario, apellidos_usuario, username, clave, correo, token_recup_clave, foto_usuario, estado_user, userlogged, id_rol) VALUES (?, ?, ?, ?, ?, ?, 0, null, 1, 0, ?)', [rutU, nombresU, apellidosU, userU, claveU, correoU, estadoU, id_rolU]).then(res => {
       //se añade la alerta
       this.alertasService.presentAlert("Agregar", "Usuario Agregado");
       //se llama al select para mostrar la lista actualizada

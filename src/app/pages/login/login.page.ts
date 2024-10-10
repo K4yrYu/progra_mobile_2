@@ -60,7 +60,6 @@ export class LoginPage implements OnInit {
           this.resetFields(); // Limpia los campos en caso de éxito
           this.loginError = false;
         }).catch(error => {
-          console.error('Error al actualizar el estado de usuario:', error);
           this.loginError = true; // Maneja errores en la actualización
           this.resetFields(); // Limpia los campos en caso de error
         });
@@ -69,7 +68,6 @@ export class LoginPage implements OnInit {
         this.resetFields(); // Limpia los campos en caso de error
       }
     }).catch(error => {
-      console.error('Error al consultar usuarios:', error);
       this.loginError = true; // Maneja errores en la consulta
       this.resetFields(); // Limpia los campos en caso de error
     });
