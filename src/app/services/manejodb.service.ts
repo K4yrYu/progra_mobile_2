@@ -350,10 +350,11 @@ async consultarUsuariosPorEstadoConectado(): Promise<Usuarios[]> {
 async cerrarSesion(): Promise<void> {
   return this.database.executeSql('UPDATE usuario SET userlogged = 0 WHERE userlogged = 1', [])
     .then(() => {
-      this.alertasService.presentAlert("Sesion Cerrada","Vuelva pronto");
+      this.alertasService.presentAlert("Sesión Cerrada", "Vuelva pronto");
     })
     .catch(error => {
-      this.alertasService.presentAlert("ERROR", 'Error al actualizar el estado de usuario:' + error);
+      this.alertasService.presentAlert("ERROR", 'Error al actualizar el estado de usuario: ' + error);
+      throw error; // Rechaza la promesa en caso de error
     });
 }
 
