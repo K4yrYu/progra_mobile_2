@@ -460,14 +460,11 @@ async cerrarSesion(): Promise<void> {
 
   //se realizara un select * para cada producto 
   async consultarJuegoPorId(idjuegoU: any) {
-    return this.database.executeSql('SELECT * FROM producto WHERE id_producto = ?', [idjuegoU]).then(resp => {
-      //variable para almacenar el resultado de la consulta
+    try {
+      const resp = await this.database.executeSql('SELECT id_producto, nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria FROM producto WHERE id_producto = ?', [idjuegoU]);
       let itemsJU: Juegos[] = [];
-      //verificar si hay registros en la consulta
       if (resp.rows.length > 0) {
-        //se recorren los resultados
         for (var i = 0; i < resp.rows.length; i++) {
-          //se agrega el registro a mi variable (itemsU)
           itemsJU.push({
             id_producto: resp.rows.item(i).id_producto,
             nombre_prod: resp.rows.item(i).nombre_prod,
@@ -477,12 +474,15 @@ async cerrarSesion(): Promise<void> {
             foto_prod: resp.rows.item(i).foto_prod,
             estatus: resp.rows.item(i).estatus,
             id_categoria: resp.rows.item(i).id_categoria
-          })
+          });
         }
       }
       this.listadoJuegoUnico.next(itemsJU as any);
-    })
+    } catch (error) {
+      console.error("Error al consultar juego por ID:", error);
+    }
   }
+  
 
   //-----------------------------------------------------------
 
@@ -541,65 +541,70 @@ async cerrarSesion(): Promise<void> {
   ////////--JUEGOS
   async consultarJuegos() {
     try {
-        const resp = await this.database.executeSql('SELECT * FROM producto WHERE id_categoria = 1', []);
-        const itemsP: Juegos[] = [];
-
-        if (resp.rows.length > 0) {
-            for (let i = 0; i < resp.rows.length; i++) {
-                itemsP.push({
-                    id_producto: resp.rows.item(i).id_producto,
-                    nombre_prod: resp.rows.item(i).nombre_prod,
-                    precio_prod: resp.rows.item(i).precio_prod,
-                    stock_prod: resp.rows.item(i).stock_prod,
-                    descripcion_prod: resp.rows.item(i).descripcion_prod,
-                    foto_prod: resp.rows.item(i).foto_prod,
-                    estatus: resp.rows.item(i).estatus,
-                    id_categoria: resp.rows.item(i).id_categoria
-                });
-            }
+      const resp = await this.database.executeSql('SELECT id_producto, nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria FROM producto WHERE id_categoria = 1', []);
+      const itemsP: Juegos[] = [];
+      if (resp.rows.length > 0) {
+        for (let i = 0; i < resp.rows.length; i++) {
+          itemsP.push({
+            id_producto: resp.rows.item(i).id_producto,
+            nombre_prod: resp.rows.item(i).nombre_prod,
+            precio_prod: resp.rows.item(i).precio_prod,
+            stock_prod: resp.rows.item(i).stock_prod,
+            descripcion_prod: resp.rows.item(i).descripcion_prod,
+            foto_prod: resp.rows.item(i).foto_prod,
+            estatus: resp.rows.item(i).estatus,
+            id_categoria: resp.rows.item(i).id_categoria
+          });
         }
-        this.listadoJuegos.next(itemsP as any);
+      }
+      this.listadoJuegos.next(itemsP as any);
     } catch (error) {
-        console.error("Error al consultar juegos:", error);
+      console.error("Error al consultar juegos:", error);
     }
-}
+  }
+  
 
-async agregarJuegos(nombre_prod: string, precio_prod:number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
-  // Lógica para agregar 
-  return this.database.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]).then(res => {
-    //se añade la alerta
-    this.alertasService.presentAlert("Agregar", "Juego Agregado");
-    //se llama al select para mostrar la lista actualizada
-    this.consultarJuegos();
-  }).catch(e=>{
-    this.alertasService.presentAlert("agregar", "Error: " + JSON.stringify(e)); 
-});
-}
-
-
-
-async modificarJuego(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
-  // Lógica para modificar
-  return this.database.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]).then(res => {
-    //se añade la alerta
-    this.alertasService.presentAlert("Modificar", "juego Modificado");
-    //se llama al select para mostrar la lista actualizada
-    this.consultarJuegos();
-  }).catch(e=>{
-    this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e)); 
-});
-} 
-
-async eliminarJuegos(idJ: any) {
+  async agregarJuegos(nombre_prod: string, precio_prod: number, stock_prod: number, descripcion_prod: string, foto_prod: any) {
     try {
-        await this.database.executeSql('DELETE FROM producto WHERE id_producto = ?', [idJ]);
-        this.alertasService.presentAlert("Eliminar", "Juego eliminado");
-        await this.consultarJuegos(); // Actualiza la lista
+      await this.database.transaction(async (tx) => {
+        await tx.executeSql('INSERT OR IGNORE INTO producto (nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod, estatus, id_categoria) VALUES (?,?,?,?,?,1,1);', [nombre_prod, precio_prod, stock_prod, descripcion_prod, foto_prod]);
+      });
+      this.alertasService.presentAlert("Agregar", "Juego Agregado");
+      this.consultarJuegos();
     } catch (e) {
-        this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e));
-        console.error("Error al eliminar juego:", e);
+      this.alertasService.presentAlert("agregar", "Error: " + JSON.stringify(e));
     }
-}
+  }
+  
+
+
+
+  async modificarJuego(idJ: any, nomJ: any, precioJ: any, stockJ: any, descripJ: any, fotoJ: any, estatusJ: any) {
+    try {
+      await this.database.transaction(async (tx) => {
+        await tx.executeSql('UPDATE producto SET nombre_prod = ?, precio_prod = ?, stock_prod = ?, descripcion_prod = ?, foto_prod = ?, estatus = ?, id_categoria = 1 WHERE id_producto = ?', [nomJ, precioJ, stockJ, descripJ, fotoJ, estatusJ, idJ]);
+      });
+      this.alertasService.presentAlert("Modificar", "Juego Modificado");
+      this.consultarJuegos();
+    } catch (e) {
+      this.alertasService.presentAlert("modificar", "Error: " + JSON.stringify(e));
+    }
+  }
+  
+
+  async eliminarJuegos(idJ: any) {
+    try {
+      await this.database.transaction(async (tx) => {
+        await tx.executeSql('DELETE FROM producto WHERE id_producto = ?', [idJ]);
+      });
+      this.alertasService.presentAlert("Eliminar", "Juego eliminado");
+      this.consultarJuegos();
+    } catch (e) {
+      this.alertasService.presentAlert("Eliminar", "Error: " + JSON.stringify(e));
+      console.error("Error al eliminar juego:", e);
+    }
+  }
+  
 
 
   //---------------------------CRUD DE JUGUETES----------------------------------------------
